@@ -1,0 +1,102 @@
+% **************************************************************************************************************
+% A Classic Thesis Style
+% An Homage to The Elements of Typographic Style
+%
+% Copyright (C) 2018 André Miede and Ivo Pletikosić
+%
+% If you like the style then I would appreciate a postcard. My address
+% can be found in the file ClassicThesis.pdf. A collection of the
+% postcards I received so far is available online at
+% http://postcards.miede.de
+%
+% License:
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation; either version 2 of the License, or
+% (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+% **************************************************************************************************************
+\RequirePackage{silence} % :-\
+    \WarningFilter{scrreprt}{Usage of package `titlesec'}
+    %\WarningFilter{scrreprt}{Activating an ugly workaround}
+    \WarningFilter{titlesec}{Non standard sectioning command detected}
+\documentclass[twoside,openright,titlepage,numbers=noenddot,%1headlines,
+                headinclude,cleardoublepage=empty,abstract=on,
+                BCOR=5mm,paper=a4,fontsize=11pt,dvipsnames
+                ]{scrreprt}
+
+%********************************************************************
+% Note: Make all your adjustments in here
+%*******************************************************
+\input{classicthesis-config}
+
+%********************************************************************
+% Bibliographies
+%*******************************************************
+\addbibresource{Bibliography.bib}
+
+%********************************************************************
+% Hyphenation
+%*******************************************************
+%\hyphenation{put special hyphenation here}
+
+\begin{document}
+\frenchspacing
+\raggedbottom
+\selectlanguage{american} % american ngerman
+%\renewcommand*{\bibname}{new name}
+%\setbibpreamble{}
+\pagenumbering{roman}
+\pagestyle{plain}
+%********************************************************************
+% Frontmatter
+%*******************************************************
+\include{FrontBackmatter/Thesis/Titlepage}
+\include{FrontBackmatter/Thesis/Titleback}
+%\cleardoublepage\include{FrontBackmatter/Dedication}
+%\cleardoublepage\include{FrontBackmatter/Foreword}
+\includepdf{gfx/Selbstaendigkeitserklaerung_in_Arbeit_102016.pdf}
+\cleardoublepage\include{FrontBackmatter/Thesis/Abstract}
+%\cleardoublepage\include{FrontBackmatter/Publications}
+%\cleardoublepage\include{FrontBackmatter/Acknowledgments}
+\cleardoublepage\include{FrontBackmatter/Thesis/Contents}
+%********************************************************************
+% Mainmatter
+%*******************************************************
+\cleardoublepage
+\pagestyle{scrheadings}
+\pagenumbering{arabic}
+%\setcounter{page}{90}
+% use \cleardoublepage here to avoid problems with pdfbookmark
+\cleardoublepage
+\include{Chapters/Thesis/Introduction}
+\cleardoublepage
+\include{Chapters/Thesis/Background}
+\include{Chapters/Thesis/Example_Chapter}
+\include{Chapters/Thesis/Methodology}
+\include{Chapters/Thesis/Evaluation}
+\include{Chapters/Thesis/RelatedWork}
+\include{Chapters/Thesis/Conclusion}
+%\include{multiToC} % <--- just debug stuff, ignore for your documents
+% ********************************************************************
+% Backmatter
+%*******************************************************
+\appendix
+%\renewcommand{\thechapter}{\alph{chapter}}
+\cleardoublepage
+%\part{Appendix}
+%\ctparttext{You can put some informational part preamble text here.}
+\include{Chapters/Thesis/Appendix}
+%********************************************************************
+% Other Stuff in the Back
+%*******************************************************
+\cleardoublepage\include{FrontBackmatter/Thesis/Bibliography}
+% ********************************************************************
+% Game Over: Restore, Restart, or Quit?
+%*******************************************************
+\end{document}
+% ********************************************************************

@@ -1,0 +1,86 @@
+% **************************************************************************************************************
+% A Classic Thesis Style
+% An Homage to The Elements of Typographic Style
+%
+% Copyright (C) 2018 André Miede and Ivo Pletikosić
+%
+% If you like the style then I would appreciate a postcard. My address
+% can be found in the file ClassicThesis.pdf. A collection of the
+% postcards I received so far is available online at
+% http://postcards.miede.de
+%
+% License:
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation; either version 2 of the License, or
+% (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+% **************************************************************************************************************
+\RequirePackage{silence} % :-\
+    \WarningFilter{scrreprt}{Usage of package `titlesec'}
+    %\WarningFilter{scrreprt}{Activating an ugly workaround}
+    \WarningFilter{titlesec}{Non standard sectioning command detected}
+\documentclass[titlepage,numbers=noenddot,%1headlines,
+                headinclude,cleardoublepage=empty,abstract=on,
+                paper=a4,fontsize=11pt,dvipsnames
+                ]{scrreprt}
+
+%********************************************************************
+% Note: Make all your adjustments in here
+%*******************************************************
+\input{classicproposal-config}
+
+%********************************************************************
+% Bibliographies
+%*******************************************************
+\addbibresource{Bibliography.bib}
+
+%********************************************************************
+% Hyphenation
+%*******************************************************
+%\hyphenation{put special hyphenation here}
+
+\begin{document}
+\frenchspacing
+\raggedbottom
+\selectlanguage{american} % american ngerman
+%\renewcommand*{\bibname}{new name}
+%\setbibpreamble{}
+\pagenumbering{roman}
+\pagestyle{plain}
+%********************************************************************
+% Frontmatter
+%*******************************************************
+\include{FrontBackmatter/Proposal/Titlepage}
+\include{FrontBackmatter/Proposal/Titleback}
+\cleardoublepage\input{FrontBackmatter/Proposal/Abstract}
+%********************************************************************
+% Mainmatter
+%*******************************************************
+\clearpage
+\pagestyle{scrheadings}
+\pagenumbering{arabic}
+% use \cleardoublepage here to avoid problems with pdfbookmark
+\input{Chapters/Proposal/Introduction}
+\input{Chapters/Proposal/Background}
+\input{Chapters/Proposal/RelatedWork}
+\input{Chapters/Proposal/Example_Chapter}
+\input{Chapters/Proposal/Methodology}
+\input{Chapters/Proposal/Conclusion}
+%\include{multiToC} % <--- just debug stuff, ignore for your documents
+% ********************************************************************
+% Backmatter
+%*******************************************************
+%********************************************************************
+% Other Stuff in the Back
+%*******************************************************
+\cleardoublepage\input{FrontBackmatter/Proposal/Bibliography}
+% ********************************************************************
+% Game Over: Restore, Restart, or Quit?
+%*******************************************************
+\end{document}
+% ********************************************************************

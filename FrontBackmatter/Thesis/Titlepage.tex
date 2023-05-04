@@ -1,0 +1,56 @@
+%*******************************************************
+% Titlepage
+%*******************************************************
+\begin{titlepage}
+    %\pdfbookmark[1]{\myTitle}{titlepage}
+    % if you want the titlepage to be centered, uncomment and fine-tune the line below (KOMA classes environment)
+    \begin{center}
+        \large
+
+        \hfill
+
+        \vfill
+
+        \myThesisType
+
+        \vfill
+
+        \begingroup
+           {\LARGE  \color{CTtitle}\spacedallcaps{\myTitle} \\ \bigskip}
+        \endgroup
+
+        \spacedlowsmallcaps{\myName}
+
+        \vfill
+
+        \mySubmissionDate
+
+	\vfill
+
+        Advisor:\\
+        \begin{tabular}{c c}
+                \myAdvisor & \myAdvisorDepartment
+        \end{tabular}
+        
+        \vfill
+
+        Examiners:\\
+        \begin{tabular}{c c}
+        	\myProf & \myProfDepartment\\
+		\myOtherProf & \myOtherProfDepartment
+        \end{tabular}
+    
+    	\vfill
+    	\vfill
+
+        \myDepartment \\
+        \myFaculty \\
+        \myUni \\ \bigskip
+        \vfill
+
+	        \includegraphics[height=2.2cm]{gfx/se-logo.png} \hfill \includegraphics[height=2.2cm]{gfx/uni-logo.pdf}  \\ \medskip
+
+        \vfill
+
+    \end{center}
+\end{titlepage}
