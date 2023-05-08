@@ -6,7 +6,40 @@ This chapter describes the methodology of the thesis core evaluation.
 
 \subsection*{Research Questions}\label{sec:research_questions}
 
-In this section, present your research questions and explain them.
+The primary focus of this thesis is to gain an overview of how Commits interact with Features in Software Projects.
+Specifically our goal is to lay basic groundwork regarding this subject, while leaving more detailed questions to future research.
+As previously mentioned we investigate two types, strutctural and dataflow-based Commit-Feature Interactions.
+While using both types separately can already answer many research questions, we will also show applications utilizing a combination of both.
+
+\textbf{Structural Interactions} 
+
+We define structural Commit-Feature Interactions as the occurence of syntactical overlap between commits and features.
+The syntax of a commit is comprised of commit code, namely code that was last changed by said commit.
+Feature syntax is defined in the same way as being comprised of feature code. 
+Identifying feature code is more complex however, as it is any code whose execution depends on a feature being active or directly uses some feature variables. 
+Now, we say that a commit and a feature interact structurally when commit code is part of feature code and vice versa. 
+
+\textbf{RQ1: What are the characteristics of structural Commit-Feature Interactions?}
+
+How many commits does a feature interact with structurally? In how many Features can we find a certain commit?
+These and many more questions surround the development process of Features and Software Projects in general, for which we aim to present the statistical evidence found in our research.
+With the acquired the data, we can answer many interesting assumptions about said development process.
+For example one might assume that, because they generally change a specific functionality, commits mostly are feature-specific, e.g. only affect the code of a single feature.
+This can give further insight on what purpose commits serve in a Software Developer's work.
+
+\textbf{Dataflow-based Interactions} 
+
+We define dataflow-based Commit-Feature Interactions as data that was changed by a commit being accessed by a feature later in the program flow and vice versa.
+For programmers it can be difficult to be aware of these dependencies as they might span over large spaces of code and several files.
+We provide software that can automatically discover these, which can aid a programmer's ability to find errors and remove bugs.
+For example for a bug occuring in a certain feature, we can unveil commits that might have caused it, while not actually being part of that feature.
+
+\textbf{RQ2: How do Commits interact with Features through Dataflow?}
+
+We want to provide insight on the prevelence of dataflow-based Commit-Feature Interactions in Software Projects.
+Commits that constitute parts of feature code are obviously likely to interact with features through dataflow.
+Investigating wether this is also true for commits that aren't part of a feature will show us how interconnected features and separate commits are.
+The produced data will also help shine light on the question of how isolated or respectively dependent from features are on other parts of a program.
 
 \subsection*{Operationalization}\label{sec:operationalization}
 
