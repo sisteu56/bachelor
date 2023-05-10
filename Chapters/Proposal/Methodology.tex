@@ -39,31 +39,37 @@ For instance detecting the latest commits that might have caused a bug in a cert
 Previous research on dataflow interactions has been about interactions between commits and interactions between features.
 This has already shown the importance of research in the area and why further research is necessary.
 That's why we want to provide fist insights on the properties of dataflow-based Commit-Feature Interactions.
-One could form several statements about them based on a basic understanding of commits and features in Software Projects.
+One could form several statements about them based on a basic understanding of commits and features in Software Engineering.
 Showing wether these can be based on statiscal evidence will either secure or change the way we view their usage.
 For example one wouldn't normally want features to interact with large parts of the program, as they mostly serve a specific functionality, but to what extend does this get applied in coding?
 Additionally, analyzing the amount of features a commit usually interacts with through dataflow will display how common interactions really are.
 Since it's obvious that commits constituting code of a feature might be more likely to change data of said feature, we want to differintiate between these types of commits here.
 This can be accomplished with the help of our structural Commit-Feature Interaction analysis. 
 
-\textbf{RQ3: How do Authors interact with Features?}
+\textbf{RQ3: How do Authors implement Features?}
 
-Usually there are many programmers working in the same Software Project, implementing different features, sometimes alone, sometimes with the help of colleagues.
+Usually there are many programmers working on the same Software Project, implementing different features, sometimes alone, sometimes with the help of colleagues.
 We want to shine some light on the exact statistics of this by using CFIs.
-Answering how many authors implement a feature on average, especially considering size of the feature, could serve as advice for companies to balance workload on to-be implemented features.
+One major question is how many authors implement a feature on average, where considering the size of the feature could help put this data into perspective.
+Digging deeper, we aim to gauge the amount of code each developer of a feature contributes. Is the distribution rather equal or does it vary greatly between programmers?
+The collected results could serve as advice for software companies on how to balance workload on to-be implemented features. 
 
 \subsection*{Operationalization}\label{sec:operationalization}
 
 The detection of structural as well as dataflow-based Commit-Feature Interactions is implemented in VaRA.
-We are using two main functionalities of VaRA for this. 
+VaRA offers two main functionalities for this. 
 The first one is the detection of feature- and commit-code, which is accomplished by being able to receive all commits and features an llvm-IR instruction belongs to.
-Thus we can collect all structural Commit-Feature Interactions by iterating over all instructions in the code space and checking wether this instruction is part of at least one commit as well as at least one feature.
-VaRA is also able to track taints of values along program flow, where taints essentially carry information on which commit or feature affected that specific value.
-Similarly to structural Interactions, dataflow-based Commit-Feature Interactions are iteratively collected on instruction level, as we can easily get the taints of an instruction.
-Both structural and dataflow-based Interactions are presented by the same class.
-Said class consists of the specific feature, a commit repo pair containting the commit hash as well as its respective repo and the number of instructions where this CFI occurs.
-We chose only to add information that will be necessary for our introductory research, which is the same for both types of analyses.
-The VaRA-Tool-Suite was extended making it possible to generate a report comprising all found CFIs of an according type in a software project.
+Thus we can collect all structural Commit-Feature Interactions by iterating over all instructions in the code space.
+On instruction level we save every combination of commits and features as a CFI.
+It follows that, in order for an instruction to have a single interaction, it needs to be part of at least one commit as well as one feature.
+Besides that VaRA is also able to track taints of values along program flow, where taints essentially carry information on which commit or feature affected that specific value.
+Similarly to structural Interactions, dataflow-based Commit-Feature Interactions are iteratively collected on instruction level.
+In this case we speak of an dataflow interaction when an instruction both has either a commit or feature taint and belongs to either a commit or feature region.
+Consequently this instruction uses a value that was changed by a commit or feature earlier in the program while constituting feature or commit code.
+For our research we will examine numerous software projects to get a wide range of reference data, as Commit-Feature Interactions might vary greatly between different code spacess.
+Accordingly, the VaRA-Tool-Suite was extended making it possible to generate a report comprising all found CFIs of an according type in a software project.
+
+- generated reports will be in python and the evaluation of the reports will be done in a uni tool? (which one)
 
 \textbf{RQ1: What are the characteristics of structural Commit-Feature Interactions?}
 
