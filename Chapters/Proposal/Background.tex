@@ -2,4 +2,26 @@
 \section*{Background}\label{ch:background}
 %************************************************
 
-All relevant core information that is needed to understand this proposal should be explained in the background.
+\textbf{Commit Feature Interactions}
+
+Broadly speaking Commits interact with Features, when one affects the other in any way imagineable.
+Obviously there is more than one such type in a Software Project.
+One type that we won't focus on, but is still worth mentioning, are control flow interactions, which occur when a commit decides wether parts of a feature get executed and vice versa.
+We will instead lay our focus on two other types, which we will now discuss in detail.
+
+\textbf{Structural Interactions} 
+
+We define structural Commit-Feature Interactions as the occurence of syntactical overlap between commits and features.
+The syntax of a commit is comprised of commit code, namely code that was last changed by said commit.
+Feature syntax is defined in the same way as being comprised of feature code. 
+Identifying feature code is more complex however, as it is any code whose execution depends on a feature being active or directly uses some feature variables. 
+Now, we say that a commit and a feature interact structurally when commit code is part of feature code and vice versa. 
+
+\textbf{Dataflow-based Interactions} 
+
+We define dataflow-based Commit-Feature Interactions as data that was changed by a commit being accessed by a feature later in the program flow and vice versa.
+For programmers it can be difficult to be aware of these dependencies as they might be hidden and span over several files.
+We provide software that can automatically discover these, which can aid a programmer's ability to find errors and remove bugs.
+For instance detecting the latest commits that might have caused a bug in a certain feature can be enhanced by looking at its recent datflow-based Commit-Feature Interactions.
+In this thesis, we will research the direction of Commit -> Feature, e.g. a Commit affecting a Feature through dataflow.
+This direction promises more use-cases, like the example shown above, and interesting Research Questions.
