@@ -4,24 +4,46 @@
 
 \textbf{Commit Feature Interactions}
 
-Broadly speaking Commits interact with Features, when one affects the other in any way imagineable.
-Obviously there is more than one such type in a Software Project.
-One type that we won't focus on, but is still worth mentioning, are control flow interactions, which occur when a commit decides wether parts of a feature get executed and vice versa.
-We will instead lay our focus on two other types, which we will now discuss in detail.
+Broadly speaking Commits interact with Features, when one affects the other in any way.
+Obviously there are many possibilities for such interactions in a Software Project.
+Since looking at all possible types would go beyond the scope of this work, we will instead concentrate on two of the most important ones.
+To properly define both types we will first introduce some necessary definitions. \\
+\citet{sattler2023seal} explains that a program P can be viewed as a composition of instructions $i_1$, ..., $i_n$ $\in$ P.
+We say that an instruction is part of a commit when the code that instruction belongs to was last changed by said commit. \\
+\textbf{Definition 1.} Let $Commit(i)$ be a function that maps an IR instruction i $\in$ P to the commit it belongs to. \\
+Secondly, we say that an instruction is part of a feature when its execution depends on said feature being activated or directly uses said feature variable. 
+Naturally, there can exist more than one such feature. \\
+\textbf{Definition 2.} Let $Features(i)$ be a function that maps an IR instruction i $\in$ P to all the features it is part of. \\
+An instruction is tainted by a commit when it uses values that were changed by an instruction belonging to said commit earlier in the program. \\
+\textbf{Definition 3.} Let $Taints(i)$ be a function that maps an IR instruction i $\in$ P to all the commits that taint it. \\
 
 \textbf{Structural Interactions} 
 
-We define structural Commit-Feature Interactions as the occurence of syntactical overlap between commits and features.
-The syntax of a commit is comprised of commit code, namely code that was last changed by said commit.
-Feature syntax is defined in the same way as being comprised of feature code. 
-Identifying feature code is more complex however, as it is any code whose execution depends on a feature being active or directly uses some feature variables. 
-Now, we say that a commit and a feature interact structurally when commit code is part of feature code and vice versa. 
+We speak of a structural commit-feature interaction when there is an occurence of syntactical overlap between commit- and feature-code. \\
+\textbf{Definition 4.} Let $StructuralInteractions(c, f)$ be a function that returns all instructions i $\in$ P containing a structural interaction between commit c and feature f: \\
+$StructuralInteractions(c,$ $f) = $ $\{$ $i$ $|$ $ c \in Commit(i) \land f \in Features(i)$ $\}$ \\
+Consequently we say that a commit c and a feature f interact structurally, if and only if $StructuralInteractions(c,$ $f)$ $\geq$ $1$. \\
+
+\begin{lstlisting}[language=C++, caption={Commit Feature Interactions}, label=DescriptiveLabel]	
+1. int calc(int val) {                             %\vartriangleright% %d93dj4gr%
+2.    int ret = val + 5;                           %\vartriangleright% %7shd28dj%
+3.    if (FeatureDouble) {                         %\vartriangleright% %fu3w17ds%    %\vartriangleright% %FeatureDouble%
+4.        ret = ret * 2;                           %\vartriangleright% %fu3w17ds%    %\vartriangleright% %FeatureDouble%
+5.    }                                            %\vartriangleright% %fu3w17ds%    %\vartriangleright% %FeatureDouble%
+6.    return ret;                                  %\vartriangleright% %d93dj4gr%   
+7. }                                               %\vartriangleright% %d93dj4gr%   
+\end{lstlisting}
+The code example contains both structural as well as dataflow-based commit feature interactions.
+A structural CFI can be found between the commit with hash "fu3w17ds" and the "Double"-Feature, as commit fu3w17ds implements the functionality of FeatureDouble for this function. 
+Commit 7shd28dj introduces a new variable that is later changed inside the "Double"-Feature. 
+This accounts for a CFI through dataflow, as data that was changed by the aforementioned commit is used by a feature later on in the program. \\
 
 \textbf{Dataflow-based Interactions} 
 
-We define dataflow-based Commit-Feature Interactions as data that was changed by a commit being accessed by a feature later in the program flow and vice versa.
+We speak of dataflow-based commit-feature interactions when an instruction that is part of a feature uses values that were changed by an instruction belonging to a commit earlier in the program.
+\textbf{Definition 5.} Let $DataflowInteractions(c, f)$ be a function that returns all instructions i $\in$ P containing a dataflow-based interaction between commit c and feature f: \\
+$DataflowInteractions(c,$ $f) = $ $\{$ $i$ $|$ $ c \in Taint(i) \land f \in Features(i)$ $\}$. \\
+Similarly to structural interactions we say that a commit c and a feature f interact through dataflow, if and only if $DataflowInteractions(c,$ $f)$ $\geq$ $1$. \\
 For programmers it can be difficult to be aware of these dependencies as they might be hidden and span over several files.
 We provide software that can automatically discover these, which can aid a programmer's ability to find errors and remove bugs.
-For instance detecting the latest commits that might have caused a bug in a certain feature can be enhanced by looking at its recent datflow-based Commit-Feature Interactions.
-In this thesis, we will research the direction of Commit -> Feature, e.g. a Commit affecting a Feature through dataflow.
-This direction promises more use-cases, like the example shown above, and interesting Research Questions.
+For instance looking at a features's dataflow-based interactions with recent commits can help detect the commit that might have caused a bug in said feature.
