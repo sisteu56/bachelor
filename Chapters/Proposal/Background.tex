@@ -2,27 +2,22 @@
 \section*{Background}\label{ch:background}
 %************************************************
 
-\textbf{Commit Feature Interactions}
+\textbf{Commit-Feature Interactions}
 
-Broadly speaking Commits interact with Features, when one affects the other in any way.
+Broadly speaking commits interact with features, when one affects the other in any way.
 Obviously there are many possibilities for such interactions in a Software Project.
 Since looking at all possible types would go beyond the scope of this work, we will instead concentrate on two of the most important ones.
 To properly define both types we will first introduce some necessary definitions. \\
-\citet{sattler2023seal} explains that a program P can be viewed as a composition of instructions $i_1$, ..., $i_n$ $\in$ P.
-We say that an instruction is part of a commit when the code that instruction belongs to was last changed by said commit. \\
-\textbf{Definition 1.} Let $Commit(i)$ be a function that maps an IR instruction i $\in$ P to the commit it belongs to. \\
+\citet{sattler2023seal} aptly explains that a program P can be viewed as a composition of instructions $i_1$, ..., $i_n$ $\in$ P.
+Every such instruction stems from code that was contributed by a sequence of commits $c_1$, ...,$c_m$ $\in$ C, where C is the set of all commits.
+Therefore, we say that each instruction belongs to a commit, namely the commit that last changed the code this instruction stems from. \\ \\
+\textbf{Definition 1.} Let $Commit(i)$ be a function that maps an IR instruction i $\in$ P to the commit it belongs to. \\ \\
 Secondly, we say that an instruction is part of a feature when its execution depends on said feature being activated or directly uses said feature variable. 
-Naturally, there can exist more than one such feature. \\
-\textbf{Definition 2.} Let $Features(i)$ be a function that maps an IR instruction i $\in$ P to all the features it is part of. \\
-An instruction is tainted by a commit when it uses values that were changed by an instruction belonging to said commit earlier in the program. \\
-\textbf{Definition 3.} Let $Taints(i)$ be a function that maps an IR instruction i $\in$ P to all the commits that taint it. \\
-
-\textbf{Structural Interactions} 
-
-We speak of a structural commit-feature interaction when there is an occurence of syntactical overlap between commit- and feature-code. \\
-\textbf{Definition 4.} Let $StructuralInteractions(c, f)$ be a function that returns all instructions i $\in$ P containing a structural interaction between commit c and feature f: \\
-$StructuralInteractions(c,$ $f) = $ $\{$ $i$ $|$ $ c \in Commit(i) \land f \in Features(i)$ $\}$ \\
-Consequently we say that a commit c and a feature f interact structurally, if and only if $StructuralInteractions(c,$ $f)$ $\geq$ $1$. \\
+Naturally, there can exist more than one such feature. \\ \\
+\textbf{Definition 2.} Let $Features(i)$ be a function that maps an IR instruction i $\in$ P to all the features it is part of. \\ \\
+An instruction is tainted by a commit when it uses values that were changed or introduced by an instruction belonging to said commit. 
+Still, taints of values are not permanent and only last as long as their value is not freshly set. \\ \\
+\textbf{Definition 3.} Let $Taints(i)$ be a function that maps an IR instruction i $\in$ P to all the commits that taint it. \\ \\ \\
 
 \begin{lstlisting}[language=C++, caption={Commit Feature Interactions}, label=DescriptiveLabel]	
 1. int calc(int val) {                             %\vartriangleright% %d93dj4gr%
@@ -35,15 +30,22 @@ Consequently we say that a commit c and a feature f interact structurally, if an
 \end{lstlisting}
 The code example contains both structural as well as dataflow-based commit feature interactions.
 A structural CFI can be found between the commit with hash "fu3w17ds" and the "Double"-Feature, as commit fu3w17ds implements the functionality of FeatureDouble for this function. 
-Commit 7shd28dj introduces a new variable that is later changed inside the "Double"-Feature. 
+Commit 7shd28dj introduces a new variable that is later used inside the "Double"-Feature. 
 This accounts for a CFI through dataflow, as data that was changed by the aforementioned commit is used by a feature later on in the program. \\
+
+\textbf{Structural Interactions} 
+
+We speak of a structural commit-feature interaction when there is an occurence of syntactical overlap between commit- and feature-code. \\ \\
+\textbf{Definition 4.} Let $StructuralInteractions(c, f)$ be a function that returns all instructions i $\in$ P containing a structural interaction between commit c and feature f: 
+\begin{center} $StructuralInteractions(c,$ $f) = $ $\{$ $i$ $|$ $ c \in Commit(i) \land f \in Features(i)$ $\}$ \end{center}
+Consequently we say that a commit c and a feature f interact structurally, if and only if $|StructuralInteractions(c,$ $f)|$ $\geq$ $1$. \\
 
 \textbf{Dataflow-based Interactions} 
 
-We speak of dataflow-based commit-feature interactions when an instruction that is part of a feature uses values that were changed by an instruction belonging to a commit earlier in the program.
-\textbf{Definition 5.} Let $DataflowInteractions(c, f)$ be a function that returns all instructions i $\in$ P containing a dataflow-based interaction between commit c and feature f: \\
-$DataflowInteractions(c,$ $f) = $ $\{$ $i$ $|$ $ c \in Taint(i) \land f \in Features(i)$ $\}$. \\
-Similarly to structural interactions we say that a commit c and a feature f interact through dataflow, if and only if $DataflowInteractions(c,$ $f)$ $\geq$ $1$. \\
+We speak of dataflow-based commit-feature interactions when an instruction, that is part of a feature, uses values that were changed by an instruction belonging to a commit earlier in the program. \\ \\
+\textbf{Definition 5.} Let $DataflowInteractions(c, f)$ be a function that returns all instructions i $\in$ P containing a dataflow-based interaction between commit c and feature f: 
+\begin{center} $DataflowInteractions(c,$ $f) = $ $\{$ $i$ $|$ $ c \in Taint(i) \land f \in Features(i)$ $\}$ \end{center}
+Similarly to structural interactions we say that a commit c and a feature f interact through dataflow, if and only if $|DataflowInteractions(c,$ $f)|$ $\geq$ $1$. \\
 For programmers it can be difficult to be aware of these dependencies as they might be hidden and span over several files.
 We provide software that can automatically discover these, which can aid a programmer's ability to find errors and remove bugs.
 For instance looking at a features's dataflow-based interactions with recent commits can help detect the commit that might have caused a bug in said feature.
