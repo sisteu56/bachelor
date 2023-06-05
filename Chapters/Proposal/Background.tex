@@ -2,6 +2,100 @@
 \section*{Background}\label{ch:background}
 %************************************************
 
+\subsection*{Interaction Analysis}
+
+Essential to the research in this paper is the interaction analysis introduced by \citet{sattler2023seal}.
+Their interaction analysis tool SEAL is implemented on top of LLVM and PhASAR.
+Their approach will be shortly discussed here, however we advice their paper for a more thorough explanation.
+The first step in their approach is to annonate code by mapping information to the compiler's intermediate representation (IR).
+This information is added to the LLVM-IR instructions during the construction of the IR.
+SEAL focuses on commit-information, which encompasses the commit's hash and its respective repository.
+The commit of an instruction is the last commit that changed the source-code line the instruction stems from.
+Determining the commit that last changed a source-code line is achieved by accessing repository meta-data.
+The second analysis step involves the actual computation of the interactions.
+For this, \textbf{Sattler et Al} implemented a special inter-procedural taint analysis.
+It's able to track data flows between the instructions of a given target program.
+% This accomplished by tainting the program's variables and propagating them through the program. 
+% Each variable is associated with a set of commits that ...
+% Whenever an instruction accesses? (deduced from interacts) a variable, the commit of that instruction is added to the set.
+% If a variable is assigned a new value through a store instruction, the set is replaced with the set of the assigned value.
+% It follows that two commits interact through dataflow when they occur within the same set at a certain program point.
+To determine commit interactions, the data flows between instructions are lifted according to their respective commits.
+
+\subsection*{Commits and Commit-Regions}
+
+\subsection*{Features and Feature-Regions}
+
+\subsection*{Feature- and Commit-Size}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\iffalse
 \textbf{Commit-Feature Interactions}
 
 Broadly speaking commits interact with features, when one affects the other in any way.
@@ -49,3 +143,4 @@ Similarly to structural interactions we say that a commit c and a feature f inte
 For programmers it can be difficult to be aware of these dependencies as they might be hidden and span over several files.
 We provide software that can automatically discover these, which can aid a programmer's ability to find errors and remove bugs.
 For instance looking at a features's dataflow-based interactions with recent commits can help detect the commit that might have caused a bug in said feature.
+\fi

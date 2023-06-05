@@ -1,0 +1,18 @@
+\subsection*{Example Chapter}\label{sec:example_chapter}
+
+The detection of structural as well as dataflow-based commit-feature interactions is implemented in VaRA \cite{VaRA2023}.
+VaRA offers two main functionalities for this. 
+The first one is the detection of feature- and commit-code, which is accomplished by being able to receive all commits and features an llvm-IR instruction belongs to.
+Thus we can collect all structural commit-feature interactions by iterating over all instructions in the code space.
+Inside an instruction we save every combination of commits and features as a CFI.
+It follows that, in order for an instruction to have a single interaction, it needs to be part of at least one commit as well as one feature.
+For each structural CFI we also save the amount of instructions said cfi occurs in. 
+This is accomplished by incrementing the instruction counter if we happen to encounter a duplicate CFI. 
+VaRA is also able to track taints of values along program flow, where taints essentially carry information on which commits have previously affected that specific value.
+Similarly to structural interactions, dataflow-based commit-feature interactions are iteratively collected on instruction level.
+In this case we speak of an dataflow interaction when an instruction both has a commit taint and belongs to a feature.
+Consequently this instruction uses a value that was changed by a commit earlier in the program while stemming from code constituting a feature.
+For our research we will examine numerous software projects to get a wide range of reference data, as commit-feature interactions could potentially vary greatly between different code spaces.
+Accordingly, the VaRA-Tool-Suite was extended making it possible to generate a report comprising all found CFIs of an according type in a software project.
+This will aid us in examining several software projects to gain sufficient and sensible data about commit-feature interactions.
+The created reports will also be evaluated in the VaRA-Tool-Suite, which offers support to process and display statstics of the generated data. \\
