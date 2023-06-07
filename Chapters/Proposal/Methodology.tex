@@ -93,8 +93,31 @@ Now we can estimate the amount of code an author contributes to a feature with t
 
 \subsection*{Expectations}\label{sec:expectations}
 
-In this section, discuss the results you expect to get from your evaluation.
+How and to which extend features are used in the projects to be examined is not known and could potentially vary from project to project.
+Thus, some results of the dicussed research topics are difficult to predict.
+For example, nesting of feature regions in the code space could lead to an increase in the amount of features a commit usually changes.
+Due to the discussed best practices of commits, we expect commits to change at most one feature on average if there happens to be little nesting.
+Because of unknown feature-size, it's not sensible to give an estimate about the amount of commits needed to implement a feature.
+We expect a positive correlation between size of a feature and its commits however.
+It was mentioned that we will examine small projects meaning that the pool of developers is limited in size. 
+Features usually implement specific functionality that some programmer's might have a better understanding of than others.
+This leads us to the expectation that a feature is implemented by a small share of all developers contributing to a project.
+As previously alluded to we expect the existence of a main developer that contributes most if not all of the code for a feature.
+The extend to which commits interact with features through dataflow depends heavily on what fraction of the code space is made up of feature regions.
+However we do know that commits structurally interacting with features most likely are part of dataflow interactions with them as well.
+Features implement additional and sometimes necessary functionality separate from the program.
+They do use and change specific data respective to their intended functionality. 
+Provided that feature regions only make up a small portion of the program, we do expect relatively few, albeit important dataflow interactions between commits and features.
 
 \subsection*{Threats to Validity}\label{sec:threats}
 
-In this section, discuss the threats to internal and external validity you have to be aware of during the evaluation.
+internal validity:
+	- feature regions overapproximate
+	- measuring feature-size with number of instructions
+
+external validity:
+	- investigated projects are small, findings might not be applicable to bigger projects
+	
+
+
+
