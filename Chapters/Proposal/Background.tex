@@ -6,138 +6,45 @@
 
 Essential to the research conducted in this paper is the interaction analysis introduced by \citet{sattler2023seal}.
 Their interaction analysis tool SEAL is implemented on top of LLVM and PhASAR.
-Their approach will be shortly discussed here, however we advice their paper for a more thorough explanation.
-The first step in their approach is to annonate code by mapping information to the compiler's intermediate representation (IR).
+Their approach will be shortly discussed here, however we advice their paper for a more thorough explanation. \\
+The first step of their approach is to annonate code by mapping information to the compiler's intermediate representation (IR).
 This information is added to the LLVM-IR instructions during the construction of the IR.
 SEAL focuses on commit-information, which encompasses the commit's hash and its respective repository.
-The commit of an instruction is the commit that last changed the source-code line the instruction stems from.
-Determining the commit that last changed a source-code line is achieved by accessing repository meta-data.
+We say that the commit of an instruction is the commit that last changed the source-code line the instruction stems from.
+Determining the commit that last changed a source code line is achieved by accessing repository meta-data. \\
 The second analysis step involves the actual computation of the interactions.
 For this, Sattler et al. implemented a special, inter-procedural taint analysis.
 It's able to track data flows between the instructions of a given target program.
-Such dataflow interactions occur when an instructions uses variables that were changed or allocated by an instruction earlier in the program.
+Such dataflow interactions occur when an instruction uses data as its input that was changed or allocated by an instruction earlier in the program.
 Commit interactions can be determined through pairs of instructions that interact with eachother through dataflow.
 This is accomplished by lifting instructions according to their respective commits made possible by an instruction's mapped commit information.
 
-\subsection*{Commits and Commit-Regions}
+\subsection*{Definitions}
+
+\ \ \textbf{Definition 1.} \textbf{Commits} are used within a version control system to introduce the latest source code changes to its respective repository.
+Inside a repository revision, a commit encompasses all source code lines that were last changed by it.
+The sum of all source code lines belonging to a commit within a revision is called a \textbf{commit region}. \\
+
+\textbf{Definition 2.} \textbf{Commit taints} are used to track data along program flow essentially carrying information on which commit regions have previously affected this data.
+An instruction is tainted by a commit if it uses data, that has been changed or allocated inside a commit region, as input. \\
+
+\textbf{Definition 3.} In general, \textbf{features} are parts of a program implementing specific functionality.
+In this work we focus on features that are modelled with the help of configuration variables.
+Configuration variables, also called feature variables, decide whether source code, performing a feature's intended functionality, gets executed.
+The sum of all source code lines whose execution depends on a feature variable is called a \textbf{feature region}. \\
+
+We refine the computation of code regions, that was introduced by Settler et al., by defining the computation of commit and feature regions.
+This allows allows a precise definition of commit-feature interactions through interactions between commit and feature regions. \\
+
+\textbf{Definition 4.} With computeCommitRegions(revs), we compute all commit regions for the specified revisions in revs $\subseteq$ R, 
+by computing the revision-specific commit regions for each program revision $\text{p}^{\text{rev}}$ with rev $\in$ revs.
+\begin{center} computeCommitRegions(revs) = $\bigcup\limits_{\text{rev} \in \text{revs}}$ $\bigcup\limits_{\text{p} \in \text{rev}}$ $\bigcup\limits_{\text{f} \in \text{p}}$ 
+	$\text{computeCR}_{\text{Tag}}\text{(f,t=Commit)}$ 
+\end{center}
+
+\textbf{Definition 5.} With computeFeatureRegions(revs), we compute all feature regions for the specified revisions in revs $\subseteq$ R, 
+by computing the revision-specific feature regions for each program revision $\text{p}^{\text{rev}}$ with rev $\in$ revs.
+\begin{center} computeFeatureRegions(revs) = $\bigcup\limits_{\text{rev} \in \text{revs}}$ $\bigcup\limits_{\text{p} \in \text{rev}}$ $\bigcup\limits_{\text{f} \in \text{p}}$ 
+	$\text{computeCR}_{\text{Tag}}\text{(f,t=Feature)}$ 
+\end{center}
 
-\subsection*{Features and Feature-Regions}
-
-\subsection*{Feature- and Commit-Size}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\iffalse
-\textbf{Commit-Feature Interactions}
-
-Broadly speaking commits interact with features, when one affects the other in any way.
-Obviously there are many possibilities for such interactions in a Software Project.
-Since looking at all possible types would go beyond the scope of this work, we will instead concentrate on two of the most important ones.
-To properly define both types we will first introduce some necessary definitions. \\
-\citet{sattler2023seal} aptly explains that a program P can be viewed as a composition of instructions $i_1$, ..., $i_n$ $\in$ P.
-Every such instruction stems from code that was contributed by a sequence of commits $c_1$, ...,$c_m$ $\in$ C, where C is the set of all commits.
-Therefore, we say that each instruction belongs to a commit, namely the commit that last changed the code this instruction stems from. \\ \\
-\textbf{Definition 1.} Let $Commit(i)$ be a function that maps an IR instruction i $\in$ P to the commit it belongs to. \\ \\
-Secondly, we say that an instruction is part of a feature when its execution depends on said feature being activated or directly uses said feature variable. 
-Naturally, there can exist more than one such feature. \\ \\
-\textbf{Definition 2.} Let $Features(i)$ be a function that maps an IR instruction i $\in$ P to all the features it is part of. \\ \\
-An instruction is tainted by a commit when it uses values that were changed or introduced by an instruction belonging to said commit. 
-Still, taints of values are not permanent and only last as long as their value is not freshly set. \\ \\
-\textbf{Definition 3.} Let $Taints(i)$ be a function that maps an IR instruction i $\in$ P to all the commits that taint it. \\ \\ \\
-
-\begin{lstlisting}[language=C++, caption={Commit Feature Interactions}, label=DescriptiveLabel]	
-1. int calc(int val) {                             %\vartriangleright% %d93dj4gr%
-2.    int ret = val + 5;                           %\vartriangleright% %7shd28dj%
-3.    if (FeatureDouble) {                         %\vartriangleright% %fu3w17ds%    %\vartriangleright% %FeatureDouble%
-4.        ret = ret * 2;                           %\vartriangleright% %fu3w17ds%    %\vartriangleright% %FeatureDouble%
-5.    }                                            %\vartriangleright% %fu3w17ds%    %\vartriangleright% %FeatureDouble%
-6.    return ret;                                  %\vartriangleright% %d93dj4gr%   
-7. }                                               %\vartriangleright% %d93dj4gr%   
-\end{lstlisting}
-The code example contains both structural as well as dataflow-based commit feature interactions.
-A structural CFI can be found between the commit with hash "fu3w17ds" and the "Double"-Feature, as commit fu3w17ds implements the functionality of FeatureDouble for this function. 
-Commit 7shd28dj introduces a new variable that is later used inside the "Double"-Feature. 
-This accounts for a CFI through dataflow, as data that was changed by the aforementioned commit is used by a feature later on in the program. \\
-
-\textbf{Structural Interactions} 
-
-We speak of a structural commit-feature interaction when there is an occurence of syntactical overlap between commit- and feature-code. \\ \\
-\textbf{Definition 4.} Let $StructuralInteractions(c, f)$ be a function that returns all instructions i $\in$ P containing a structural interaction between commit c and feature f: 
-\begin{center} $StructuralInteractions(c,$ $f) = $ $\{$ $i$ $|$ $ c \in Commit(i) \land f \in Features(i)$ $\}$ \end{center}
-Consequently we say that a commit c and a feature f interact structurally, if and only if $|StructuralInteractions(c,$ $f)|$ $\geq$ $1$. \\
-
-\textbf{Dataflow-based Interactions} 
-
-We speak of dataflow-based commit-feature interactions when an instruction, that is part of a feature, uses values that were changed by an instruction belonging to a commit earlier in the program. \\ \\
-\textbf{Definition 5.} Let $DataflowInteractions(c, f)$ be a function that returns all instructions i $\in$ P containing a dataflow-based interaction between commit c and feature f: 
-\begin{center} $DataflowInteractions(c,$ $f) = $ $\{$ $i$ $|$ $ c \in Taint(i) \land f \in Features(i)$ $\}$ \end{center}
-Similarly to structural interactions we say that a commit c and a feature f interact through dataflow, if and only if $|DataflowInteractions(c,$ $f)|$ $\geq$ $1$. \\
-For programmers it can be difficult to be aware of these dependencies as they might be hidden and span over several files.
-We provide software that can automatically discover these, which can aid a programmer's ability to find errors and remove bugs.
-For instance looking at a features's dataflow-based interactions with recent commits can help detect the commit that might have caused a bug in said feature.
-\fi
