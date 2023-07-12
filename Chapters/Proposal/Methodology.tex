@@ -120,24 +120,18 @@ Provided that feature regions only make up a small portion of the program, we do
 
 \subsection*{Threats to Validity}\label{sec:threats}
 
-internal validity:
-	- feature regions overapproximate: instructions belonging to a feature region might not implement its functionality
-		Ex.: 	if (!FeatureDouble) {
-				x = x + 2;
-			} else {
-				x = x * 2;
-			}
-		entire code is part of feature region of FeatureA
-		=> more structural and dataflow interactions than actually present
-	- commit changing a source code line doesn't necessary change its meaning, for example refactoring
-		=> some strucutral and dataflow interactions contain commits that did not change the state of a program
-	- taints underapproximate, analysis does not detect all dataflow interactions necessarily (SEAL Paper: page 9)
-		=> some dataflow interactions are missed potentially 
-
-external validity:
-	- investigated projects are small,
-		=> findings might not be applicable to larger projects or might not be scaled accordingly
-	
+There are some potential threats to the internal validity of our gathered data, which stem from our implementation in VaRA. \\
+From \textbf{Definition 2} of feature regions, it follows that we implement feature regions in such a way that any instruction whose execution depends on a configuration variable, is part of a feature region.
+However, not every such instruction also implements the functionality of a feature, meaning that feature regions overapproximate the amount of instructions responsible for a feature's functionality.
+Since feature regions are used for computing both structural and dataflow-based commit-feature interactions, they are overapproximated to some extend as well.
+Thus, it's possible that commits of structural interactions don't actually implement functionality of a feature and commits of dataflow interactions don't actually affect instructions implementing a feature's functionality through dataflow.
+Furthermore our deployed taint analysis does not necessarily detect all dataflows occuring in a program.
+This results in taints being underapproximated, meaning that some instructions are not tainted when they correctly should be.
+Thus, some dataflow interactions could be missed by our deployed commit-feature interaction detection. \\
+Concerning the external validity of our findings, most dangers come from the selection of which projects we investigate.
+In previous chapters we have discussed that the chosen projects are rather small and are of a ... domain.
+This could mean that our findings might not be applicable for projects of larger size or of different domains.
+As we already factor in the scope of a feature in the analysis of our data, we are able mitigate some doubts about the applicability of our results onto larger projects.
 
 
 

@@ -8,28 +8,16 @@ Following this, we aim to interpret the findings in a sensible way.
 Structural interactions and the injection of author information within them can be utilized to provide insights into feature development and usage of commits therin.
 Dataflow interactions can unveil interactions between features and commits that cannot be discovered through a purely structural analysis.
 Seeing how common they really are could encourage programmers to be more aware of them.
-Furthermore, they can improve our understanding on which impact new commits have on features. \\
+Furthermore, they can improve our understanding on which impact new commits have on features. 
 
 Research involving interactions inbetween features and commits has shown that investigating interactions between program entities is a topic worthy of study.
 For example, Sattler et al used dataflow commit interactions to allow for a more detailed understanding of author interactions in software projects. 
-These interactions also make it possible to identify seemingly insignificant changes that have a central impact on the program.
+Commit interactions also make it possible to identify seemingly insignificant changes that have a central impact on the program.
 Kolesnikov et al provides further indication for the wide range of subjects interactions can be used for.
-Particularly, they argued that control-flow interactions between features can help predict performance interactions between them.
+Particularly, they argued that control-flow interactions between features can help predict performance interactions between them. 
 
-How are you going to do it? Be sure that what you propose is doable. \\
-
-VaRA is extended by implementing the detection structural and dataflow-based commit-feature interactions.
-
-
-- extend VaRA implementing the detection of structural and dataflow-based commit-feature interaction \\
-- VaRA offers three main properties for this: the extraction of commit and feature regions, as well as commits taint on instruction level \\
-- a combination of them results in the storing of a cfi of the correct type \\
-- extend VaRA-Tool-Suite with the creation of separate reports containg both types of interactions \\
-- reports can be combined and enriched with high-repository information, such as info to which author a commit belongs \\
-- collect data by creating reports of both types across several projects \\
-
-
-
-
-
+We extend VaRA to implement the detection of structural and dataflow-based commit-feature interactions.
+As we want to investigate several projects, we create reports containing all found interactions for them.
+These reports are created inside the VaRA-Tool-Suite and contain either all structural or dataflow-based interactions of a software project.
+The VaRA-Tool-Suite also allows use to work with the collected data and enrich it with high-repository information, such as information on which author a commit belongs to.
 
