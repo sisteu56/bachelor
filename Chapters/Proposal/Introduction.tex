@@ -1,54 +1,50 @@
 %************************************************
-\section*{Introduction}\label{ch:introduction}
+\section{Introduction}\label{ch:introduction}
 %************************************************
 
-Within a program there exist many different abstract entities, such as commits and features, each serving different responsibilites.
+Features play an important part in modern programming, which shows in program paradigms such as feature-oriented programming,
+where they are used to implement specific functionalities, can be activated or deactivated and thus add configurability to software systems.
+As commits are used to contribute new source-code to a repository,
+it follows that commits can structurally interact with features by introducing source-code implementing their functionality. 
+Furthermore, seemingly unrelated code, that was changed or added by commits, might influence soure-code of a feature through dataflow.
+We aim to give insights into these topics by investigating \nameref{ch:example_chapter} (CFIs).
+
+Within a program, there exist many different abstract entities, such as commits and features, each serving different responsibilites.
 For a better understanding of them, it is advantageous to know whether they interact with or among each other.
-In many cases, it might be difficult to tell whether they do by just studying the program yourself.
-To facilitate this and allow for a complete overview of them inside a software project, \citet{sattler2023thesis} et al created the interaction analysis tool VaRA.
-VaRA assigns commits and features a concrete representation, namely code regions~\ref{ch:code_regions}, inside a program.
-This makes it possible to detect different kinds of interactions between them by deploying different analyses techniques, such as a taint analysis to track dataflow-based interactions.
-In a prior study \citet{sattler2023seal} investigated commit interactions proving that research on this topic can be applied to improve many topics in software development.
-For example, their research allowed for a deeper understanding of interactions between authors by linking commit interactions to their respective authors.
-In this work, we pick up and extend on their research by investigating commit-feature interactions.
-Features play an important part in modern programming, which shows in program paradigms such as feature-oriented programming.
-They are used to implement specific functionalities, can be activated or deactivated and thus add configurability to software systems.
-Commits are an essential tool of software development, which means that investigating interactions between commits and features can be used to give insights into the development of features and how changes outside of features affect them.
-% no research for this yet?
-To accomplish this, it's necessary to introduce the concept of structural and dataflow-based CFIs, each encompassing a different meaning.
+In the context of CFIs, bugs occuring in a feature could be linked to the latest commits affecting data of said feature, and consequently the authors responsible for these bugs.
+Especially for dataflow spanning over multiple files and many lines of code, it might be difficult to determine the respective interactions by studying the program yourself.
+To enable an automatic detection of these interactions and allow for a complete overview of them inside a software project, Sattler et al.~\cite{sattler2023thesis} created the interaction analysis tool VaRA.
 
-- structural CFIs => overlap between their concrete representations \\
-- => can produce data revolving around feature-development, as overlap means that commit changed functionality of a feature \\
-- dataflow-based CFIs => dataflow from concrete representation of commit to feature \\
-- => means that changes introduce by the commit influence functionality of a feature \\
-- their detection is implemented in VaRA \\
+In a prior study \citet{sattler2023seal} used VaRA to examine interactions between commits showing that research on this topic can be applied to improve many aspects of software development.
+For example, their research allowed for a deeper understanding of interactions between developers by linking commit interactions to their respective authors.
 
-%An overview of the topic. Start with a general overview of your topic. Narrow the overview until you address your paper’s specific subject. Then, mention questions or concerns you had about the case. Note that you will address them in the publication.
+We pick up and extend on their research by investigating interactions between commits and features.
+For this, we introduce the concept of structural and dataflow-based CFIs.
+Structural CFIs occur inside a program when there is overlap between source-code changed by a commit and source-code constituting a feature.
+This overlap implies that the commit changed or implemented functionality of the feature, meaning that structural CFIs can produce data on feature development.
+Dataflow-based CFIs on the other hand, occur when there exists dataflow from the code representations of commits to that of features.
+Thus, commits of these interactions introduced changes in the program affecting data, which is later used inside a feature.
+CFIs based on dataflow examine the program on a deeper layer, allowing us to detect additional interactions missed by structural CFIs.
+By combining dataflow-based and structural interactions, we can specify whether dataflow stems from outside or from inside the code constituting a feature, thus producing more informative data.
 
-%Prior research. Your introduction is the place to review other conclusions on your topic. Include both older scholars and modern scholars. This background information shows that you are aware of prior research. It also introduces past findings to those who might not have that expertise.
-
-%A rationale for your paper. Explain why your topic needs to be addressed right now. If applicable, connect it to current issues. Additionally, you can show a problem with former theories or reveal a gap in current research. No matter how you do it, a good rationale will interest your readers and demonstrate why they must read the rest of your paper.
-
-%Describe the methodology you used. Recount your processes to make your paper more credible. Lay 
-
-\subsection*{Goal of this Thesis}\label{sec:thesis_goal}
+\subsection{Goal of this Thesis}\label{sec:thesis_goal}
 
 The primary focus of this thesis is to gain an overview of how commits interact with features in software projects. 
 Our goal is to lay basic groundwork regarding this
-subject, while leaving more detailed questions to future research. As previously mentioned
-we investigate two types, strutctural and dataflow-based commit-feature interactions. While
+subject, while leaving more detailed questions to future research. As previously mentioned,
+we investigate two types of commit-feature interactions, namely structural and dataflow-based interactions. While
 using both types separately can already answer many research questions, we also show
 applications utilizing a combination of both.
 We aim to reveal insights about the development process of features and usage of commits therein 
-with the help of structural commit-feature interactions and high-level repository information.
-We also investigate to what extend there exist commit-feature interactions
-throug dataflow that cannot be discovered with a purely syntactical analysis.
+with the help of structural CFIs and high-level repository information.
+We also investigate to what extend there exist CFIs
+through dataflow that cannot be discovered with a purely syntactical analysis.
 
-\subsection*{Overview}\label{sec:overview}
+\subsection{Overview}\label{sec:overview}
 
-In related work~\ref{ch:related_work}, we summarize previous studies investigating interactions inbetween commits and inbetween features to motivate that interactions between them is a topic worthy of study.
-The background chapter~\ref{ch:background} serves as an introduction to the concepts of code regions and interaction analysis, which are necessary to properly define structural and dataflow-based CFIs.
-Their definition then takes place in the commit-feature interaction~\ref{ch:example_chapter} chapter, where we thouroughly dicuss their meaning in software projects as well as our implementation in VaRA.
-The research questions of this paper are established in the methodology chapter~\ref{ch:methodology} in which we also explain how we plan on investigating them.
-Furhtermore methodology contains the self-explanatory sections expectations~\ref{sec:expactations} and threats to validity~\ref{sec:threats}.
-To finish the proposal we summarize our proposed research questions and their planned evaluation in the conclusion~\ref{ch:conclusion}.
+In \nameref{ch:related_work}, we summarize previous studies investigating interactions inbetween commits and inbetween features to motivate that interactions between them is a topic worthy of study.
+The \nameref{ch:background} chapter serves as an introduction to the concepts of code regions and interaction analysis, which are necessary to properly define structural and dataflow-based CFIs.
+Their definition then takes place in the \nameref{ch:example_chapter} chapter, where we thouroughly dicuss their meaning in software projects as well as our \nameref{ch:implementation} of their detection in VaRA.
+The research questions of this paper are established in the \nameref{ch:methodology} chapter, in which we also explain how we plan on investigating them.
+Furhtermore, methodology contains the sections \nameref{sec:expectations} and \nameref{sec:threats}.
+To finish the proposal, we summarize our proposed research questions and their planned evaluation in the \nameref{ch:conclusion}.

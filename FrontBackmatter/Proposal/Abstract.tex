@@ -11,13 +11,17 @@
 
 \section*{Presentation Abstract}\label{ch:abstract}
 
-In software engineering, features play a pivotal role in implementing functionality of software applications.
-There, commits are used to introduce new source code and thus gradually build the overall application and its features.
-In this paper we connect both entities of software projects in the form of commit-feature interactions (CFIs).
-For this, the interaction analysis tool VaRA is extended to implement the detection of structural as well as dataflow-based interactions between commits and features.
-We carry out a comprehensive investigation of CFIs in software projects to provide data-driven conclusions on yet unexplored research areas related to features.
-These research areas include feature development and the effect of new changes on feature functionality.
-By analyzing CFIs, we shine light on the dependencies between commits and features, enabling developers to be more aware of them and thus reducing potential errors during software development.
+In software engineering, features play a pivotal role in implementing functionality of applications and adding configurability to them.
+Their code is maintained in git repositories, where commits are used to introduce the latest source-code changes, thus gradually building the overall application and its features.
+To allow for a deeper understanding of commits and features as well as their interplay, we connect both entities in the form of commit-feature interactions (CFIs). 
+For this, we extend the interaction analysis tool VaRA to implement the detection of structural and dataflow-based CFIs.
+As previous research has focused exclusively on interactions either among commits or among features, we are first to study interactions between the two entities.
+Specifically, our goal is to provide data-driven conclusions on research areas that neither could give on their own.
+These research areas include feature development, where we examine the number of commits and authors needed to implement a feature in relation to its size. 
+We also investigate how commits are used during the development of features to check whether their usage follows best practices revolving around them. 
+Furthermore, we examine dataflow-based CFIs to reveal interactions between seemingly unrelated commits and features that cannot be detected with a purely structural analysis.
+This allows us to determine how likely commits without any source-code contributions to features are to affect them through dataflow.
+By analyzing CFIs, we shine light on the dependencies between commits and features inside software projects, enabling developers to be more aware of them and thus reducing potential errors during software development.
 
 \iffalse
 

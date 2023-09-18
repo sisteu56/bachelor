@@ -1,23 +1,23 @@
 %************************************************
-\section*{Related Work}\label{ch:relatedwork}
+\section{Related Work}\label{ch:related_work}
 %************************************************
 
-Interactions between Features and Interactions between Commits have already been used to answer many research questions surrounding software projects.
-However investigating Feature Interactions has been around for a long time whereas examining Commit Interactions is a more recent phenomenon. \\
+Interactions between features \cite{lillack2014tracking,kolesnikov2017relation} and interactions between commits \cite{sattler2023seal} have already been used to answer many research questions surrounding software projects.
+However, investigating feature interactions has been around for a long time, while examining commit interactions is a more recent phenomenon. \\
 In an article published in 2023, \citet{sattler2023seal} analysed several open-source projects with their novel approach, SEAL.
-SEAL merges low-level data-flow with high-level repository information in the form of Commit Interactions.
-The paper shows the importance of a combination of low-level Program Analysis and high-level Repository Mining techniques by discussing research problems that neither analysis can answer on its own.
-For example SEAL is able to detect commits that are central in the dependency structure of a program.
+SEAL merges low-level data-flow with high-level repository information in the form of commit interactions.
+The paper shows the importance of a combination of low-level program analysis and high-level repository mining techniques by discussing research problems that neither analysis can answer on its own.
+For example SEAL is able to detect commits that are central in the dependency structure of a program\cite{sattler2023seal}.
 This was used to identify small commits affecting central code that would normally not be considered impactful to a program.
-Furthermore they investigated author interactions at a dataflow level with the help of commit interactions.
-Thus they can identify interactions between developers that cannot be detected by a purely syntactical approach.
-They found that, especially in smaller projects, there often exists one main developer authoring the majority of commits and thus, logically, accounting for most author interactions. 
+Furthermore, they investigated author interactions at a dataflow level with the help of commit interactions.
+Thus, they can identify interactions between developers that cannot be detected by a purely syntactical approach.
+They found that, especially in smaller projects, there often exists one main developer authoring the majority of commits\cite{sattler2023seal} and thus accounting for most author interactions logically. 
 It was also explained how SEAL makes it possible to relate occurences of bad programming practices to developers. 
 This is accomplished by SEAL enriching program analyses with computed repository information. \\
-\citet{lillack2014tracking} first implemented functionality to automatically track load-time configuration options along program flow.
-Said configuration options can be viewed analogously to feature variables in our research. 
-Their analysis tool Lotrack can detect which features, here configuration options, must be activated in order for certain code segments to be executed.
-They evaluated Lotrack on numerous real-world Android and Java applications and observed a high accuracy for the predicted code execution constraints. \\
+\citet{lillack2014tracking} first implemented the automatic detection of features inside programs by tracking their load-time configuration options along program flow.
+In our research, we also focus on features who are configured via configuration options, which we call configuration variables. 
+Their analysis tool Lotrack can detect which configuration options must be activated in order for certain code segments, implementing a feature's functionality, to be executed.
+They evaluated Lotrack on numerous real-world Android and Java applications and observed a high accuracy for the predicted code execution constraints\cite{lillack2014tracking}. \\
 Referencing this paper \citet{kolesnikov2017relation} published a case study on the relation of external and internal feature interactions.
 Internal feature interactions are control-flow feature interactions that can be detected through static program analysis as mentioned above.
-They concluded that considering internal feature interactions could potentially help predict external, performance feature interactions.
+They concluded that considering internal feature interactions could potentially help predict external, performance feature interactions\cite{kolesnikov2017relation}.

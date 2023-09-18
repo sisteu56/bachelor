@@ -1,15 +1,15 @@
 %************************************************
-\section*{Conclusion}\label{ch:conclusion}
+\section{Conclusion}\label{ch:conclusion}
 %************************************************
 
 In this work we research the main properties of structural and dataflow-based commit-feature interactions.
 Using high-repository information about commits and their authors as well as a combination of both types of interactions allows us to gain additional knowledge on their properties.
-To investigate these properties we examine several small software projects revolving around compression, such as xz.
-For this, we create reports containing all found structural and dataflow-based commit-feature interactions of the to be  examined projects.
+To investigate these properties we examine several small software projects revolving around compression, such as \textsc{xz}.
+For this, we create reports containing all found structural and dataflow-based CFIs of the to be  examined projects.
 The collected data is then processed to facilitate performing calculations with it and displaying it graphically.
 Structural interactions and the injection of author information within them can be utilized to provide insights into feature development and usage of commits therin.
 This includes showing how often commits implement more than one feature and how strongly correlated the size of a feature and the number of commits used to implement it are.
-Furthermore we calculate the average number of authors that implement a feature in a project.
+Furthermore we calculate the average number of authors implementing a feature in a project.
 Dataflow interactions are used to unveil interactions between features and commits that cannot be discovered through a purely structural analysis.
 Seeing how common they really are could encourage programmers to be more aware of them.
 To gain some insight on this, we measure what fraction of commits contributing code to the project affect features through dataflow.
