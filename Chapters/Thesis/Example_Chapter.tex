@@ -1,61 +1,117 @@
 %************************************************
-\chapter{Example Chapter}\label{ch:example_chapter}
+\chapter{Commit-Feature Interactions}\label{ch:example_chapter}
 %************************************************
 
-This chapter gives you some examples how to include graphics, create tables, or include code listings.
-Examples on how to cite papers from the literature can be found in \autoref{ch:relatedwork}.
+In this section, we define structural and dataflow-based commit-feature interactions as well as properties related to them.
+Furthermore, their meaning and relationship inside a software project is explained here. 
+In the \nameref{ch:background} chapter, we discussed what purpose commits and features serve in a software project.
+Commits are used to add new changes, whereas features are cohesive entities in a program implementing a specific functionality.
+In this work, structural interactions are used to investigate how commits implement features and their functionality.
+In addition, dataflow interactions are examined to gain additional knowledge on how new changes to a program, in the form of commits, affect features. 
 
-\section{Acronyms}
+\section{Structural CFIs}\label{sec:structural_cfis}
 
-This template makes advantage of the acronyms package to support acronyms. The first occurence of an acronym is replaced by its definition (e.g., \ac{IDE}). All other occurences are replaced by the acronym (\ac{IDE}). The glossaries package also supports plural---\acp{IDE}.
+In the background chapter, we dicussed the concept of \nameref{ch:code_regions}, especially commit and feature regions. 
+Logically, we speak of structural interactions between features and commits when their respective regions structurally interact. 
+This structural interaction between code regions occurs when at least one instruction is part of both regions.
+This is the case when code regions structurally interact through the \nameref{def:structural_relation} ($\circledcirc$).
 
-\section{Graphics}
+\begin{definition}\label{def:structural_cfi}
+\emph{A commit C with its commit regions $r_{1C}$, $r_{2C}$,... and a feature F with its feature regions $r_{1F}$, $r_{2F}$,... structurally interact, if at least one commit region $r_{iC}$ and one feature region $r_{jF}$ structurally interact with each other, i.e. $r_{iC}$ $\circledcirc$ $r_{jF}$.}
+\end{definition}
 
-In \autoref{fig:ex}, we give a small example how to insert and reference a figure.
+Structural CFIs carry an important meaning, namely that the commit of the interaction was used to implement or change functionality of the feature of said interaction.
+This can be seen when looking at an instruction accounting for a structural interaction, as it is both part of a commit as well as a feature region.
+From the definition of \nameref{def:commit_regions}, it follows that the instruction stems from a source-code line that was last changed by the region's respective commit. 
+From the definition of \nameref{def:feature_regions}, we also know that the instruction implements functionality of the feature region's respective feature. 
+Thus, the commit of a structural interaction was used to extend or change the code implementing the feature of that interaction.
+Following this, we can say that the commits, a feature structurally interacts with, implement the entire functionality of the feature.
+That is because each source-code line of a git-repository was introduced by a commit and can only belong to a single commit.
+Thus every instruction, including those part of feature regions, is annotated by exactly one commit region. 
 
-\begin{figure}[htbp]
-	\centering
-		\includegraphics[scale=1.25]{gfx/example}
-	\caption{A feature model representing a graph product line}
-	\label{fig:ex}
-\end{figure}
+Knowing the commits used to implement a feature allows us to determine the authors that developed it.
+This is made possible by simply linking the commits, a feature structurally interacts with, to their respective authors.
+By determining the authors of a feature, we can achieve a deeper insight into its development than solely focusing on the commits that implemented it. 
 
-\section{Tables}
+\section{Dataflow-based CFIs}\label{sec:dataflow_cfis}
 
-\autoref{tab:ex} shows the result of a simple tabular environment.
+Determining which commits affect a feature through dataflow can reveal additional interactions between commits and features that cannot be discovered with a structural analysis.
+Especially dataflows that span over multiple files and many lines of code might be difficult for a programmer to be aware of.
+Employing VaRA's dataflow analysis, that is dicussed in section~\ref{ch:implementation}, facilitates the detection of these dataflow interactions. \\
+Commit interactions based on dataflow were explained in the \nameref{sec:interaction_analysis} section and can be considered as precursors to dataflow-based commit-feature interactions.
+Similarly to commits interacting with other commits through dataflow, commits interact with features through dataflow, when there exists dataflow from a commit to a feature region.
+This means that data allocared or changed within a commit region flows as input to an instruction located inside a feature region.
+This pattern can also be matched to the \nameref{def:dataflow_relation} ($\rightsquigarrow$) when defining dataflow-based commit-feature interactions.
 
-\begin{table}[htbp]
-        \caption{Mapping a feature model to a propositional formula} 
-	\centering
-		\begin{tabular}{cc}\toprule
-			Group Type & Propositional Formula\\\midrule
-			And & $(P \Rightarrow C_{k_1} \wedge\ldots\wedge C_{k_m}) \land (C_1\vee\ldots\vee C_n \Rightarrow P)$\\\addlinespace
-			Or & $P = C_1\vee\ldots\vee C_n$\\
-			Alternative & $(P = C_1\vee\ldots\vee C_n) \land \mbox{atmost}1(C_1,\ldots,C_n)$\\
-			\bottomrule
-		\end{tabular}
-	\label{tab:ex}
-\end{table}
+\begin{definition}\label{def:dataflow_cfi}
+\emph{A commit C with its commit regions $r_{1C}$, $r_{2C}$,... and a feature F with its feature regions $r_{1F}$, $r_{2F}$,... interact through dataflow, if at least one commit region $r_{iC}$ interacts with a feature region $r_{jF}$ through dataflow, i.e. $r_{iC}$ $\rightsquigarrow$ $r_{jF}$.}
+\end{definition}
 
-\section{Code Listings}
-
-In \autoref{lst:ex}, we give an example of a source code listing. 
-
-\begin{lstlisting}[language=Java,float=htb,caption={Java source code},label={lst:ex}]
-class A extends Object {
-	A() { super(); }
-}
-class B extends Object {
-	B() { super(); }
-}
-class Pair extends Object {
-	Object fst;
-	Object snd;
-	Pair(Object fst, Object snd) {
-		super(); this.fst=fst; this.snd=snd;
-	}
-	Pair setfst(Object newfst) {
-		return new Pair(newfst, this.snd);
-	}
-}
+\begin{lstlisting}[language=C++, caption={This code example contains both structural as well as dataflow-based commit feature interactions.
+Commit \texttt{fc3a17d} implements the functionality of \texttt{FeatureDouble} for this function.
+It follows that a structural commit-feature interaction can be found between them, as their respective commit and feature regions structurally interact.
+Commit \texttt{7edb283} introduces the variable \texttt{ret} that is later used inside the feature region of \texttt{FeatureDouble}. 
+This accounts for a commit-feature interaction through dataflow, as data that was produced within a commit region is used as input 
+by an instruction belonging to a feature region of \texttt{FeatureDouble} later on in the program.}, label=DescriptiveLabel]	
+1. int calc(int val) {                             %\vartriangleright% %\texttt{d93df4a}%
+2.    int ret = val + 5;                           %\vartriangleright% %\texttt{7edb283}%
+3.    if (FeatureDouble) {                         %\vartriangleright% %\texttt{fc3a17d}%    %\vartriangleright% %FeatureDouble%
+4.        ret = ret * 2;                           %\vartriangleright% %\texttt{fc3a17d}%    %\vartriangleright% %FeatureDouble%
+5.    }                                            %\vartriangleright% %\texttt{fc3a17d}%    %\vartriangleright% %FeatureDouble%
+6.    return ret;                                  %\vartriangleright% %\texttt{d93df4a}%   
+7. }                                               %\vartriangleright% %\texttt{d93df4a}%   
 \end{lstlisting}
+
+\section{Combination of CFIs}\label{sec:combination_cfis}
+
+When investigating dataflow-based CFIs, it is important to be aware of the fact that structural CFIs heavily coincide with them.
+This means that whenever commits and features structurally interact, they are likely to interact through dataflow as well.
+As our structural analysis has already discovered that these commits and features interact with each other, 
+we are more interested in commit-feature interactions that can only be detected by a dataflow analysis.
+That this relationship between structural and dataflow interactions exists becomes clear when looking at an instruction accounting for a structural CFI.
+From definition~\ref{def:structural_cfi}, we know that the instruction belongs to a commit region of the interaction's respective commit.
+It follows that data changed inside the instruction produces commit taints for instructions that use the data as input. 
+Now, if instructions that use the data as input are also part of a feature region of the interaction's respective feature, the commit and feature of the structural interaction will also interact through dataflow.
+However, such dataflow is very likely to occur, as features are functional units, whose instructions build and depend upon each other. 
+Knowing this we can differentiate between dataflow-based CFIs that occur within the regions of a feature and those where data flows from outside the regions of a feature into it.
+From prior explanations, it follows that this differentiation can be accomplished by simply checking whether a commit that influences a feature through dataflow, also structurally interacts with it. 
+
+\section{Feature Size}\label{sec:feature_size}
+
+When examining commit-feature interactions in a project, it is helpful to have a measure that can estimate the size of a feature.
+We can use such a measure to compare features with each other and, thus, put the number of their interactions into perspective.
+Considering our implementation, it makes most sense to define the size of a feature as the number of instructions implementing its functionality inside a program.
+As the instructions inside the regions of a feature implement its functionality, we can the define the size of a feature as follows:
+\begin{definition} \label{def:feature_size}
+\emph{The} size \emph{of a feature is the number of instructions that are part of its feature regions.}
+\end{definition}
+It's possible to calculate the defined size of a feature by calculating the number of instructions in which structural CFIs occur.
+That is, because every instruction that is part of a feature region accounts for a structural commit-feature interaction, as every instruction is part of exactly one commit region as shown in the beginning of this section.
+It follows, that we do not miss any instructions that are part of feature regions and do not count any such instruction more than once. 
+
+\section{Implementation}\label{ch:implementation}
+
+The detection of structural as well as dataflow-based commit-feature interactions is implemented in VaRA \cite{VaRA2023}.
+Additionaly to commit regions, VaRA maps information about its feature regions onto the compiler's IR during its construction.
+Commit regions contain the hash and repository of their respective commits, whereas feature regions contain the name of the feature they originated from.
+VaRA also gives us access to every llvm-IR instruction of a program and its attached information.
+Thus, structural CFIs of a program can be collected by examining its compiled instructions.
+According to definition~\ref{def:structural_cfi}, we can store a structural interaction between a commit and a feature, if an instruction is part of a respective commit and feature region.
+For each such interaction we also save the number of instructions it occurs in. 
+This is accomplished by incrementing its instruction counter if we happen to encounter a duplicate. 
+
+With this, we are also able to calculate the size of a feature based on our collected structural CFIs and their respective instruction counters.
+Following the explanations from section~\ref{sec:feature_size}, we can compute the size of a feature as the sum over the instruction counters of all found structural CFIs the feature is part of. 
+
+In the \nameref{sec:interaction_analysis} section, we discussed the taint analysis deployed by VaRA.
+There, VaRA computes information about which code regions have affected an instruction through dataflow.
+Checking whether a taint stems from a commit region allows us to extract information about which commits have tainted an instruction.
+Thus, dataflow-based commit-feature interactions can also be collected on instruction level.
+According to definition~\ref{def:dataflow_cfi}, we can store a dataflow-based interaction between a commit and a feature, if an instruction has a respective commit taint while belonging to a respective feature region.
+Consequently said instruction uses data, that was changed by a commit region earlier in the program, as its input, while belonging to a feature region. 
+\iffalse
+For our research we examine numerous software projects to get a wide range of reference data, as commit-feature interactions could potentially vary greatly between different code spaces.
+Accordingly, the VaRA-Tool-Suite was extended making it possible to generate a report comprising all found CFIs of an according type in a software project.
+This aids us in examining several software projects to gain sufficient and sensible data about commit-feature interactions.
+The created reports are also evaluated in the VaRA-Tool-Suite, which offers support to process and display statstics of the generated data. \\
+\fi 
