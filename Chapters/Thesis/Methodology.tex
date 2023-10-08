@@ -46,34 +46,30 @@ Since structural interactions coinciding with dataflow interactions are so obvio
 Depending on the prevalence of feature regions in a project's code space, this could heavily skew the data in one direction, as a large portion of all dataflow interactions would stem from these obvious interactions. 
 Therefore we especially focus on commits that affect features through dataflow, while not constituting code of these features.
 Logically, programmers are less aware that changes introduced with these commits might affect the data of seemingly unrelated features. \\
-- dataflow-based CFI allow us to examine another interesting property, namely the number of commits affecting a feature through dataflow. \\
-- here, we differentiate between commits \textsc{inside and outside} of features, i.e. commits that either do or don't structurally interact with them \\
-- examine the proportion of inside to outside commits with dataflow interactions => gauge whether one could be used as a predictor for the other or whether there is no relation there (also where most of the dataflow interactions stem from) \\
-- another relationship worth investigating, is the relation between the size of a feature and the number of outside and inside commits interacting with it through dataflow \\
-- determining to what extent feature size is the driving factor in this, could tell us whether it is worth considering other possible properties of features responsible for the number of commits affecting its data 
+Dataflow-based CFIs allow us to examine another interesting property, namely the number of commits affecting a feature through dataflow.
+Here, we differentiate between commits \textsc{inside} and \textsc{outside} of features, i.e. commits that either do or don't contribute code to them.
+We examine the proportion of inside to outside commits influencing a feature to gauge where most dataflow interactions of a feature stem from.
+Seeing how greatly this proportion varies between features could also tell whether one could be used a predictor for the other.
+Another relationship worth investigating, is the relation between the size of a feature and the number of outside and inside commits interacting with it through dataflow.
+Determining to what extent feature size is the driving factor in this, could tell us whether it is worth considering other possible properties of features responsible for the number of commits affecting its data.
+- in this analysis, our main focus lies on outside commits however, as the set of inside commits interacting with a feature through dataflow mostly matches the set of commits structurally interacting with a feature \\
+- it might be worth comparing whether structural and dataflow relation is the same => why?
 
 \subsection*{\textbf{RQ3: How do authors interact with features?}}
 
-- A simple but promising way to extract more information out of the collected CFIs is to link the interaction's commits to their respective authors \\
-- thus, we are able to investigate how authors interact with features both structurally and through dataflow \\
-- similarly to the number of commits implementing a feature, we can now calculate the number of authors implementing a feature \\
-- the same goes for commits interacting with features through dataflow, for which we can now determine the authors contributing these commits \\
-- here, we only consider outside commits, i.e. commits not constituting code of the feature, as we have already considered all inside commits when investigating the developers implementing a feature \\
-- we are especially interested in how many authors exclusively interact with a feature through dataflow in comparison to the number of authors implementing it \\
-- this lets us answer the question whether the developers that implement features are also the ones mainly responsible for changes affecting them through dataflow \\
-- finally, we relate both types of author interactions to the respective size of a feature \\
-- determine whether the size of a feature is the main factor in the amount of developers needed to implement it \\
-- (serve as advice for software companies now how to allocate programmers on to-be implemented features) \\
-- dataflow: can tell develeopers whether they should care most about the size of a feature when paying attention to which features their introduced changes might affect \\
+A simple yet promising way to extract more information out of the collected CFIs is to link the interaction's commits to their respective authors.
+Thus, we are able to investigate how authors interact with features both structurally and through dataflow.
+Similarly to the number of commits implementing a feature, we can now calculate the number of authors that participated in its development.
+The same applies to commits interacting with features through dataflow, for which we can now determine the authors contributing these commits.
+Here, we only consider outside commits, i.e. commits not constituting code of the feature, since we have already considered all inside commits when investigating the developers implementing a feature.
+We are especially interested in how many authors exclusively interact with a feature through dataflow in comparison to the number of its developers.
+This lets us determine whether the developers that implement features are also the ones mainly responsible for changes affecting them through dataflow.
 
-Usually there are many programmers working on the same software project, implementing different features, sometimes alone, sometimes with the help of colleagues.
-We shine some light on the exact statistics of this by combining structural commit-feature interactions with high-level repository information.
-One major property we investigate is the number of authors implementing a feature, where considering the size of a feature could help put this data into perspective.
-The collected results could serve as advice for software companies on how to allocate programmers on to-be implemented features. \\
-- similarly to structural CFIs, we link the commits of dataflow-based CFIs to their respective authors \\
-- here, we only consider outside commits, i.e. commits not constituting code of the feature, as we have already considered all inside commits when investigating the previous property \\
-- furthermore, we are especially interested in how many authors exclusively interact with a feature through dataflow in comparison to the number of authors implementing it \\
-- this lets us answer the question whether the developers that implement features are also the ones mainly responsible for changes affecting them through dataflow \\
+Finally, we relate both types of author interactions to the respective size of a feature.
+Regarding structural interactions, this allows us to determine whether a feature's extent in the source-code of a project is driving factor in the amount of authors needed to implement it. 
+Software companies could use evidence on this issue as advice on how to allocate programmers on to-be implemented features.
+Findings on the investigated dataflow interactions of authors could tell developers that their changes might affect small and, at first sight neglegible, features surprisingly often.
+We also have a look at the specific functionality of features since their purpose could also play an important role in the number of authors interacting with it.
 
 \begin{center}
 \begin{tabular}{cc}

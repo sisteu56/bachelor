@@ -125,6 +125,8 @@ Checking whether a taint stems from a commit region allows us to extract informa
 Thus, dataflow-based commit-feature interactions can also be collected on instruction level.
 According to definition~\ref{def:dataflow_cfi}, we can store a dataflow-based interaction between a commit and a feature, if an instruction has a respective commit taint while belonging to a respective feature region.
 Consequently said instruction uses data, that was changed by a commit region earlier in the program, as its input, while belonging to a feature region. 
+
+jetzt auch VaRA-TS erwähnen ??
 \iffalse
 For our research we examine numerous software projects to get a wide range of reference data, as commit-feature interactions could potentially vary greatly between different code spaces.
 Accordingly, the VaRA-Tool-Suite was extended making it possible to generate a report comprising all found CFIs of an according type in a software project.
