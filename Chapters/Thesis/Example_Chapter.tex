@@ -94,16 +94,31 @@ It follows, that we do not miss any instructions that are part of feature region
 In contrast to commit regions, multiple regions of different features can appear in a single instruction.
 Here, we say that the number of feature regions inside an instruction equals its nesting degree.
 With increasing nesting degree of an instruction, it becomes less certain which purpose the instruction serves specifically.
-It could implement functionality of only a single feature present in the instruction's feature regions or any combination of them potentially.
+It could implement functionality of only a single feature present in the instruction's feature regions or any combination of them.
 For an instruction with a nesting degree of one, we can be most certain about its purpose, namely implementing the functionality of the one feature present in the instruction.
 This observation also bears consequences in the way we look at and judge structural CFIs, as we can also define a nesting degree for them:
 \begin{definition} \label{def:nesting_degree}
-\emph{The} nesting degree \emph{of a structural CFI is the minimum nesting degrees of all instructions the interaction occurs in.}
+\emph{The} nesting degree \emph{of a structural CFI is the minimum nesting degree of all instructions the interaction occurs in.}
 \end{definition}
-It follows that, if for example, a commit and a feature only structurally interact inside instructions with a nestig degree of two or higher, the nesting degree of their structural CFI is two.
-If we now discover one more instruction, in which they interact structurally, and there is no other feature region present inside the instruction, their structural CFI's nesting degree will now be one. \\
 The nesting degree of a structural CFI is a useful measure to estimate the likelihood for which a commit was used to specifically change or implement functionality of a feature.
-We can be most certain for a structural CFI with nesting degree of one and become less certain for interactions with higher nesting degrees.
+We can be most certain for a structural CFI with a nesting degree of one and become less certain for interactions with higher nesting degrees. \\
+
+\begin{lstlisting}[language=C++, caption={The above code-snippet illustrates how considering the nesting degree of a structural CFI can add important context to its meaning.\\ We can see that the commit \texttt{b9ea2f3} exclusively implements functionality of the \texttt{CheckZero}-feature. Still, it also structurally interacts with the \texttt{Min}-feature in lines 75-77. The according structural CFI only having a nesting degree of 2, allows us to be less certain of its specifc purpose. At the same time, the structural interaction between \texttt{b9ea2f3} and \texttt{CheckZero} has nesting degree of 1, confirming our believe that the interaction's commit was used to specifically implement the \texttt{CheckZero}-feature.}, label=DescriptiveLabel]	
+26. if (CheckZero) {                    %\vartriangleright% %\texttt{b9ea2f3}%    %\vartriangleright% %CheckZero%
+27.    if (x == 0) {                    %\vartriangleright% %\texttt{b9ea2f3}%    %\vartriangleright% %CheckZero%
+28.       throw Error();                %\vartriangleright% %\texttt{b9ea2f3}%    %\vartriangleright% %CheckZero%
+29.    }                                %\vartriangleright% %\texttt{b9ea2f3}%    %\vartriangleright% %CheckZero%
+30. }                                   %\vartriangleright% %\texttt{b9ea2f3}%    %\vartriangleright% %CheckZero%
+.   ...   
+.   ...
+.   ...
+73. if (Min && CheckZero) {             %\vartriangleright% %\texttt{e49c7a1}%    %\vartriangleright% %Min,CheckZero%
+74.    x = min(x, y);                   %\vartriangleright% %\texttt{e49c7a1}%    %\vartriangleright% %Min,CheckZero%
+75.    if (x == 0) {                    %\vartriangleright% %\texttt{b9ea2f3}%    %\vartriangleright% %Min,CheckZero%
+76.       throw Error();                %\vartriangleright% %\texttt{b9ea2f3}%    %\vartriangleright% %Min,CheckZero%
+77.    }                                %\vartriangleright% %\texttt{b9ea2f3}%    %\vartriangleright% %Min,CheckZero%
+78. }                                   %\vartriangleright% %\texttt{e49c7a1}%    %\vartriangleright% %Min,CheckZero%
+\end{lstlisting}
 
 \section{Implementation}\label{ch:implementation}
 
@@ -113,7 +128,9 @@ Commit regions contain the hash and repository of their respective commits, wher
 VaRA also gives us access to every llvm-IR instruction of a program and its attached information.
 Thus, structural CFIs of a program can be collected by examining its compiled instructions.
 According to definition~\ref{def:structural_cfi}, we can store a structural interaction between a commit and a feature, if an instruction is part of a respective commit and feature region.
-For each such interaction we also save the number of instructions it occurs in. 
+As discussed in the previous section, the nesting degree of an instruction equals the number of feature regions it is part of.
+When encountering another instruction a structural interaction occurs in, we update the interaction's nesting degree as the minimum of its current value and the nesting degree of the inspected instruction.
+For each structural CFI we also save the number of instructions it occurs in. 
 This is accomplished by incrementing its instruction counter if we happen to encounter a duplicate. 
 
 With this, we are also able to calculate the size of a feature based on our collected structural CFIs and their respective instruction counters.
@@ -124,7 +141,7 @@ There, VaRA computes information about which code regions have affected an instr
 Checking whether a taint stems from a commit region allows us to extract information about which commits have tainted an instruction.
 Thus, dataflow-based commit-feature interactions can also be collected on instruction level.
 According to definition~\ref{def:dataflow_cfi}, we can store a dataflow-based interaction between a commit and a feature, if an instruction has a respective commit taint while belonging to a respective feature region.
-Consequently said instruction uses data, that was changed by a commit region earlier in the program, as its input, while belonging to a feature region. 
+Consequently said instruction uses data, that was changed by a commit region earlier in the program, as its input. 
 
 jetzt auch VaRA-TS erwähnen ??
 \iffalse

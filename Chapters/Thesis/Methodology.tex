@@ -34,9 +34,9 @@ This way we only take into account commits for which we are certain that they we
 Investigating dataflow inside a program can unveil interactions between its entities that were previously hidden from programmers.
 This can help them understand the extent to which different parts of a program influence each other.
 Furthermore, deploying the introduced analysis in a direct manner could ensure improvements in the daily life of a developer.
-An example for this in our case could be the faciliation of finding the cause of and subsequently fixing bugs in features.
+In the context of our work, an example for this could be the faciliation of finding the cause of and subsequently fixing bugs in features.
 Bugs occuring in certain features could be traced back to the commits responsible for them by factoring in recent commits affecting said features through dataflow. \\
-Previous research has laid the groundwork for researching dataflow interactions between different abstract entities of a program.
+Previous studies have laid the groundwork for researching dataflow interactions between different abstract entities of a program.
 While it has shown a wide range of interesting use-cases, it has focused solely on dataflow between commits.
 That's why we aim to provide first insights into the properties of dataflow-based CFIs.
 Specifically, we investigate how connected commits and features are by analyzing the number of features a commit usually affects through dataflow.
@@ -51,9 +51,8 @@ Here, we differentiate between commits \textsc{inside} and \textsc{outside} of f
 We examine the proportion of inside to outside commits influencing a feature to gauge where most dataflow interactions of a feature stem from.
 Seeing how greatly this proportion varies between features could also tell whether one could be used a predictor for the other.
 Another relationship worth investigating, is the relation between the size of a feature and the number of outside and inside commits interacting with it through dataflow.
-Determining to what extent feature size is the driving factor in this, could tell us whether it is worth considering other possible properties of features responsible for the number of commits affecting its data.
-- in this analysis, our main focus lies on outside commits however, as the set of inside commits interacting with a feature through dataflow mostly matches the set of commits structurally interacting with a feature \\
-- it might be worth comparing whether structural and dataflow relation is the same => why?
+Our main focus lies on outside commits however, as the set of inside commits interacting with a feature through dataflow mostly matches the set of commits structurally interacting with it.
+Determining to what extent feature size is the driving factor in this relation, could tell us whether it is worth considering other possible properties of features in future analyses.
 
 \subsection*{\textbf{RQ3: How do authors interact with features?}}
 
@@ -63,8 +62,7 @@ Similarly to the number of commits implementing a feature, we can now calculate 
 The same applies to commits interacting with features through dataflow, for which we can now determine the authors contributing these commits.
 Here, we only consider outside commits, i.e. commits not constituting code of the feature, since we have already considered all inside commits when investigating the developers implementing a feature.
 We are especially interested in how many authors exclusively interact with a feature through dataflow in comparison to the number of its developers.
-This lets us determine whether the developers that implement features are also the ones mainly responsible for changes affecting them through dataflow.
-
+This lets us determine whether the developers that implement features are also the ones mainly responsible for changes affecting them through dataflow. \\
 Finally, we relate both types of author interactions to the respective size of a feature.
 Regarding structural interactions, this allows us to determine whether a feature's extent in the source-code of a project is driving factor in the amount of authors needed to implement it. 
 Software companies could use evidence on this issue as advice on how to allocate programmers on to-be implemented features.
