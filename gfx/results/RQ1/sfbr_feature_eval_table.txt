@@ -1,0 +1,6 @@
+    Projects      Corr Def Ftr Size - Cmmts ND1    P-Value    Corr Pot Ftr Size - Any Cmmts    P-Value
+ 0  xz                                     0.9        0                                0.91       0
+ 1  gzip                                   0.92       0.02                             0.93       0.02
+ 2  bzip2                                  0.89       0                                0.59       0.13
+ 3  lrzip                                  0.98       0.12                             0.97       0.16
+ 4  Mean                                   0.92       0.04                             0.85       0.08

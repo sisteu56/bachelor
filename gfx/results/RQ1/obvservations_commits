@@ -1,0 +1,27 @@
+- here we examine the numbers of features a commit structurally interacts with, specifically only for commits that are part of structural interactions
+- for each interaction we differentiate between their respective minimum determined nesting degrees
+- if an interaction has a nesting degree of 1, we can be more certain that a commit was used to change that feature specifically, than for an interaction of higher nesting degree
+
+- without any restrictions we find that average numbers of features changed is between 1.2 and 1.5 for the projects xz, gzip and lrzip
+- this number is exceptionally higher for bzip2 at 3.8
+- the reason for this can be seen in figure x, where for the projects with a lower average, most commits only structurally interact with a single feature and that at nd1
+- accordingly we calcaluated that fraction of commits interacting with more than one feature ranges from 15% to 32% for them
+- for bzp2 on the other hand, most commits structurally interact with multiple features even if we only consider interactions of nd1
+- in our analysis we first apply two restrictions separately, which we later combine to get a final lower bound for the number of commits changed
+
+- in the first restriction, we only consider structural interactions at nesting degree, meaning interactions that stem from instructions belonging to a single feature region
+- among all projects we notice a significant drop in the average number of features changed, which shows in the project-wide mean decreasing from 1.94 to 1.54
+
+- the second restriction we apply is filtering large commits in our analysis, namely tukeys fence for the size of commits at k.value of 1.5
+- here, the size of a commit is measured as the number of source-code lines changed by a commit
+- in contrast to our first restriction we only notice an insignificant drop or even a slight increase for the projects gzip and lrzip respectively 
+- the plot in figure 1.b shows that most large commits being filtered are those interacting with a single feature at nd1 explaining our observation
+- on the other hand, the second restriction still achieves a large drop in the average numbers of features changed for the projects xz and bzip2, although not as signifact as our first restriction
+- this can again be explained in figure 1.b which shows that most commits filtered are the ones changing more than one feature
+
+- if we now apply both restrictions at the same time, we can determine a significant decrease in the average numbers of features changed in all projects
+- the project-wide mean went from 1.94 to 1.33 with the largest decrease for bzip2 from 3.78 to 2.14
+- the smallest decrease both numerically as well as proportionally occured for gzip, which had the lowest average originally
+- xz has the lowest average at 1.04 after applying the two restrictions, while bzip2 still has the highest average at 2.14
+- the project-wide mean fraction of commits interacting with more than one feature decrease by almost 50% from 0.31 to 0.17 with xz, gzip and lrzip at around 0.08
+- a large fraction of bzip2's commits still interact with multiple features even after applying the restrictions

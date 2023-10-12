@@ -47,12 +47,7 @@ This pattern can also be matched to the \nameref{def:dataflow_relation} ($\right
 \emph{A commit C with its commit regions $r_{1C}$, $r_{2C}$,... and a feature F with its feature regions $r_{1F}$, $r_{2F}$,... interact through dataflow, if at least one commit region $r_{iC}$ interacts with a feature region $r_{jF}$ through dataflow, i.e. $r_{iC}$ $\rightsquigarrow$ $r_{jF}$.}
 \end{definition}
 
-\begin{lstlisting}[language=C++, caption={This code example contains both structural as well as dataflow-based commit feature interactions.
-Commit \texttt{fc3a17d} implements the functionality of \texttt{FeatureDouble} for this function.
-It follows that a structural commit-feature interaction can be found between them, as their respective commit and feature regions structurally interact.
-Commit \texttt{7edb283} introduces the variable \texttt{ret} that is later used inside the feature region of \texttt{FeatureDouble}. 
-This accounts for a commit-feature interaction through dataflow, as data that was produced within a commit region is used as input 
-by an instruction belonging to a feature region of \texttt{FeatureDouble} later on in the program.}, label=DescriptiveLabel]	
+\begin{lstlisting}[language=C++, caption={Illustration of structural and dataflow-based CFIs}, label=DescriptiveLabel]	
 1. int calc(int val) {                             %\vartriangleright% %\texttt{d93df4a}%
 2.    int ret = val + 5;                           %\vartriangleright% %\texttt{7edb283}%
 3.    if (FeatureDouble) {                         %\vartriangleright% %\texttt{fc3a17d}%    %\vartriangleright% %FeatureDouble%
@@ -61,6 +56,12 @@ by an instruction belonging to a feature region of \texttt{FeatureDouble} later 
 6.    return ret;                                  %\vartriangleright% %\texttt{d93df4a}%   
 7. }                                               %\vartriangleright% %\texttt{d93df4a}%   
 \end{lstlisting}
+\textsf{The above code snippet contains both structural as well as dataflow-based commit-feature interactions.
+Commit \texttt{fc3a17d} implements the functionality of \texttt{FeatureDouble} for this function.
+It follows that a structural commit-feature interaction can be found between them, as their respective commit and feature regions structurally interact.
+Commit \texttt{7edb283} introduces the variable \texttt{ret} that is later used inside the feature region of \texttt{FeatureDouble}. 
+This accounts for a commit-feature interaction through dataflow, as data that was produced within a commit region is used as input 
+by an instruction belonging to a feature region of \texttt{FeatureDouble} later on in the program.}
 
 \section{Combination of CFIs}\label{sec:combination_cfis}
 
@@ -103,7 +104,7 @@ This observation also bears consequences in the way we look at and judge structu
 The nesting degree of a structural CFI is a useful measure to estimate the likelihood for which a commit was used to specifically change or implement functionality of a feature.
 We can be most certain for a structural CFI with a nesting degree of one and become less certain for interactions with higher nesting degrees. \\
 
-\begin{lstlisting}[language=C++, caption={The above code-snippet illustrates how considering the nesting degree of a structural CFI can add important context to its meaning.\\ We can see that the commit \texttt{b9ea2f3} exclusively implements functionality of the \texttt{CheckZero}-feature. Still, it also structurally interacts with the \texttt{Min}-feature in lines 75-77. The according structural CFI only having a nesting degree of 2, allows us to be less certain of its specifc purpose. At the same time, the structural interaction between \texttt{b9ea2f3} and \texttt{CheckZero} has nesting degree of 1, confirming our believe that the interaction's commit was used to specifically implement the \texttt{CheckZero}-feature.}, label=DescriptiveLabel]	
+\begin{lstlisting}[language=C++, caption={Use-Case of Structural CFI's nesting degree}, label=DescriptiveLabel]	
 26. if (CheckZero) {                    %\vartriangleright% %\texttt{b9ea2f3}%    %\vartriangleright% %CheckZero%
 27.    if (x == 0) {                    %\vartriangleright% %\texttt{b9ea2f3}%    %\vartriangleright% %CheckZero%
 28.       throw Error();                %\vartriangleright% %\texttt{b9ea2f3}%    %\vartriangleright% %CheckZero%
@@ -119,6 +120,12 @@ We can be most certain for a structural CFI with a nesting degree of one and bec
 77.    }                                %\vartriangleright% %\texttt{b9ea2f3}%    %\vartriangleright% %Min,CheckZero%
 78. }                                   %\vartriangleright% %\texttt{e49c7a1}%    %\vartriangleright% %Min,CheckZero%
 \end{lstlisting}
+\textsf{The above code-snippet illustrates how considering the nesting degree of a structural CFI can add important context to its meaning. \\ 
+We can see that the commit \texttt{b9ea2f3} exclusively implements functionality of the \texttt{CheckZero}-feature. 
+Still, it also structurally interacts with the \texttt{Min}-feature in lines 75-77. 
+The according structural CFI only having a nesting degree of 2, allows us to be less certain of its specifc purpose. 
+At the same time, the structural interaction between \texttt{b9ea2f3} and \texttt{CheckZero} has a nesting degree of 1, confirming that the interaction's commit was used to specifically implement the \texttt{CheckZero}-feature.}
+
 
 \section{Implementation}\label{ch:implementation}
 

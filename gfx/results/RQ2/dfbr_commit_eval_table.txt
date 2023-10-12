@@ -1,0 +1,6 @@
+    Projects      Num Active Commits    Likelihood for Structural to Coincide With Dataflow Interaction  Proportion of Dataflow Origin (Inside, Outside) for Dataflow Interactions
+ 0  xz                       1039                                                                 0.864  (0.271, 0.729)
+ 1  gzip                      194                                                                 0.935  (0.398, 0.602)
+ 2  bzip2                      37                                                                 0.971  (0.6, 0.4)
+ 3  lrzip                     717                                                                 0.896  (0.434, 0.566)
+ 4  Mean                      496.75                                                              0.916  (0.426, 0.574)

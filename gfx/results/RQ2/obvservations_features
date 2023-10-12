@@ -1,0 +1,25 @@
+- here we investigate the number of commits a feature interacts with through dataflow, i.e. the number of commits that affect the data of a feature
+- for these commits we differentiate between commits that are (partly) located inside the feature and those that are located outside the feature
+- we already mentioned that we can easily determine this by checking whether the commit structurally interacts with that feature
+- we are especially interested in these outside commits, as the dataflow of these interactions stems from outside the regions of a feature and subsequently flows inside them
+
+- in the first plot we splot the commits interacting with a feature through dataflow into inside and outside commits and display their respective number for each feature
+- for the projects xz, gzip and lrzip we find that more dataflow interactions of features stem from outside than from inside commits
+- this difference is most apparent for xz where the mean above 21 for outside commits and only 8 for inside commits
+- still the number of inside commits affecting features through dataflow does exceed the number of outside commits for a couple of features, such as Stdout of xz and force,no_name of gzip
+- a feature that catches the eye is the force,no_time,no_name feature of gzip with almost 60 outside commits affecting it through dataflow and only a single inside commit doing so
+- (vielleicht näheren Blick darauf werfen)
+- we notice a large spread in the number of outside commits interacting with features through dataflow for all projects except lrzip, with ranges from 2 to nearly 80 for xz for example
+
+- in the second plot type we contrast the size of a feature to the number of outside and inside commits affecting it through dataflow in a regression plot
+- we also calculated the exact correlation coefficents shown in table 2.b
+- starting with the correlation between feature size and the number of inside commits, we have calculated a clear positive correlation for all projects
+- the corr. coef. range from 0.666 for bzip2 to 0.987 for lrzip, where each corr. has a low p-value giving us confidence the truthfulness of it
+
+- this observation changes when contrasting the size of a feature to the number of outside commits interacting with it through dataflow
+- for xz we still note a clear positive correlation at 0.824 with a low p-value
+- this observation cannot be repeated for the projects gzip and bzip2 however, where the correlation coeff. centers around 0 with a high p-value close to 1
+- this implies that feature size and the number of outside interacting commits is uncorrelated in these projects
+- the regression plot of gzip shows us that the feature with most outside interacting commits force,no_time,no_name has a feature size close to 0
+- at the same time the largest feature force,no_name with a size of over 5000 has less than half interacting outside commits
+- the corr. coef. and p-value gathered for lrzip doesn't provide us with definite results

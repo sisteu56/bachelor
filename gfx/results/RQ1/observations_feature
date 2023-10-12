@@ -1,0 +1,36 @@
+Feature:
+	1st plot:	- plot the number of structurally interacting commits for each feature of the project
+			- differentiate between interactions where feature regions are nested or appear exclusively
+			- reason: if they interact at nd1, they were most likely used to specifically implement the feature
+			- if they interact at nd>1, they could have been used to implement another feature
+			- large spread of structurally interacting commits for features
+		  	- most interactions occur at nesting degree of the involved features
+		  	- the commits of these interactions were most likely intended to implement the interaction's feature
+		  	- still there are several features where each interaction is at nd over 1
+		  	- the range of interacting commits varies greatly between the differen projects
+		  	- for example is the highest of bzip2 at 7 for feature x, but at over 60 in gzip for feature y
+		  	- the lowest number of interacting commits is at 1 for xz, gzip and bzip2 and 6 for lrzip
+	2nd plot:	- plot the size of a feature in a bar plot
+			- the y-ticks stand for the number of instructions implementing a feature, i.e. the number of instructions stemming from its feature regions
+			- we differentiate between definite feature size, where we only count instructions that are exclusively part of only one feature region
+			- for the potential feature size, we also factor in instructions that are part of multiple feature regions at once
+			- for these instructions there is less certainty whether they really implemented functionality of the feature
+			- the largest feature size we encounter is over 5000 for the feature force,no_name, which is also the feature with most implementing commits
+			- at the same time are several features in all projects that are with a very small feature size of under 20
+			- for the projects xz,bzip2 and lrzip the mean feature size is between 200 and 400 wheras gzip has a mean of around 1.2k
+			- that is mostly due to the very large feature force,no_name that encompasses 4000 more instructions than the second smallest feature among all projects
+			- for the smaller features of all projects we notice that much of the overall feature size is made up of potential feature size
+			- for xz, gzip and lrzip larger features mostly consist of definite feature size
+			- this is not the case for bzip2, where for each feature potential instructions account for most of the feature isze
+	3rd plot:	- here, data of the two previous plots is combined into a regression plot
+			- we plot the size of a feature against the number of commits that structurally interact with it
+			- specifically the chart contains two regression plot
+			- in the blue one we only consider commits that exclusively implement the feature and the definite size of a feature
+			- in the orange one we consider all commits that structurally interact with the feature and the potential size of a feature
+			- for both plots we can see a clear positive correlation between the feature size and the number of its interacting commits
+			- in table 1.b we have displayed the exact correlation coefficients for each project, which is around 0.9 for every project in our more restrictive/specifc consideration
+			- for our broader consideration the correlation coefficients are approximately the same for each project, except for bzip2
+			- for bzip2, correlation is about .3 less if we contrast potential feature size and the number of its interacting commits
+			- we note that bzip2 also is the only project where the potential feature size massively exceeds its definite size
+			- the p-values are quite low for each correlation coefficient at an average of 0.04 and 0.08 respectively
+			- giving us high confidence that the size of a feature and the number of struct. interacting commits are indeed positviely correlated
