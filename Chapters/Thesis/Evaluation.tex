@@ -9,58 +9,97 @@ This chapter evaluates the thesis core claims.
 
 \subsection*{\textbf{RQ1: Evaluation of Structural CFIs}}\label{sec:eval_struc_cfis}
 
-\subsubsection*{Usage of Commits in Feature Development}\label{sec:eval_commit_usage}
-
 \subsubsection*{Patterns around Feature Development}\label{sec:eval_feature_development}
 
-- aside from the number of commits used during its development, we can also extract the size of a feature from structural CFIs \\
-- these are the main properties we consider when investigating patterns around feature development \\
-- additionally, we factor in the nesting degree of structural CFIs into our analysis to add more information to our main properties \\
-- figure \ref{fig:feature_sfbr_plot} illustrates our results in three plots for each project \\
-- each row displays the results for one project, where the name of the respective project is featured on the far left \\
-- the plots of the first column showcase the number of structurally interacting commits for each feature \\
-- we differentiate between interactions with a nesting degree of 1, which are colored in blue, and ones with a higher nesting degree colored in orange \\
-- from previous explanations, it follows that the blue bar represents commits, which were used to specifically implement the feature \\
-- the orange bar represents commits for which we are less sure of its specific purpose, where they could have been used to implement its respective feature and others at the same time \\
-- overall, we notice a large spread of structurally interacting commits across all projects \\
-- most interactions occur at a nesting degree of 1, especially for features with many interacting commits in comparison to other features of their respective project \\
-- interestingly, for features with few interacting commits, a large proportion of their interactions have a higher nesting degree than 1 \\
-- we also notice that the range of interacting commits varies greatly between the different projects \\
-- for example is the highest of bzip2 at 7 for feature the verbosity feature, but at over 60 in gzip for the force,no\_name feature \\
-- the lowest number of interacting commits is at 1 for xz, gzip and bzip2 and 6 for lrzip \\
-- the projects xz and bzip2 bear some similarities, such as the verbosity feature having the highest number of interacting commits \\
-- both projects also share a f/ForceOverwrite feature, which has an average number of interacting commits compared to other features with a large portion of interactions at a higher nesting degree \\
-- in the second column, we plot the feature sizes for each project \\
-- the y-ticks represent the number of instructions implementing a feature, i.e. the number of instructions stemming from its feature regions \\
-- we differentiate between definite feature size, where we only count instructions that are exclusively part of one feature region \\ 
-- and the potential feature size, where we also count instructions that are part of multiple feature regions at once \\
-- for these instructions there is less certainty whether they really implemented functionality of that specific feature \\
-- again, we notice a pattern similar to that of the first column, where larger features are mostly made up out of definite feature size and smaller features have a high proportion of potential feature size \\
-- this is not the case for bzip2, where for each feature potential instructions account for most of the feature size \\
-- the largest feature size we encounter is over 5000 for the feature force,no\_name, which is also the feature with most implementing commits \\
-- at the same time are several features in all projects that are with a very small feature size with under 20 instructions \\
-- for the projects xz,bzip2 and lrzip the mean feature size is between 200 and 400 wheras gzip has an average of around 1.2k due to the mentioned very large feature with over 4000 more instructions than the second largest feature \\
-- in the third colum of figure \ref{fig:feature_sfbr_plot}, the data used in the two previous columns is combined into two regression plots \\
-- specifically, we plot the size of a feature against the number of commits that structurally interact with it \\
-- for the regression plot colored in blue, we only consider commits structurally interacting with features at a nesting degree of one and the definite size of a feature \\
-- the displayed values are identical to the values shown in blue bars regarding the two previous columns \\
-- we consider all interacting commits regardless of the interaction's nesting degree and all instructions potentially implementing a feature in the second regression plot \\
-- as we now factor in the combined values of the blue and orange bars of the previous columns, the color of the plot is taken from the combination of blue and orange \\
-- the respective correlation coefficents and p-values, calculated via the pearson correlation coefficent measuring the linear relationship between two datasets, are shown at the bottom-right \\
-- across all projects and both linear regressions, we note a clear positive correlation between the size of a feature and the number of structurally interacting commits \\
-- for both linear regressions, the correlation coefficients are quite high, ranging from ca. 0.9 for xz to ca. 0.98 for lrzip \\
-- bzip2 makes for the only exception here, where the correlation coefficient drops from 0.89 for the broader to 0.59 for the more specific consideration \\
-- the p-values are very low for all pearson correlations ranging from close to zero for xz to 0.16 for lrzip indecating a high probality that both datasets are not un-correlated \\
-- combined with the high correlation coefficients, this gives us high confidence that size of a feature and the number of commits used during its development are indeed strongly positively correlated 
+Aside from the number of commits used during its development, we can also extract the size of a feature from its structural CFIs.
+These are the main properties we consider when investigating patterns around feature development.
+Additionally, we factor in the nesting degree of structural CFIs during our analysis allowing us to extract more information from both properties.
+Figure \ref{fig:feature_sfbr_plot} illustrates our results in three different plots for each project.
+Each row displays the results for one project with the name of the respective project being shown on the far left. \\
+In the first column, we show the number of structurally interacting commits for each feature in a bar-plot.
+We differentiate between interactions with a nesting degree of 1, which are colored in blue, and ones with a higher nesting degree colored in orange.
+The orange bar represents commits for which we are less certain of their specific purpose, where they could have been used to implement its respective feature and others at the same time. 
+Overall, we notice a large spread of structurally interacting commits between features across all projects.
+Most interactions occur at a nesting degree of 1, especially for features with many interacting commits in comparison to other features of their respective project.
+Interestingly, for features with few interacting commits, a large proportion of their interactions have a higher nesting degree than 1.
+We also notice that the range of interacting commits varies greatly between the different projects.
+In \textsc{bzip2}, the highest number of interacting commits is 7 for the \textsc{verbosity} feature, but at over 60 for the \textsc{force,no\_name} feature in \textsc{gzip}.
+The lowest number of interacting commits is 1 for all projects, except lrzip with 6, indicating that some features need very little work to be implemented.
+The projects \textsc{xz} and \textsc{bzip2} bear some similarities, such as the \textsc{Verbosity}-feature having the highest number of interacting commits.
+Both \textsc{xz} and \textsc{bzip2} also share a \textsc{ForceOverwrite}-feature, which has an average number of interacting commits in both projects, with a large portion of interactions having a nesting degree higher than one. \\
+In the second column, we display the different feature sizes for each project in a bar-plot.
+The y-ticks represent the number of instructions implementing a feature, i.e. the number of instructions stemming from its feature regions.
+The blue bar represents the definite size of a feature, where we only count instructions that are exclusively part of its respective feature.
+The orange bar adds the potential size of a feature on top, for which we also count instructions that are part of multiple feature regions at once.
+For these instructions there is less certainty whether they really implemented functionality of that specific feature.
+It also allows us to see how common feature nesting is inside a project and which features are nested inside other features.
+Upon examining the shown feature sizes, we notice a pattern similar to that of the first column.
+Here, larger features mostly consist of definite feature size, whereas smaller features have a high proportion of potential feature size.
+This is not the case for \textsc{bzip2}, where all features have a high amount of potentially implementing instructions.
+Surprisingly, this is also true for features that only have commits structurally interacting with them at nesting degree one.
+The largest combined feature size we encounter is above 5000 for the feature \textsc{force,no\_name}, which is also the feature with most interacting commits.
+For the projects \textsc{xz}, \textsc{bzip2} and \textsc{lrzip} the average feature size ranges between 200 and 400, while \textsc{gzip} has an average around 1.200.
+This is the due to the very large feature we mentioned, which encompasses 4000 more instructions than the second largest feature. \\
+In the third column of figure \ref{fig:feature_sfbr_plot}, the datasets used in the two previously dicussed plots are related inside two regression plots.
+Broadly speaking, we plot the size of a feature against the number of commits that structurally interact with it.
+For the regression plot colored in blue, we only consider the definite size of a feature and commits structurally interacting with them at a nesting degree of one.
+The values of the displayed scatter points are identical with the values of the blue bars in the two previous columns. 
+In the second regression plot, we consider all structurally interacting commits and all instructions regardless of any nesting degree.
+As we now factor in the combined values of the blue and orange bars of the previous columns, the color of the plot is a combination of the two.
+The respective correlation coefficents and p-values are shown at the bottom-right of each graph.
+They are calculated with the pearson correlation coefficent, which measures the linear relationship between two datasets.
+Across all projects and both linear regressions, we note a clear positive correlation between the size of a feature and the number of structurally interacting commits.
+For both linear regressions, the correlation coefficients are quite high, ranging from ca. 0.9 for \textsc{xz} to ca. 0.98 for \textsc{lrzip}.
+\textsc{bzip2} makes for the only exception here, where the correlation coefficent drops from 0.89 for the broader to 0.59 for the more specific consideration.
+The p-values are very low for all pearson correlations ranging from close to zero for \textsc{xz} to 0.16 for \textsc{lrzip} indicating a high probality that both datasets are not un-correlated.
+Combined with the high correlation coefficients, this gives us high confidence that size of a feature and the number of commits used during its development are strongly positively correlated.
+
+\clearpage
 
 \begin{figure}[htbp]
   \centering
-  \includesvg[height=18cm]{gfx/results/RQ1/feature-sfbr-plot.svg}
+  \includesvg[height=19cm]{gfx/results/RQ1/feature-sfbr-plot.svg}
   \caption{Feature Structural CFIs Plot}
   \label{fig:feature_sfbr_plot}
 \end{figure}
 
+\subsubsection*{Usage of Commits in Feature Development}\label{sec:eval_commit_usage}
+
 \subsection*{\textbf{RQ2: Evaluation of Dataflow-based CFIs}}\label{sec:eval_df_cfis}
+
+\subsubsection*{Proportion and Dependencies of Commits Affecting Features through Dataflow}\label{sec:eval_commit_dfbr}
+
+- the initial step in evaluating what fraction of commits affect features through dataflow, is determing the number of active commits \\
+- active commits are represented by at least one commit region inside a program, meaning that they fullfil the minimum requirement to be part of a dataflow-based CFI \\
+- the respective values are shown in the first column of table \ref{tab:commit_dfbr_table} for each project \\
+- there is a wide range in the number of active commits across all projects, which could influence  \\
+- we determined \textsc{xz} to have the highest number of active commits at 1039, while \textsc{bzip2} only has a tiny fraction of that with 37 \\
+- in the first plot of figure \ref{fig:commit_dfbr_plot}, we show what percentage of them interact with features through dataflow \\
+- we notice that the respective percentages are vastly different from project to project \\
+- the majority of \textsc{gzip}'s active commits are part of dataflow-based CFIs at 53.6 \% \\
+- this percentage gets halved for \textsc{bzip2} with about 27 \%, with another large drop to 11.3\% for \textsc{xz} \\
+- this means that roughly every second commit in \textsc{gzip}, every fourth commit in \textsc{bzip2} and every ninth commit in \textsc{xz} affects features through dataflow \\
+- 
+
+\begin{figure}[htbp]
+  \centering
+  \includesvg[height=8cm]{gfx/results/RQ2/proportional_commit_dfbr_plot.svg}
+  \caption{Proportional Dataflow-Plot for Commits}
+  \label{fig:commit_dfbr_plot}
+\end{figure}
+
+\begin{table}[t]
+\caption{Additional Information for Dataflow Analysis of Commits}
+\label{tab:commit_dfbr_table}
+\begin{tabular}{llrr}
+ & Projects & Number of Active Commits & Likelihood for Structural to Coincide \\
+ & 	    &			       & With Dataflow Interaction \\
+ & xz & 1039 & 0.864 \\
+ & gzip & 194 & 0.935 \\
+ & bzip2 & 37 & 0.971 \\
+ & lrzip & 717 & 0.896 \\
+\end{tabular}
+\end{table}
 
 \subsection*{\textbf{RQ3: Evaluation of Author Interactions}}\label{sec:eval_author_interactions}
 
