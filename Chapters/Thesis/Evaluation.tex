@@ -69,17 +69,34 @@ Combined with the high correlation coefficients, this gives us high confidence t
 
 \subsubsection*{Proportion and Dependencies of Commits Affecting Features through Dataflow}\label{sec:eval_commit_dfbr}
 
-- the initial step in evaluating what fraction of commits affect features through dataflow, is determing the number of active commits \\
-- active commits are represented by at least one commit region inside a program, meaning that they fullfil the minimum requirement to be part of a dataflow-based CFI \\
-- the respective values are shown in the first column of table \ref{tab:commit_dfbr_table} for each project \\
-- there is a wide range in the number of active commits across all projects, which could influence  \\
-- we determined \textsc{xz} to have the highest number of active commits at 1039, while \textsc{bzip2} only has a tiny fraction of that with 37 \\
-- in the first plot of figure \ref{fig:commit_dfbr_plot}, we show what percentage of them interact with features through dataflow \\
-- we notice that the respective percentages are vastly different from project to project \\
-- the majority of \textsc{gzip}'s active commits are part of dataflow-based CFIs at 53.6 \% \\
-- this percentage gets halved for \textsc{bzip2} with about 27 \%, with another large drop to 11.3\% for \textsc{xz} \\
-- this means that roughly every second commit in \textsc{gzip}, every fourth commit in \textsc{bzip2} and every ninth commit in \textsc{xz} affects features through dataflow \\
-- 
+The initial step in evaluating what fraction of commits affect features through dataflow, is determing the number of active commits.
+Active commits are represented by at least one commit region inside a program, meaning that they fullfil the minimum requirement to be part of a dataflow-based CFI.
+The respective values are shown in the first column of table \ref{tab:commit_dfbr_table} for each project.
+We determined \textsc{xz} to have the highest number of active commits at 1039, while \textsc{bzip2} only has a tiny fraction of that at 37.
+In the first plot of figure \ref{fig:commit_dfbr_plot}, the bars colored in red show what percenateg of commits interact with features through dataflow.
+We notice that the respective percentages are vastly different from project to project.
+The majority of \textsc{gzip}'s active commits are part of dataflow-based CFIs at 53.6\%.
+This percentage gets halved for \textsc{bzip2} with about 27\%, with another large drop to 11.3\% for \textsc{xz}.
+This means that roughly every second commit in \textsc{gzip}, every fourth commit in \textsc{bzip2} and every ninth commit in \textsc{xz} affects features through dataflow.
+The bars colored in grey display the fraction of active commits structurally interacting with features.
+In addition to the obvious fact of how often commits are used to implement features, this also gives us an estimation on the extend of feature-code in a project.
+The more commits are part of structural CFIs, the more of the code contributed by them and therefore the overall code of a project will be part of feature regions.
+Logically, the accuracy of this estimation depends on many factors, such as the extend to which commits contributing code to features, also contribute code to other parts of a program.
+Still, given the large disparity in the percentage of commits with structural interactions, we can be relatively certain that \textsc{xz} has the lowest proportion and \textsc{gzip} the largest proportion of feature-code with \textsc{bzip2} somewhere inbetween.
+Comparing the two bar-types, we notice that the percentage of commits with structural interactions is lower than the percentage of commits with dataflow interactions for each project.
+This phenomenon can be explained considering the values presented in the second column of table \ref{tab:commit_dfbr_table}.
+There, we show the probablity for a commit to be part on any dataflow-based CFI, given that said commit is part of any structural CFI.
+We see that the probabilities are roughly the same for each project at around 90\%.
+This means that by only taking into account commits part of structural CFIs, we already encounter a lot of commits that affect features through dataflow.
+If we then consider the entire set of active commits, the number of commits with dataflow interactions will likely exceed the number of commits with structural interactions.
+Across all projects, the probability of a commit interacting with features through dataflow, given that it is part of structural CFIs, is much higher than the same probability for any active commit.
+This is a clear indication that our assumptions in section \ref{sec:combination_cfis}, that structural CFIs heavily coincide with dataflow-based CFIs, are correct.
+Since our intent is to especially focus on commits whose interactions with features can only be discovered by employing our dataflow analysis, we now aim to quantify these commits in the investigated projects.
+For this, we examine the relative difference between the percentages of commits with structural and commits with dataflow interactions.
+This difference roughly determines what share of commits are part of the discussed more interesting dataflow interactions.
+It is the smalltest for \textsc{bzip2} at 10\% and slightly higher than that for \textsc{gzip} at 15\%.
+\textsc{xz} has by far the biggest relative difference at almost 49\%, which means that our dataflow analysis reveals many additional interactions here.
+We explore the topic of different dataflow interaction types more thoroughly in our second plot, which focuses on the \textsf{origin} of dataflow.
 
 \begin{figure}[htbp]
   \centering
@@ -92,12 +109,11 @@ Combined with the high correlation coefficients, this gives us high confidence t
 \caption{Additional Information for Dataflow Analysis of Commits}
 \label{tab:commit_dfbr_table}
 \begin{tabular}{llrr}
- & Projects & Number of Active Commits & Likelihood for Structural to Coincide \\
- & 	    &			       & With Dataflow Interaction \\
- & xz & 1039 & 0.864 \\
- & gzip & 194 & 0.935 \\
- & bzip2 & 37 & 0.971 \\
- & lrzip & 717 & 0.896 \\
+ Projects & Number of Active Commits & Probability for Commit to be part of dataflow CFI \\
+ 	  & 			     & given that it is part of structural CFI \\
+xz & 1039 & 0.883 \\
+gzip & 194 & 0.933 \\
+bzip2 & 37 & 0.889 \\
 \end{tabular}
 \end{table}
 

@@ -19,7 +19,7 @@ This gives us a direct estimate on how many commits were used in the development
 Our analysis also allows us to measure the size of feature, which can put the number of commits used to implement a feature into perspective.
 We refine our investigation by factoring in the nesting degrees~\ref{sec:nesting_degree} of our collected structural CFIs.
 This allows us to differentiate between the \textsc{definite} and \textsc{potential} size of a feature as well as most likely and potentially implementing commits. \\
-Secondly, we want to examine how many features a commit interacts with structurally, i.e. how many features a commit usually changes. 
+Secondly, we examine how many features a commit interacts with structurally, i.e. how many features a commit usually changes. 
 This is especially interesting when considering best practices surrounding the usage of commits.
 It is preferred to keep commits atomic\cite{hundhausen2021commit_metrics} meaning they should only deal with a single concern.
 As different features implement separate functionalities, it's unlikely for a commit to change several features while dealing with the same concern.
