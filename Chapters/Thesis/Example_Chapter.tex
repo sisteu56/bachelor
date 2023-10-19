@@ -74,21 +74,8 @@ From definition~\ref{def:structural_cfi}, we know that the instruction belongs t
 It follows that data changed inside the instruction produces commit taints for instructions that use the data as input. 
 Now, if instructions that use the data as input are also part of a feature region of the interaction's respective feature, the commit and feature of the structural interaction will also interact through dataflow.
 However, such dataflow is very likely to occur, as features are functional units, whose instructions build and depend upon each other. 
-Knowing this we can differentiate between dataflow-based CFIs that occur within the regions of a feature and those where data flows from outside the regions of a feature into it.
+Knowing this we can differentiate between dataflow-based CFIs that occur within the regions of a feature and those where data flows from outside the regions of a feature into them.
 From prior explanations, it follows that this differentiation can be accomplished by simply checking whether a commit that influences a feature through dataflow, also structurally interacts with it. 
-
-\section{Feature Size}\label{sec:feature_size}
-
-When examining commit-feature interactions in a project, it is helpful to have a measure that can estimate the size of a feature.
-We can use such a measure to compare features with each other and, thus, put the number of their interactions into perspective.
-Considering our implementation, it makes most sense to define the size of a feature as the number of instructions implementing its functionality inside a program.
-As the instructions inside the regions of a feature implement its functionality, we can the define the size of a feature as follows:
-\begin{definition} \label{def:feature_size}
-\emph{The} size \emph{of a feature is the number of instructions that are part of its feature regions.}
-\end{definition}
-It's possible to calculate the defined size of a feature by calculating the number of instructions in which structural CFIs occur.
-That is, because every instruction that is part of a feature region accounts for a structural commit-feature interaction, as every instruction is part of exactly one commit region as shown in the beginning of this section.
-It follows, that we do not miss any instructions that are part of feature regions and do not count any such instruction more than once. 
 
 \section{Nesting Degree of Structural CFIs}\label{sec:nesting_degree}
 
@@ -126,6 +113,25 @@ Still, it also structurally interacts with the \texttt{Min}-feature in lines 75-
 The according structural CFI only having a nesting degree of 2, allows us to be less certain of its specifc purpose. 
 At the same time, the structural interaction between \texttt{b9ea2f3} and \texttt{CheckZero} has a nesting degree of 1, confirming that the interaction's commit was used to specifically implement the \texttt{CheckZero}-feature.}
 
+\section{Feature Size}\label{sec:feature_size}
+
+When examining commit-feature interactions in a project, it is helpful to have a measure that can estimate the size of a feature.
+We can use such a measure to compare features with each other and, thus, put the number of their interactions into perspective.
+Considering our implementation, it makes most sense to define the size of a feature as the number of instructions implementing its functionality inside a program.
+As the instructions inside the regions of a feature implement its functionality, we can the define the size of a feature as follows:
+\begin{definition} \label{def:feature_size}
+\emph{The} size \emph{of a feature is the number of instructions that are part of its feature regions.}
+\end{definition}
+With the used defintion, we face the issue that not every considered instruction definetly implements the feature.
+We therefore introduce the concept of a \textsf{definite} feature size, in which we only count instructions where the feature's regions appear exclusively.
+These are the same instructions that we consider for the normal size of a feature and which only have a nesting degree of one.
+For them, we are more certain that they have implemented the feature specifically and not another feature whose regions they are also part of.
+
+\iffalse
+It's possible to calculate the defined size of a feature by calculating the number of instructions in which structural CFIs occur.
+That is, because every instruction that is part of a feature region accounts for a structural commit-feature interaction, as every instruction is part of exactly one commit region as shown in the beginning of this section.
+It follows, that we do not miss any instructions that are part of feature regions and do not count any such instruction more than once. 
+\fi
 
 \section{Implementation}\label{ch:implementation}
 
@@ -133,15 +139,17 @@ The detection of structural as well as dataflow-based commit-feature interaction
 Additionaly to commit regions, VaRA maps information about its feature regions onto the compiler's IR during its construction.
 Commit regions contain the hash and repository of their respective commits, whereas feature regions contain the name of the feature they originated from.
 VaRA also gives us access to every llvm-IR instruction of a program and its attached information.
-Thus, structural CFIs of a program can be collected by examining its compiled instructions.
-According to definition~\ref{def:structural_cfi}, we can store a structural interaction between a commit and a feature, if an instruction is part of a respective commit and feature region.
-As discussed in the previous section, the nesting degree of an instruction equals the number of feature regions it is part of.
-When encountering another instruction a structural interaction occurs in, we update the interaction's nesting degree as the minimum of its current value and the nesting degree of the inspected instruction.
-For each structural CFI we also save the number of instructions it occurs in. 
+To accommodate later evaluations using nesting degrees, we create reports featuring a more complex datatype than a sole CFI.
+For this, we specifically save which features a commit structurally interacts with at the same time, i.e. inside the same instructions.
+We know that an instruction is always part of exactly one commit region, but could possibly belong to any number of feature regions.
+According to definition~\ref{def:structural_cfi}, we encounter a structural CFI, if an instruction belongs to at least one feature region.
+For every such instruction, we store the discussed interaction, as the commit and the features present in the instruction.
+For each interaction, we also save the number of instructions it occurs in. 
 This is accomplished by incrementing its instruction counter if we happen to encounter a duplicate. 
+By creating complex structural reports, we can not only determine the nesting degree\ref{def:nesting_degree} of each structural CFI later on, but also the nesting degrees of the instructions they occured in.
 
-With this, we are also able to calculate the size of a feature based on our collected structural CFIs and their respective instruction counters.
-Following the explanations from section~\ref{sec:feature_size}, we can compute the size of a feature as the sum over the instruction counters of all found structural CFIs the feature is part of. 
+With this, we are also able to calculate the size of a feature based on our collected structural interactions and their respective instruction counters.
+We can compute the size of a feature as the sum over the instruction counters of all found interactions the feature is part of. 
 
 In the \nameref{sec:interaction_analysis} section, we discussed the taint analysis deployed by VaRA.
 There, VaRA computes information about which code regions have affected an instruction through dataflow.

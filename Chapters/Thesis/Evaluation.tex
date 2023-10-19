@@ -118,9 +118,9 @@ By definition, all commits interacting with features through inside dataflow als
 From previous explanations, we also know these commits are almost identical to the entire set of commits with structural interactions.
 It follows that commits part of structural CFIs must also have a high, albeit slightly lower, chance to affect features through outside dataflow.
 We compare this probability to the probability of any active commit to interact with features through outside df in table \ref{tab:commit_dfbr_rel_table}.
-The strongest contrast occurs for \textsc{xz}, where 38\% of commits structurally interacting with features, interact with other features through outside df, making them 4.5 times more likely to do so compared to any active commit of \textsc{xz} at 8.5\%.
-The contrast is slightly weaker for \textsc{bzip2} with a 3.5 times higher likelihood and according percentages of 66.7 and 21.6\% respectively. 
-\text{gzip} has the weakest contrast at 2.2 and respective probabilites of 60.2 and 26.8\%. 
+The strongest contrast occurs for \textsc{xz}, where 41.7\% of commits structurally interacting with features, interact with other features through outside df, making them 4.8 times more likely to do so compared to any active commit of \textsc{xz} at 8.6\%.
+The contrast is slightly weaker for \textsc{bzip2} with a 3.1 times higher likelihood and according percentages of 66.7 and 21.6\% respectively. 
+\text{gzip} has the weakest contrast at 1.58 and respective probabilites of 59.6 and 38.1\%. 
 
 \begin{figure}[htbp]
   \centering
@@ -147,8 +147,8 @@ bzip2 & 37 & 0.889 \\
 \begin{tabular}{llrr}
  Projects & Probability for Commits Part of Structural CFIs & Same Probability Given 	\\
  	  & to Affect other Features Through Outside DF     & Any Active Commit		\\
-xz & 0.38 & 0.085 \\
-gzip & 0.602 & 0.268 \\
+xz & 0.417 & 0.086 \\
+gzip & 0.596 & 0.381 \\
 bzip2 & 0.667 & 0.216 \\
 \end{tabular}
 \end{table}
