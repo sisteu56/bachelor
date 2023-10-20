@@ -102,7 +102,7 @@ The general experiment process is the same for all RQs.
 At first, we collect data comprimising all structural or dataflow-based CFIs by creating reports of a specific type for a chosen software project.
 The collected data is then processed in order to gain information for each commit or feature in the project, such as the number of interacting commits and size of a feature.
 The processed data is used to calculate statistical information, such as the mean and variance, or the strength of a correlation.
-To facilitate a faster and better understanding of the processed data and calculated statistics, we display them graphically via distribution or regression plots.
+To facilitate a faster and better understanding of the processed data and calculated statistics, we display them graphically via bar or regression plots.
 The projects we investigate in this work, for example \textsc{xz} and \textsc{gzip}, are of a small size and are used in a compression domain.
 This choice is based on the fact, that our research intends to only lay basic groundwork, where smaller projects can already offer a lot of insight.
 Since we only investigate a few projects, we chose them to be of a similar domain, such that a comparison between them makes more sense.
@@ -111,48 +111,58 @@ In the following sections, we explain our method of investigation in more detail
 \subsection*{\textbf{RQ1: How do commits and features structurally interact with each other?}}
 
 For this RQ, we examine the interactions contained in the structural reports created with our implementation in VaRA.
+As there could be vast differences between the projects, we also work with and present their respective data separately.
 
 \subsubsection*{Patterns around Feature Development}
 
-As there could be vast differences between the projects, we also work with and present their respective data separately.
 From the collected structural reports, we first extract the number of structurally interacting commits and size for each feature.
 For each interacting commit, we also determine the nesting degree of its structural interaction with the feature.
 Additionally to the normal size of a feature, which we call \textsf{potential} size here, we calculate its \textsf{definite} size as well. 
 The datapoints of the two properties are shown in two respective bar plots, where the values for each feature are shown in a separate bar.
 The bars are labelled after the name of the feature they present, to allow for comparisons between the two plots and between different projects.
-For comparisons between the investigated projects, we also calculate the average number of interacting commits and size for each project.
+For comparisons between the investigated projects, we also calculate the average number of interacting commits and size of a feature for each project.
 In the plot displaying the number of interacting commits, we stack the commits according to the nesting degree of their respective interaction with the feature.
 The first part of each bar consists of commits interacting at a nesting degree of one, the second part of commits interacting at a higher nesting degree.
 We do the same in the second plot, where the definite size forms the base of each bar upon which the difference with the potential size is added.
-Finally, we relate the two investigated properties in a regression plot.
+Logically, the stacked bars must be colored differently to see their respective distribution inside a feature.
+The features are sorted in an increasing order according to the number of commits interacting at nesting degree one or their definite size.
+Finally, we relate the two investigated properties in a \textsc{seaborn} regression plot.
+Here, we show whether features increasing in size, in turn structurally interact with more commits, i.e. need more commits to be implemented.
+Therefore, the value of the x-axis shows the size of a feature, whereas the y-axis shows the number of interacting commits.
+Each feature is represented by a scatter point inside the plot combining its respective values from the two previous plots.
+A linear regression line is drawn in the plot matching the occuring scatter points, where a rising graph could already indicate a positive correlation.
+To check whether we are dealing with a statistically significant correlation, we compute the pearson correlation coefficient and its p-value in the \textsc{stats} submodule of the \textsc{scipy} python namespace.
+To confirm our initial suspection of a strong positive correlation, the according correlation coefficient must be close to one, while the p-value must be close to zero falling below our rejection interval of 95\%.
+Additionally to considering a dataset with the total number of interacting commits and size of a feature, we also consider a more restrictive dataset.
+For this, we only relate the number of commits interacting at a nesting degree of one with the definite size of a feature.
+It might be interesting to see whether only considering structural interactions and instructions with a nesting degree of one, could produce a stronger correlation.
 
 \subsubsection*{Usage of Commits in Feature Development}
 
-From the commits structurally interacting with features, we calculate the average number of features that a commit changes.
-Using the calculated average, we can determine if commits are primarily used to change just one feature.
-Additionally, we determine what fraction of commits that structurally interact with features do so with more than one feature, allowing us to see how likely commits are to affect code of only a single or more features.
-Here, filtering outliers can help produce more sensible data, as commits responsible for refactoring could change many features, while not implementing any functionality. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+For each commit part of at least one structural interaction, we determine the number of features it structurally interacts with.
+There, we also save at which nesting degree the commit and feature happen to interact with each other.
+We ignore this property at first, although we will consider it in a later analysis step.
+At first, we give a comprehensive overview of our initial results in a \textsc{seaborn} histplot for every investigated project.
+The x-axis of the histogram shows the number of features a commit structurally interacts with, whereas the y-axis shows the number of commis for which the respective x-value matches.
+If 50 commits structurally interact with a single feature inside a project, the y-value of one will be 50 accordingly.
+Thus, we can quickly see to what extent our derived best practice surrounding commits in feature development is enforced in a project.
+The more commits are located at one in comparison to other x-values, the more commits only change a single feature.
+The histogram also shows us potential outlier commits, that structurally interact with a unusually many features.
+To facilitate comparisons between projects, we choose the same x- and y-labels for every histogram. \\
+In a second analysis step, we intend to further specify the broad overview shown in initial the plots.
+As a baseline for the number of features a commit usually changes, we compute the average number of features a commit structurally interacts with in each project.
+Following this, we now disregard structural interactions with a nesting degree of more than one. 
+Thus, we only consider features for which we are relatively certain that the commit was used to implement or change their functionality.
+Commits that exclusively interact with features at a high nesting degree, are now considered to change a single feature, as they could not be considered otherwise.
+Furthermore, we filter exceptionally large commits, whose purpose we expect to be something else than implementing features, such as code-refactoring.
+Similiarly to the regions of a commit, we determine its size in a repository as the number of source-code lines last changed or added by it.
+We then apply tukey's fence with a k-value of 3 to filter far outliers of commit sizes.
+Afterwards, we perform a qualitative review of the filtered commits to check whether our initial suspicion about their purpose was correct.
+For both restrictions, we compute the average number of features changed, which should be lower than the calculated average without any restrictions.
+Lastly, we combine both restrictions to form a final lower bound for the number of features a commit usually changes.
+We show the four averages computed for each project in a cross-project table. 
+By no means do we expect the actual average to be exactly at the final lower bound, but rather somewhere inbetween the final lower bound and the average with no restrictions.
+That is because, we do not expect every structural interaction of a high nesting degree to be justifiably disregarded.
 
 \subsection*{\textbf{RQ2: How do commits interact with features through dataflow?}}
 an initial step of evaluating what fraction of commits affect features through dataflow, is first determining which set of commits we consider in our analysis \\
