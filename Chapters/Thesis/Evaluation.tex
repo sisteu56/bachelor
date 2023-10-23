@@ -9,7 +9,7 @@ This chapter evaluates the thesis core claims.
 
 \subsection*{\textbf{RQ1: Evaluation of Structural CFIs}}\label{sec:eval_struc_cfis}
 
-\subsubsection*{Patterns around Feature Development}\label{sec:eval_feature_development}
+\subsubsection*{Patterns of Feature Development}\label{sec:eval_feature_development}
 
 Aside from the number of commits used during its development, we can also extract the size of a feature from its structural CFIs.
 These are the main properties we consider when investigating patterns around feature development.
@@ -28,17 +28,14 @@ The lowest number of interacting commits is 1 for all projects, except lrzip wit
 The projects \textsc{xz} and \textsc{bzip2} bear some similarities, such as the \textsc{Verbosity}-feature having the highest number of interacting commits.
 Both \textsc{xz} and \textsc{bzip2} also share a \textsc{ForceOverwrite}-feature, which has an average number of interacting commits in both projects, with a large portion of interactions having a nesting degree higher than one. \\
 In the second column, we display the different feature sizes for each project in a bar-plot.
-The y-ticks represent the number of instructions implementing a feature, i.e. the number of instructions stemming from its feature regions.
-The blue bar represents the definite size of a feature, where we only count instructions that are exclusively part of its respective feature.
-The orange bar adds the potential size of a feature on top, for which we also count instructions that are part of multiple feature regions at once.
-For these instructions there is less certainty whether they really implemented functionality of that specific feature.
-It also allows us to see how common feature nesting is inside a project and which features are nested inside other features.
+There is a wide distribution of their respective sizes among the features of a project.
+Many consist of close to 0 and up to 150 instructions, which only is a small fraction of the size of the largest features.
 Upon examining the shown feature sizes, we notice a pattern similar to that of the first column.
 Here, larger features mostly consist of definite feature size, whereas smaller features have a high proportion of potential feature size.
 This is not the case for \textsc{bzip2}, where all features have a high amount of potentially implementing instructions.
 Surprisingly, this is also true for features that only have commits structurally interacting with them at nesting degree one.
 The largest combined feature size we encounter is above 5000 for the feature \textsc{force,no\_name}, which is also the feature with most interacting commits.
-For the projects \textsc{xz}, \textsc{bzip2} and \textsc{lrzip} the average feature size ranges between 200 and 400, while \textsc{gzip} has an average around 1.200.
+For the projects \textsc{xz}, \textsc{bzip2} and \textsc{lrzip} the average feature size ranges between 200 and 400, while \textsc{gzip} has an average ofOnly  around 1.200.
 This is the due to the very large feature we mentioned, which encompasses 4000 more instructions than the second largest feature. \\
 In the third column of figure \ref{fig:feature_sfbr_plot}, the datasets used in the two previously dicussed plots are related inside two regression plots.
 Broadly speaking, we plot the size of a feature against the number of commits that structurally interact with it.
@@ -48,11 +45,14 @@ In the second regression plot, we consider all structurally interacting commits 
 As we now factor in the combined values of the blue and orange bars of the previous columns, the color of the plot is a combination of the two.
 The respective correlation coefficents and p-values are shown at the bottom-right of each graph.
 They are calculated with the pearson correlation coefficent, which measures the linear relationship between two datasets.
-Across all projects and both linear regressions, we note a clear positive correlation between the size of a feature and the number of structurally interacting commits.
+Across all projects and both linear regressions, we note a positive correlation between the size of a feature and the number of structurally interacting commits.
 For both linear regressions, the correlation coefficients are quite high, ranging from ca. 0.9 for \textsc{xz} to ca. 0.98 for \textsc{lrzip}.
-\textsc{bzip2} makes for the only exception here, where the correlation coefficent drops from 0.89 for the broader to 0.59 for the more specific consideration.
-The p-values are very low for all pearson correlations ranging from close to zero for \textsc{xz} to 0.16 for \textsc{lrzip} indicating a high probality that both datasets are not un-correlated.
-Combined with the high correlation coefficients, this gives us high confidence that size of a feature and the number of commits used during its development are strongly positively correlated.
+\textsc{bzip2} makes for the only exception here, where the correlation coefficent rises from 0.59 for the broader to 0.89 for the more specific consideration.
+The p-values of \textsc{xz}, \textsc{gzip2} and the more restrictive dataset of \textsc{bzip2} are all lower than 0.025.
+Thus, they lay outside of our rejection interval of 95\% indicating a high probality that both datasets are not un-correlated.
+Combined with the high correlation coefficients, this gives us high confidence that the size of a feature and the number of commits used during its development are strongly positively correlated.
+The fact that \textsc{lrzip} only has three datapoints, means that the p-values of their correlation coefficient are also relatively high at over 0.1.
+The broader consideration of \textsc{bzip2} also encompasses values that do not produce enough statistical evidence to support the notion that the two related datasets are correlated.
 
 \clearpage
 
@@ -65,31 +65,6 @@ Combined with the high correlation coefficients, this gives us high confidence t
 
 \clearpage
 
-\subsubsection*{Usage of Commits in Feature Development}\label{sec:eval_commit_usage}
-
-- when proposing RQ1, we derived a best practice of commits used in feature development, namely that they should only change a single feature \\
-- for this, we examine the features a commit structurally interacts with, since these are the features a commit changes or implements \\
-- the distribution of how many commits interact with which number of features is displayed in figure \ref{fig:commit_sfbr_plot} \\
-- \textsc{xz}, \textsc{gzip} and \textsc{lrzip} have similar distributions, which is why we discuss them now and \textsc{bzip2} later \\
-- for \textsc{xz}, \textsc{gzip} and \textsc{lrzip}, we note that the majority of commits structurally interact with a single feature \\
-- \textsc{gzip} seems to have the strongest contrast, with over 70 commits interacting with only one feature and just 13 commits interacting with multiple features \\
-- among the three mentioned projects, \textsc{xz} has the weakest contrast with around one third of commits interacting with more than one feature \\
-- the commit count gradually drops with an increasing number of structurally interacting features until it subsides to 0 at an x-value of 4 \\
-- both \textsc{xz} and \textsc{gzip} have some outlier commits interacting that interact with 5 or 6 features \\
-- surprisingly, the outlier commit \textsf{30ba4a2b} of \textsc{gzip} only changes 47 source-code lines and was used to fix "theoretical races in signal handling" \\
-- one outlier commits of \textsc{xz} imported the initial project to git and featured over 40000 additions \\
-- the other commit encompassed many different responsibilites changing 118 files and over 3000 lines of code \\
-- moving on to \textsc{bzip2} we note a vastly different distribution compared to the previously discussed projects \\
-- overall there are much less commits used in feature-development with only 9 commits part of structural CFIs \\
-- the distribution features two clusters, the first being at one interacting feature and the second being centered around six interacting features \\
-- the second cluster encompassing 5 commits is slightly bigger than the first cluster with a commit count of 4 \\
-- since we are only dealing with a few commits here, that still produce quite interesting and unique data, we have a closer look at the purpose of these commits and relate it with the number of features they structurally interact with \\ 
-- all commits part of the second cluster were used to publish new versions of \textsc{bzip2}, always featuring over 1000 additions \\
-- three of the four commits of the first cluster introduced minor changes and bug fixes changing less than 30 source-code lines \\
-- the remaining commit updated \textsc{bzip2} to version 1.0.4 fixing minor bugs from the previous version with many of the added source-code lines being used for comments \\
-
-\clearpage
-
 \begin{figure}[htbp]
   \centering
   \includesvg[height=13cm]{gfx/results/RQ1/commit-sfbr-plot.svg}
@@ -97,26 +72,28 @@ Combined with the high correlation coefficients, this gives us high confidence t
   \label{fig:commit_sfbr_plot}
 \end{figure}
 
-- to specify our initial observations, we show the average number of features a commit structurally interacts with in table \ref{tab:commit_sfbr_table} \\
-- we apply two restrictions, where we exclude certain structural CFIs and commits, allowing us to form a lower bound for the number of features a commit usually changes \\ 
-- logically, we only consider commits with at least one interaction as we have done in figure \ref{fig:commit_sfbr_plot} \\
-- the first column shows us that the averages for \textsc{xz}, \textsc{gzip} and \textsc{lrzip}, are slightly above 1 ranging from 1.2 to 1.47 \\
-- expectedly, the average for \textsc{bzip2} represents the only outlier at 3.78 \\
-- in the column to the right, we compute the same average, but filter structural CFIs with higher nesting degrees than one beforehand \\
-- across all projects, this ensures a decrease of the averages with the lowest value now being 1.08 for \textsc{lrzip} and the highest being 2.78 for \textsc{bzip2} \\
-- we do not claim every CFI to be rightfully filtered, but following our explanations in section \ref{sec:nesting_degree}, we expect to exclude numerous commits that did not implement the interaction's feature specifically \\ 
-- the relative decrease in the averages also indicates what fraction of the structural CFIs occur at a high nesting degree \\
-- in a second restriction, we exclude commits we determined to be exceptionally large within their project \\
-- except for \textsc{lrzip}, this measure also ensures a slight, albeit less significant, decrease of the averages \\ 
-- we performed a qualitative analysis of the filtered commits to check whether our suspicion, that they were mostly used to refactor code, is true \\
-- we find that many of them were used to import the project or newer versions to git \\
-- the fact that such commits exist is unsurprising, considering that investigated tools have been published before the release of git or before git was widespread \\
-- while their purpose might not be refactoring code, it does make sense to filter these commits, as they are not accurately depicting the development process of the project itself or its features \\
-- only two out of the eighteen commits we filtered in all projects, were actually used to refactor code, specifically moving contents between files or adapting the code to a newer version of C \\
-- we admit that for half of all exceptionally large there exists no reason, neither refactoring code or importing the project to git, to be left out of our analysis \\
-- finally, we apply both restrictions at the same time to form a lower bound for the number of features a commit usually changes \\
-- for \textsc{xz}, \textsc{gzip} and \textsc{lrzip} this final average centers around 1.1, which is certainly closer to 1 than the general average \\
-- \textsc{bzip2} still has the highest average at 2.38, although we note the biggest decrease for it from an initial value of 3.78 \\
+\subsubsection*{Usage of Commits in Feature Development}\label{sec:eval_commit_usage}
+
+When proposing RQ1, we derived a best practice of commits used in feature development, namely that they should mostly change a single feature.
+We investigate to what extent this is enforced in our investigated software projects by examining the features a commit structurally interacts with, since these are the features a commit changes or implements.
+The distribution of how many commits interact with a certain number of features is displayed in figure \ref{fig:commit_sfbr_plot}.
+\textsc{xz}, \textsc{gzip} and \textsc{lrzip} have similar distributions, which is why we discuss them now and \textsc{bzip2} later.
+For \textsc{xz}, \textsc{gzip} and \textsc{lrzip}, we note that the majority of commits structurally interact with a single feature.
+\textsc{gzip} has the strongest contrast, with over 70 commits interacting with only one feature and just 13 commits interacting with multiple features.
+Among the three mentioned projects, \textsc{xz} has the weakest contrast with around one third of commits interacting with more than one feature.
+The commit count gradually drops with an increasing number of structurally interacting features until it subsides to 0 at an x-value of 4.
+Both \textsc{xz} and \textsc{gzip} have some outlier commits interacting 5 and 6 features.
+Surprisingly, the outlier commit \textsf{30ba4a2b} of \textsc{gzip} only changes 47 source-code lines being used to fix "theoretical races in signal handling".
+One outlier commits of \textsc{xz} imported the initial project to git and encompassed over 40000 additions.
+The other commit had many different responsibilites changing 118 files and over 3000 lines of code.
+Moving on to \textsc{bzip2}, we notice a vastly different distribution compared to the previously discussed projects
+Overall there are much less commits used in feature-development with only 9 commits part of structural CFIs.
+The distribution consists of two clusters, the first being at one interacting feature and the second being centered around six interacting features.
+The second cluster encompassing 5 commits is slightly bigger than the first cluster with a commit count of 4.
+Since we are only dealing with a few commits here, that still produce quite interesting and unique data, we have a closer look at the purpose of these commits and relate it with the number of features they structurally interact with.
+We find that all commits part of the second cluster were used to publish new versions of \textsc{bzip2}, always encompassing over 1000 additions.
+Three out of the four commits part of the first cluster introduced minor changes and bug fixes, never changing more than 30 source-code lines.
+The remaining commit updated \textsc{bzip2} to version 1.0.4 fixing minor bugs from the previous version with many of the added source-code lines being used for comments. 
 
 \begin{table}[t]
 \caption{Additional Information for Structural Analysis of Commits}
@@ -129,6 +106,27 @@ Combined with the high correlation coefficients, this gives us high confidence t
   lrzip & 1.3  & 1.08 & 1.3  & 1.09 \\
 \end{tabular}
 \end{table}
+
+To specify our initial observations, we show the average number of features a commit structurally interacts with in table \ref{tab:commit_sfbr_table}.
+We apply two restrictions, where we exclude certain structural CFIs and commits, allowing us to form a lower bound for the number of features a commit usually changes.
+Logically, we only consider commits with at least one interaction as we have done in figure \ref{fig:commit_sfbr_plot}.
+The first column shows us that the averages for \textsc{xz}, \textsc{gzip} and \textsc{lrzip}, are slightly above 1 ranging from 1.2 to 1.47.
+The average for \textsc{bzip2} represents the only outlier at 3.78, which is to be expected given its discussed distribution.
+In the column to the right, we compute the same average, but filter structural CFIs with higher nesting degrees than one beforehand.
+Across all projects, this ensures a decrease of the averages with the lowest value now being 1.08 for \textsc{lrzip} and the highest being 2.78 for \textsc{bzip2}.
+Here, it's important to clarify that we do not claim every CFI to be rightfully filtered or not filtered.
+Following our explanations in section \ref{sec:nesting_degree}, we do expect to exclude numerous CFIs whose commits did not implement the interaction's feature specifically.
+In a second restriction, we exclude commits we determined to be exceptionally large among the commits implementing features within their respective project.
+Except for \textsc{lrzip}, this measure also ensures a slight, albeit less significant, decrease of the averages. 
+We performed a qualitative analysis of the filtered commits to check whether our suspicion, that they were mostly used to refactor code, is true.
+We find that many of them were used to import the project or newer versions to git.
+The fact that such commits exist is unsurprising, considering that the investigated tools have been published before the release of git or before git was widespread.
+While their purpose might not be refactoring code, it does make sense to filter these commits, as they are not accurately depicting the development process of the project itself or of its features.
+Only two out of the eighteen commits we filtered in all projects, were actually used to refactor code, specifically moving contents between files or adapting the code to a newer version of C.
+We admit that for half of all exceptionally large commits we found no reason, neither refactoring code or importing the project to git, to be left out of our analysis.
+Finally, we apply both restrictions at the same time to form a lower bound for the number of features a commit usually changes.
+For \textsc{xz}, \textsc{gzip} and \textsc{lrzip} this final average centers around 1.1, which is certainly closer to 1 than the general average.
+\textsc{bzip2} still has the highest average at 2.38, although we note the biggest decrease for it from an initial value of 3.78. 
 
 \subsection*{\textbf{RQ2: Evaluation of Dataflow-based CFIs}}\label{sec:eval_df_cfis}
 
@@ -222,7 +220,64 @@ bzip2 & 0.667 & 0.216 \\
 
 \section{Discussion}\label{sec:discussion}
 
-In this section, discuss your results.
+\subsection*{\textbf{RQ1: Discussion of Structural CFIs}}\label{sec:eval_struc_cfis}
+
+\subsubsection*{Patterns of Feature Development}\label{sec:eval_feature_development}
+
+- might notice that the fraction of potential to definite feature size is generally a bit higher than that of commits interacting at nd1 to those interacting at nd>1
+- at first sight this might seem unusual since we are only differentiating between nesting degrees of structural CFIs and nesting degrees of instructions
+- it's not surprising when looking at how we the nesting degree of structural CFIs in section \ref{sec:nesting_degree}
+- 
+
+- interesting to see that especially small features are partially or completely nested inside other features
+- in future work it might be interesting to see whether there is some sort of correlation between the size of a feature and the relation of definite to potential feature size
+- this could tell us whether and to what extent our initial observation holds up 
+- this phenonemon also bears consequences on how commits are used in the development of features and the resulting CFIs
+- if a developer wants to specifically change a feature that is nested inside a larger feature, the according commits will necessarily produce structural CFIs for both features
+- in this context, it might be worth investigating whether such a nested feature implements separate or additional functionality of the feature it is nested inside
+- this would decide whether the respective structural CFI with the larger feature 
+
+- correlation and its p-values highly dependent of number of datapoints 
+- the more datapoints the lower the p-values get, of course only given that the correlation coefficient is high in the first place
+- it makes more sense to consider projects with many features so that we get more trustful statistical data
+- when testing out different ways to measure correlations we realized that considering data of all projects in a sole dataset doesn't make sense
+- the number of commits used to implement a feature of similar size is very different from project to project
+- for example \textsf{verbosity} in \textsc{bzip2} with size ~1100 takes 7 commits, \textsf{force} in \textsc{gzip} with size ~900 takes ~37 commits, \textsf{Verbosity} in \textsc{xz} with size ~800 takes 22 commits
+- xz has
+
+- 
+
+\subsubsection*{Usage of Commits in Feature Development}\label{sec:eval_commit_usage}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \section{Threats to Validity}\label{sec:threats}
 

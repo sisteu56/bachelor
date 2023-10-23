@@ -124,12 +124,15 @@ For comparisons between the investigated projects, we also calculate the average
 In the plot displaying the number of interacting commits, we stack the commits according to the nesting degree of their respective interaction with the feature.
 The first part of each bar consists of commits interacting at a nesting degree of one, the second part of commits interacting at a higher nesting degree.
 We do the same in the second plot, where the definite size forms the base of each bar upon which the difference with the potential size is added.
+This also allows us to see how common feature nesting is inside a project and which features are nested inside other features.
 Logically, the stacked bars must be colored differently to see their respective distribution inside a feature.
+The y-axis represents the number of instructions implementing a feature, i.e. the number of instructions stemming from its feature regions.
+The definite feature-size only consists of instructions that are exclusively part of its respective regions, whereas we also count instructions part of mutltiple regions for the potential size of a feature.
 The features are sorted in an increasing order according to the number of commits interacting at nesting degree one or their definite size.
 Finally, we relate the two investigated properties in a \textsc{seaborn} regression plot.
 Here, we show whether features increasing in size, in turn structurally interact with more commits, i.e. need more commits to be implemented.
 Therefore, the value of the x-axis shows the size of a feature, whereas the y-axis shows the number of interacting commits.
-Each feature is represented by a scatter point inside the plot combining its respective values from the two previous plots.
+Each feature is represented by a scatter point inside the plot combining its respective y-values from the two previous plots.
 A linear regression line is drawn in the plot matching the occuring scatter points, where a rising graph could already indicate a positive correlation.
 To check whether we are dealing with a statistically significant correlation, we compute the pearson correlation coefficient and its p-value in the \textsc{stats} submodule of the \textsc{scipy} python namespace.
 To confirm our initial suspection of a strong positive correlation, the according correlation coefficient must be close to one, while the p-value must be close to zero falling below our rejection interval of 95\%.
@@ -155,9 +158,9 @@ Following this, we now disregard structural interactions with a nesting degree o
 Thus, we only consider features for which we are relatively certain that the commit was used to implement or change their functionality.
 Commits that exclusively interact with features at a high nesting degree, are now considered to change a single feature, as they could not be considered otherwise.
 Furthermore, we filter exceptionally large commits, whose purpose we expect to be something else than implementing features, such as code-refactoring.
-Similiarly to the regions of a commit, we determine its size in a repository as the number of source-code lines last changed or added by it.
-We then apply tukey's fence with a k-value of 3 to filter far outliers of commit sizes.
-Afterwards, we perform a qualitative review of the filtered commits to check whether our initial suspicion about their purpose was correct.
+Similiarly to the regions of a commit, we determine its size in a repository as the number of source-code lines that were last changed or added by it.
+We then apply tukey's fence with a k-value of 3 to filter far outliers of commit sizes among commits interacting with features within their respective project.
+Afterwards, we perform a qualitative review of the filtered commits to check whether our initial suspicion about their purpose is correct.
 For both restrictions, we compute the average number of features changed, which should be lower than the calculated average without any restrictions.
 Lastly, we combine both restrictions to form a final lower bound for the number of features a commit usually changes.
 We show the four averages computed for each project in a cross-project table. 
