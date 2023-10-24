@@ -218,36 +218,74 @@ bzip2 & 0.667 & 0.216 \\
 
 \subsection*{\textbf{RQ3: Evaluation of Author Interactions}}\label{sec:eval_author_interactions}
 
+\clearpage 
+
 \section{Discussion}\label{sec:discussion}
 
 \subsection*{\textbf{RQ1: Discussion of Structural CFIs}}\label{sec:eval_struc_cfis}
 
 \subsubsection*{Patterns of Feature Development}\label{sec:eval_feature_development}
 
-- might notice that the fraction of potential to definite feature size is generally a bit higher than that of commits interacting at nd1 to those interacting at nd>1
-- at first sight this might seem unusual since we are only differentiating between nesting degrees of structural CFIs and nesting degrees of instructions
-- it's not surprising when looking at how we the nesting degree of structural CFIs in section \ref{sec:nesting_degree}
-- 
+When evaluating feature sizes, we noticed that smaller features are often partially or completely nested inside other features.
+A high portion of their size stems from what we call potential size, i.e. instructions that are part of different feature-regions as well.
+In future work, it might be interesting to see whether this is a general phenonemon or a result of our project choice and their respective domain.
+For this, one could test to what extent there exists a correlation between the size of a feature and the relation of potential to definite feature size.
+According to our observations, the proportion of potential size decreases with an overall increase in the size of a feature.
+This phenonemon also bears consequences on they way commits are used in feature development and the CFIs resulting from this.
+If a developer wants to specifically change a feature nested inside other features, the according commits will necessarily produce structural CFIs with several features.
+In this context, it might be worth investigating whether such a nested feature implements separate, combined or additional functionality from the feature it is nested inside.
+This could help us decide whether a respective structural CFI implies that the commit actually implemented functionality of the feature.
+- at least for partially nested features, we have shown a method that can help us better predict the purpose of a commit structurally interacting with it
+- if the commit also changes instructions that only belong to a respective region of the feature, the according structural CFI will have a nesting degree of one
+- with this, we can now predict that the commit was used to specifically change the feature with more definity
+- the fact that this method has some impact on our generated data can especially seen for features having some potential feature size, but no commits interacting with it at nesting degree higher than one
 
-- interesting to see that especially small features are partially or completely nested inside other features
-- in future work it might be interesting to see whether there is some sort of correlation between the size of a feature and the relation of definite to potential feature size
-- this could tell us whether and to what extent our initial observation holds up 
-- this phenonemon also bears consequences on how commits are used in the development of features and the resulting CFIs
-- if a developer wants to specifically change a feature that is nested inside a larger feature, the according commits will necessarily produce structural CFIs for both features
-- in this context, it might be worth investigating whether such a nested feature implements separate or additional functionality of the feature it is nested inside
-- this would decide whether the respective structural CFI with the larger feature 
-
-- correlation and its p-values highly dependent of number of datapoints 
-- the more datapoints the lower the p-values get, of course only given that the correlation coefficient is high in the first place
-- it makes more sense to consider projects with many features so that we get more trustful statistical data
-- when testing out different ways to measure correlations we realized that considering data of all projects in a sole dataset doesn't make sense
-- the number of commits used to implement a feature of similar size is very different from project to project
-- for example \textsf{verbosity} in \textsc{bzip2} with size ~1100 takes 7 commits, \textsf{force} in \textsc{gzip} with size ~900 takes ~37 commits, \textsf{Verbosity} in \textsc{xz} with size ~800 takes 22 commits
-- xz has
-
-- 
+- we employed the pearson correlation coefficient to investigate the linear relationship between the size of a feature and the number of commits structurally interacting with it
+- while we found high correlation coefficients of 0.9 and above, the p-values were often not low enough to justify the data to be statistically significant 
+- we know that p-values are highly dependent on the number of datapoints, whereas the datapoints of our correlation are the respective features of a project
+- logically, projects with fewer features have less datapoints resulting in their p-values being quite high and falling into our rejection interval
+- with 10 features, \textsc{xz} has by far the most datapoints and a respective p-value of $>$0.001 giving us most significant evidence for a strong positive correlation 
+- therefore, future research should prefer projects with at least 10 features so that correlations and other measurments produce trustful statistical data 
+- another possibility to circumvent the problem of too few datapoints could be to combine features of all projects into one big dataset
+- here, we are faced with the issue that the way commits are used among projects might differ drastically 
+- in our case, the number of instructions per structurally interacting commit of a feature varies greatly from project to project
+- the respective values are 17 for \textsc{xz}, 23 for \textsc{gzip}, 87 for \textsc{bzip2} and 13 for \textsc{lrzip}
+- this means that features of a similar size have vastly different number of structurally interacting commits on average
+- upon these considerations, we are of the opininon that it makes more sense to test correlations within projects as we have done in this work
 
 \subsubsection*{Usage of Commits in Feature Development}\label{sec:eval_commit_usage}
+
+In the previous section, we mentioned that the number of instructions per interacting commit of a feature varies between projects.
+Since instructions stem from source-code lines, their respective amount can in turn indicate the number of lines they stem from.
+Thus, we can derive that the lines of code a commit usually changes or contributes to a feature likely differs between projects as well.
+Disregarding \textsc{bzip2}, the number of instructions per commit range from 13 to 23.
+Given that a single source-code line generally produces several llvm-IR instructions, we can predict the number of lines per commit to be below 10.
+This is a surprsingly low amount indicating that a commit often only introduces small changes to a feature.
+Of course, this is just a rough, and perhaps inaccurate, prediction, but it shows that our generated data can be used for many applications. \\
+When determining a lower bound for the number of features a commit usually changes, we filtered structural CFIs with a higher nesting degree than one.
+Performing a qualitative analysis of the filtered CFIs could tell us whether this measure is justified.
+For this, one would have to check whether the commit was really not used to implement or change functionality of the interaction's feature.
+Our qualitive analysis of the excluded expectionally large commits has shown that while many commits were rightfully disregarded, there were still some for which this wasn't the case.
+However, performing the same verification is definitely more challenging for structural CFIs.
+Firstly, we are dealing with more than twice as many filtered structural CFIs than excluded commits.
+Secondly, the decision to exclude a commit can mostly be based of its commit message, as it already tells us its general purpose.
+The same cannot be done for a structural CFI, since it is plausible that the changed feature is not explicitly mentioned in the commit message.
+We would rather have to look into the changed source-code lines and decide whether the commit implemented the feature based on that.
+Without a thourough knowledge of the project and its respective features, this will take much longer to accomplish and is error-prone as well.
+We therefore refrain from carrying out such an analysis of the filtered structural CFIs in this work. \\
+
+- \textsc{bzip2} has shown to be a project whose results need to be treated carefully 
+- only 9 commits structurally interact with its features, encompassing much less datapoints compared to the other investigated projects
+- 6 out of 9 commits were used to import the initial project to git and iteratively update the code to newer versions
+- these commits are not exemplary of the common development process of a project and its features in a git repository 
+- the actual development of the tool in the git repository began after \textsc{bzip2} was finally update to version 1.0.6
+- the other 3 commits introduce minor changes and small bug fixes to the respective features they interact with
+- this means that \textsc{bzip2}'s features were largely already implemented when the actual development in the repository started
+- thus, the number of features a commit changes on average as well as the commits structurally interacting with features are not good representatives of other projects developed in git
+
+
+
+
 
 
 
@@ -282,3 +320,4 @@ bzip2 & 0.667 & 0.216 \\
 \section{Threats to Validity}\label{sec:threats}
 
 In this section, discuss the threats to internal and external validity.
+
