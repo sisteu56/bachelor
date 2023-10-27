@@ -147,6 +147,19 @@ The more commits are part of structural CFIs, the more of the code contributed b
 Logically, the accuracy of this estimation depends on many factors, such as the extend to which commits contributing code to features, also contribute code to other parts of a program.
 Still, given the large disparity in the percentage of commits with structural interactions, we can be relatively certain that \textsc{xz} has the lowest proportion and \textsc{gzip} the largest proportion of feature-code with \textsc{bzip2} somewhere inbetween.
 Comparing the two bar-types, we notice that the percentage of commits with structural interactions is lower than the percentage of commits with dataflow interactions for each project.
+
+\begin{table}[t]
+\caption{Additional Information for Dataflow Analysis of Commits}
+\label{tab:commit_dfbr_table}
+\begin{tabular}{lll}
+ Projects & Number of Active Commits & Probability for Commit to be part of dataflow CFI \\
+ 	  & 			     & given that it is part of structural CFI \\
+xz & 1039 & 0.883 \\
+gzip & 194 & 0.933 \\
+bzip2 & 37 & 0.889 \\
+\end{tabular}
+\end{table}
+
 This phenomenon can be explained considering the values presented in the second column of table \ref{tab:commit_dfbr_table}.
 There, we show the probablity for a commit to be part on any dataflow-based CFI, given that said commit is part of any structural CFI.
 We see that the probabilities are roughly the same for each project at around 90\%.
@@ -187,27 +200,15 @@ The contrast is slightly weaker for \textsc{bzip2} with a 3.1 times higher likel
 
 \begin{figure}[htbp]
   \centering
-  \includesvg[height=8cm]{gfx/results/RQ2/proportional_commit_dfbr_plot.svg}
+  \includesvg[height=9cm]{gfx/results/RQ2/proportional_commit_dfbr_plot.svg}
   \caption{Proportional Dataflow-Plot for Commits}
   \label{fig:commit_dfbr_plot}
 \end{figure}
 
 \begin{table}[t]
-\caption{Additional Information for Dataflow Analysis of Commits}
-\label{tab:commit_dfbr_table}
-\begin{tabular}{llrr}
- Projects & Number of Active Commits & Probability for Commit to be part of dataflow CFI \\
- 	  & 			     & given that it is part of structural CFI \\
-xz & 1039 & 0.883 \\
-gzip & 194 & 0.933 \\
-bzip2 & 37 & 0.889 \\
-\end{tabular}
-\end{table}
-
-\begin{table}[t]
 \caption{Relating Inside Dataflow to Outside Dataflow}
 \label{tab:commit_dfbr_rel_table}
-\begin{tabular}{llrr}
+\begin{tabular}{lll}
  Projects & Probability for Commits Part of Structural CFIs & Same Probability Given 	\\
  	  & to Affect other Features Through Outside DF     & Any Active Commit		\\
 xz & 0.417 & 0.086 \\
@@ -216,6 +217,34 @@ bzip2 & 0.667 & 0.216 \\
 \end{tabular}
 \end{table}
 
+\clearpage
+
+\begin{figure}[htbp]
+  \centering
+  \includesvg[height=19cm]{gfx/results/RQ2/feature_dfbr_plot.svg}
+  \caption{Proportional Dataflow-Plot for Features}
+  \label{fig:feature_dfbr_plot}
+\end{figure}
+
+\clearpage
+
+\subsubsection*{Understanding Features and the Commits Affecting them Through Dataflow}\label{sec:eval_feature_dfbr}
+
+- 1st plot \\
+
+- data is rather unique for each project
+- describe why
+- median of outside commits compared to median inside commits
+- compare between projects
+- gzip has very interesting feature force,no_time,no_name with a single inside commit and almost 60 outside commits
+- explain why
+
+- 2nd plot \\
+
+
+
+- 3rd plot \\
+
 \subsection*{\textbf{RQ3: Evaluation of Author Interactions}}\label{sec:eval_author_interactions}
 
 \clearpage 
@@ -223,6 +252,15 @@ bzip2 & 0.667 & 0.216 \\
 \section{Discussion}\label{sec:discussion}
 
 \subsection*{\textbf{RQ1: Discussion of Structural CFIs}}\label{sec:eval_struc_cfis}
+
+\textsc{bzip2} has shown to be a project whose results need to be treated carefully.
+Only 9 commits structurally interact with its features, encompassing much less datapoints compared to the other investigated projects.
+6 out of 9 commits were used to import the initial project to git and iteratively update the code to newer versions.
+These commits are not exemplary of the common development process of a project and its features in a git repository.
+The actual development of the tool in the git repository began after \textsc{bzip2} was finally updated to version 1.0.6.
+The remaining 3 commits introduce minor changes and small bug fixes to the respective features they interact with.
+This means that \textsc{bzip2}'s features were largely implemented already when the actual development within the repository started.
+Thus, the number of features a commit changes on average as well as the commits structurally interacting with features are not good representatives of other projects developed in git.
 
 \subsubsection*{Patterns of Feature Development}\label{sec:eval_feature_development}
 
@@ -235,23 +273,22 @@ This phenonemon also bears consequences on they way commits are used in feature 
 If a developer wants to specifically change a feature nested inside other features, the according commits will necessarily produce structural CFIs with several features.
 In this context, it might be worth investigating whether such a nested feature implements separate, combined or additional functionality from the feature it is nested inside.
 This could help us decide whether a respective structural CFI implies that the commit actually implemented functionality of the feature.
-- at least for partially nested features, we have shown a method that can help us better predict the purpose of a commit structurally interacting with it
-- if the commit also changes instructions that only belong to a respective region of the feature, the according structural CFI will have a nesting degree of one
-- with this, we can now predict that the commit was used to specifically change the feature with more definity
-- the fact that this method has some impact on our generated data can especially seen for features having some potential feature size, but no commits interacting with it at nesting degree higher than one
-
-- we employed the pearson correlation coefficient to investigate the linear relationship between the size of a feature and the number of commits structurally interacting with it
-- while we found high correlation coefficients of 0.9 and above, the p-values were often not low enough to justify the data to be statistically significant 
-- we know that p-values are highly dependent on the number of datapoints, whereas the datapoints of our correlation are the respective features of a project
-- logically, projects with fewer features have less datapoints resulting in their p-values being quite high and falling into our rejection interval
-- with 10 features, \textsc{xz} has by far the most datapoints and a respective p-value of $>$0.001 giving us most significant evidence for a strong positive correlation 
-- therefore, future research should prefer projects with at least 10 features so that correlations and other measurments produce trustful statistical data 
-- another possibility to circumvent the problem of too few datapoints could be to combine features of all projects into one big dataset
-- here, we are faced with the issue that the way commits are used among projects might differ drastically 
-- in our case, the number of instructions per structurally interacting commit of a feature varies greatly from project to project
-- the respective values are 17 for \textsc{xz}, 23 for \textsc{gzip}, 87 for \textsc{bzip2} and 13 for \textsc{lrzip}
-- this means that features of a similar size have vastly different number of structurally interacting commits on average
-- upon these considerations, we are of the opininon that it makes more sense to test correlations within projects as we have done in this work
+At least for partially nested features, we have shown a method that can help us better predict the purpose of a commit structurally interacting with it.
+If the commit also changes instructions that exclusively belong to a respective region of the feature, the according structural CFI will have a nesting degree of one.
+With this, we can now predict that the commit was used to specifically change the feature with more definity
+The fact that this method has some impact on our generated data can especially seen for features encompassing some potential feature size, but no commits interacting with it at nesting degree higher than one.\\
+We employed the pearson correlation coefficient to investigate the linear relationship between the size of a feature and the number of commits structurally interacting with it.
+While we found high correlation coefficients of 0.9 and above, the p-values were often not low enough to justify the data to be statistically significant.
+We know that p-values are highly dependent on the number of datapoints, whereas the datapoints of our linear regression are the respective features of a project.
+Logically, projects with fewer features have less datapoints resulting in their p-values being quite high and falling into our rejection interval.
+With 10 features, \textsc{xz} has by far the most datapoints and a respective p-value of $>$0.001 giving us most significant evidence for a strong positive correlation. 
+Therefore, future research should prefer projects with at least 10 features so that correlations and other measurments produce trustful statistical data. 
+Another possibility to circumvent the problem of too few datapoints could be to combine features of all projects into one big dataset.
+Here, we are faced with the issue that the way commits are used among projects might differ drastically. 
+In our case, the number of instructions per structurally interacting commit of a feature varies greatly from project to project.
+The respective values are 17 for \textsc{xz}, 23 for \textsc{gzip}, 87 for \textsc{bzip2} and 13 for \textsc{lrzip}.
+This means that features of a similar size have vastly different numbers of structurally interacting commits on average.
+Upon these considerations, we are of the opinion that it makes more sense to test correlations within projects as we have done in this work.
 
 \subsubsection*{Usage of Commits in Feature Development}\label{sec:eval_commit_usage}
 
@@ -271,51 +308,8 @@ Firstly, we are dealing with more than twice as many filtered structural CFIs th
 Secondly, the decision to exclude a commit can mostly be based of its commit message, as it already tells us its general purpose.
 The same cannot be done for a structural CFI, since it is plausible that the changed feature is not explicitly mentioned in the commit message.
 We would rather have to look into the changed source-code lines and decide whether the commit implemented the feature based on that.
-Without a thourough knowledge of the project and its respective features, this will take much longer to accomplish and is error-prone as well.
+Without a thourough knowledge of the project and its respective features, this will take much longer to accomplish and will be error-prone as well.
 We therefore refrain from carrying out such an analysis of the filtered structural CFIs in this work. \\
-
-- \textsc{bzip2} has shown to be a project whose results need to be treated carefully 
-- only 9 commits structurally interact with its features, encompassing much less datapoints compared to the other investigated projects
-- 6 out of 9 commits were used to import the initial project to git and iteratively update the code to newer versions
-- these commits are not exemplary of the common development process of a project and its features in a git repository 
-- the actual development of the tool in the git repository began after \textsc{bzip2} was finally update to version 1.0.6
-- the other 3 commits introduce minor changes and small bug fixes to the respective features they interact with
-- this means that \textsc{bzip2}'s features were largely already implemented when the actual development in the repository started
-- thus, the number of features a commit changes on average as well as the commits structurally interacting with features are not good representatives of other projects developed in git
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 \section{Threats to Validity}\label{sec:threats}
 

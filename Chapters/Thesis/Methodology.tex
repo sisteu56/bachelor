@@ -15,7 +15,7 @@ These topics include patterns in feature development and usage of commits therin
 
 We intend to research two main properties which already provide a lot of insight into the development process of features and best practices of commits therein.
 
-\subsubsection*{Patterns around Feature Development}
+\subsubsection*{Investigating Patterns around Feature Development}
 
 Firstly, we examine the number of commits features interact with structurally. 
 This gives us a direct estimate on how many commits were used in the development of a feature.
@@ -25,7 +25,7 @@ This allows us to additionally determine the \textsf{definite} size of a feature
 Furthermore, we can differentiate between commits that most likely and those that only potentially implemented a feature's functionality.
 By doing so, we intend to achieve a more accurate analysis regarding the number of commits used during a feature's development.
 
-\subsubsection*{Usage of Commits in Feature Development}
+\subsubsection*{Examining the Usage of Commits in Feature Development}
 
 Secondly, we examine how many features a commit interacts with structurally, i.e. how many features a commit usually changes. 
 This is especially interesting when considering best practices surrounding the usage of commits.
@@ -50,7 +50,10 @@ Bugs occuring in certain features could be traced back to the commits responsibl
 Previous studies have laid the groundwork for researching dataflow interactions between different abstract entities of a program.
 While it has shown a wide range of interesting use-cases, it has focused solely on dataflow between commits.
 That's why we aim to provide first insights into the properties of dataflow-based CFIs.
-Specifically, we investigate how connected commits and features are by analyzing the number of features a commit affects through dataflow.
+
+\subsubsection*{The Proportion and Dependencies of Commits Affecting Features through Dataflow}
+
+Firstly, we investigate how connected commits and features are by analyzing the number of features a commit affects through dataflow.
 Knowing what fraction of all commits contributing code to a project are part of dataflow-based interactions can show how often new commits affect the data of a feature. 
 Regarding this, it is worth considering the dependency dicussed in section \ref{sec:combination_cfis}, that structural interactions heavily coincide with dataflow interactions.
 This implies that commits constituting code of a feature are very likely to influence said feature through dataflow as well.
@@ -58,7 +61,10 @@ In section \ref{sec:combination_cfis}, we also mention that the dataflow of comm
 Naturally, said dataflow is less intentional and subsequently more interesting, than dataflow occuring inside the regions of a feature. 
 Programmers are less aware that changes introduced with these commits might affect the data of seemingly unrelated features.
 Therefore, we intend to differentiate between dataflow interactions with an outside and those with an inside origin in our anaylsis.
-This allows us to especially focus on commits part of outside dataflow interactions and examine their proportion among all commits. \\
+This allows us to especially focus on commits part of outside dataflow interactions and examine their proportion among all commits. 
+
+\subsubsection*{Understanding Features and the Commits Affecting them Through Dataflow}
+
 Dataflow-based CFIs allow us to examine another interesting property, namely the number of commits affecting a feature through dataflow.
 Here, we differentiate between commits \textsc{inside} and \textsc{outside} of features, i.e. commits that either do or don't contribute code to them.
 We examine the proportion of outside to inside commits influencing a feature to gauge where most dataflow interactions of a feature stem from.
@@ -113,7 +119,7 @@ In the following sections, we explain our method of investigation in more detail
 For this RQ, we examine the interactions contained in the structural reports created with our implementation in VaRA.
 As there could be vast differences between the projects, we also work with and present their respective data separately.
 
-\subsubsection*{Patterns around Feature Development}
+\subsubsection*{Investigating Patterns around Feature Development}
 
 From the collected structural reports, we first extract the number of structurally interacting commits and size for each feature.
 For each interacting commit, we also determine the nesting degree of its structural interaction with the feature.
@@ -140,7 +146,7 @@ Additionally to considering a dataset with the total number of interacting commi
 For this, we only relate the number of commits interacting at a nesting degree of one with the definite size of a feature.
 It might be interesting to see whether only considering structural interactions and instructions with a nesting degree of one, could produce a stronger correlation.
 
-\subsubsection*{Usage of Commits in Feature Development}
+\subsubsection*{Examining the Usage of Commits in Feature Development}
 
 For each commit part of at least one structural interaction, we determine the number of features it structurally interacts with.
 There, we also save at which nesting degree the commit and feature happen to interact with each other.
@@ -168,24 +174,64 @@ By no means do we expect the actual average to be exactly at the final lower bou
 That is because, we do not expect every structural interaction of a high nesting degree to be justifiably disregarded.
 
 \subsection*{\textbf{RQ2: How do commits interact with features through dataflow?}}
-an initial step of evaluating what fraction of commits affect features through dataflow, is first determining which set of commits we consider in our analysis \\
-- logically, we should only consider commits that could potentially be part of a dataflow-based CFI \\
-- the only prerequesite is for commits is to be represented by commit regions inside a program \\
+
 The projects investigated for dataflow-based CFIs are the same projects as investigated for structural CFIs.
 This choice gives us more insight into a single project and allows us to combine both analysis results as will be discussed below.
-For this RQ, we consider all commits that currently contribute code to the repository, 
-which we can extract from high level repository information of the project.
-We process the collected data, such that, for each commit, we save how many features they interact with through dataflow.
-Here, we also indicate whether a commit structurally interacts with a feature, which we can simply check by examining the according structural report.
-With this information, we are able to separate commits into ones that implement parts of a feature and those that do not. 
-We have already dicussed that commits used to implement a feature are much more likely to account for dataflow interactions.
-We provide evidence for this by comparing the average amount of features the two types of commits affect through dataflow. 
-Besides that we compute what fraction of commits have dataflow-based interactions with other features, once for all commits, once for commits that are part of a feature and once for commits that aren't part of a feature.
-This shows how often commits affect features through dataflow based on their intended purpose, e.g. actively changing the functionality of a feature or changing something seemingly unrelated to a feature. 
-With the data collected for each commit, we also plot the distribution of how many features they interact with.
-This lets us recognize potential outliers, for example commits with much more dataflow interactions than the mean would suggest.
-To check whether feature size is the driving factor in the number of outside commits affecting a feature through dataflow, we compute how strongly the two are correlated.
-While we already know the size of each feature from RQ1, it's still neccesary to calculate, for each feature, which commits have dataflow-based interaction with them and subsequently filtering the commits that are part of a feature.
+
+\subsubsection*{Analyzing the Proportion and Dependencies of Commits Affecting Features through Dataflow}
+
+- we do not consider \textsc{lrzip} in our analysis, as we are only able to detect regions of three out of 10 features in the project \\
+- therefore, we can only find a fraction of all commits interacting with features, resulting in significantly lower determined proportions \\
+- an initial step of evaluating what fraction of commits affect features through dataflow, is determining which set of commits to consider in the first place \\
+- logically, we should only consider commits that could potentially be part of a dataflow-based CFI \\
+- the only prerequesite for commits is to be represented by commit regions inside a program, which is the case when there exists at least one source-code line that was last changed or added by them \\
+- we call the respective commits, \textsf{active} commits as their contributed code is still 'active' in the repository \\
+- following the calculation of the number of active commits in a project, we begin examining the created dataflow report \\
+- for each commit part of at least one dataflow-based CFI, we save the features it interacts with \\
+- by dividing the number of these commits by the number of all active commits, we can determine their proportion in their respective project \\
+- to allow for an overview over all projects, we show the calculated percentages of all projects in a \textsf{seaborn} bar plot \\
+- to provide evidence for our claim that structural CFIs heavily coincide with dataflow-based CFIs, we now compute the proportion of commits with dataflow interactions among the commits with structural interactions \\
+- given that the latter is significantly higher than the overall proportion of commits with dataflow interactions, our initial notion will be underlined \\
+- alongside the percentage of commits part of dataflow-based CFIs, we also show the percentage of active commits that are part of structural CFIs \\
+- as we expect most of the latter commits to be part of dataflow-based CFIs as well, the difference between their respective percentages indicates what proportion of commits interact with features exclusively through dataflow \\
+- following the broad overview of commits affecting features through dataflow, we intend to specify and differentiate between the origin of said dataflow \\
+- for each feature a commit interacts with through dataflow, we check whether they also structurally interact with each other \\
+- if they do structurally interact, we speak of an inside dataflow origin, otherwise we speak of an outside origin \\
+- afterwards we can split the commits with dataflow interactions into three categories \\
+- next to commits that only affect features either through inside or through outside dataflow, a commit can also interact with multiple features, once through inside and once through outside dataflow \\
+- for each project, we calculate the respective percentages of each category and present them in a stacked bar plot \\
+- logically, each bar representing a project adds up to 100\% as every commit falls into exactly one category \\
+- blue and orange category something something commits whose interactions we cannot (at least partyl) discover with structrall analysis \\
+- both bar plots are displayed next to each other in the same figure, where the sequence in which the projects are shown in both plots is determined by the proportion of commits with dataflow interactions \\
+- this allows for an easier comparison within a project, as its respective bars will have the same position in both plots \\
+- additionally to the discussed figure, we show important values, not displayed in the plots, such as the number of active commits of a project, in a \textsc{latex} table \\
+
+\subsubsection*{Exploring Features and the Commits Affecting them Through Dataflow}
+
+test test
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \subsection*{\textbf{RQ3: How do authors interact with features?}}
 

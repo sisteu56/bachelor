@@ -146,11 +146,11 @@ According to definition~\ref{def:structural_cfi}, we encounter a structural CFI,
 For every such instruction, we store the discussed interaction, as the commit and the features present in the instruction.
 For each interaction, we also save the number of instructions it occurs in. 
 This is accomplished by incrementing its instruction counter if we happen to encounter a duplicate. 
-By creating complex structural reports, we can not only determine the nesting degree\ref{def:nesting_degree} of each structural CFI later on, but also the nesting degrees of the instructions they occured in.
-
-With this, we are also able to calculate the size of a feature based on our collected structural interactions and their respective instruction counters.
-We can compute the size of a feature as the sum over the instruction counters of all found interactions the feature is part of. 
-
+By creating complex structural reports, we can not only determine the nesting degree of each structural CFI later on, but also the nesting degrees of the instructions they occur in.
+This allows us to calculate the definite size of a feature, additionally to its normal size defined in definition \ref{def:feature_size}.
+We can compute the size of a feature as the sum over the instruction counters of all found interactions the feature is part of.
+To calculate a feature's definite size, we only consider interactions where the feature appears exclusively.
+These interactions stem from instructions with a nesting degree of one, which means that they are part of no further feature regions. \\
 In the \nameref{sec:interaction_analysis} section, we discussed the taint analysis deployed by VaRA.
 There, VaRA computes information about which code regions have affected an instruction through dataflow.
 Checking whether a taint stems from a commit region allows us to extract information about which commits have tainted an instruction.
@@ -158,7 +158,6 @@ Thus, dataflow-based commit-feature interactions can also be collected on instru
 According to definition~\ref{def:dataflow_cfi}, we can store a dataflow-based interaction between a commit and a feature, if an instruction has a respective commit taint while belonging to a respective feature region.
 Consequently said instruction uses data, that was changed by a commit region earlier in the program, as its input. 
 
-jetzt auch VaRA-TS erwähnen ??
 \iffalse
 For our research we examine numerous software projects to get a wide range of reference data, as commit-feature interactions could potentially vary greatly between different code spaces.
 Accordingly, the VaRA-Tool-Suite was extended making it possible to generate a report comprising all found CFIs of an according type in a software project.
