@@ -208,7 +208,45 @@ This choice gives us more insight into a single project and allows us to combine
 
 \subsubsection*{Exploring Features and the Commits Affecting them Through Dataflow}
 
-test test
+- intially, we determine the set of commits each feature interacts with through dataflow \\
+- the according information is extracted from the same dataflow reports used in the previous section of this RQ \\
+- depending on whether the commit also structurally interacts with a feature, we split the set of commits for each feature into two categories \\
+- outside commits are fully located outside the regions of a feature, meaning that their data flows into a feature \\
+- inside commits are at least partially located inside a feature making it very likely that their dataflow occurs within the regions of a feature \\
+- naturally, said dataflow affecting a feature is less interesting than dataflow stemming from seemingly unrelated commits \\
+- to gauge what commit kind makes up the majority of commits affecting features through dataflow, we present both values for each feature in a \textsc{seaborn} bar-plot \\
+- for every examined project, we display the number of outside and inside commits with separate bars for the different features \\
+- to enable an exact comparison, we also calculate the median for both outside and inside commits of a project \\
+- we choose the median and not the mean, as we are especially interested to detect a general trend across the features of a project and intend to avoid outliers skewing the data in one direction \\
+- besides that features with an exceptionally large number of interacting commits or higher number of commits of a certain kind are already shown in the bar plots \\
+- the features are explicitly named to allow for cross-project comparisons of certain types \\
+- in a second analysis step, we now relate the size of a feature to the number of commits affecting it through dataflow \\
+- here, we are interested in determining whether and to what extent there exists a positive linear relationship between the two \\
+- we employ two linear regression analyses, relating the size of a feature once to its outside and once to its inside commits \\
+- similarly to our investigation in \textbf{RQ1}, the results are displayed in a \textsc{seaborn} reg plot for each project \\
+- with each regression plot, we also show the two computed pearson correlation coefficients and their respective p-values \\
+- we decide for a 97.5\% rejection interval again, meaning that the p-values must be lower than 0.025 to provide enough evidence that the two datasets are indeed not un-correlated \\
+- furthermore, the correlation coefficient must range close to 1 in order to warrant a strong positive correlation \\
+- lastly, we investigate our claim that smaller features have a higher proportion of outside to inside commits affecting it through dataflow \\
+- for this, we examine the relation between the size of a feature and the ratio of its outside to inside commits \\
+- again, we create linear regression plots for each project and calculate the acccording pearson correlation coefficients and the respective p-values \\
+- potentially, we could also perform other regression analyses, for example a logarithmic regression, as they could fit our datapoints better \\
+- following our explanations in section x, we expect the ratio of outside to inside commits to decrease with increasing feature size \\
+- this would be shown by a negative linear correlation coefficient and a falling linear regression line \\
+-
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
