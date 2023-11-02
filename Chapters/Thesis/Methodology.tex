@@ -88,7 +88,7 @@ Finally, we relate both types of author interactions to the respective size of a
 Regarding structural interactions, this allows us to determine whether a feature's extent in the source-code of a project is driving factor in the amount of authors needed to implement it. 
 Software companies could use evidence on this issue as advice on how to allocate programmers on to-be implemented features.
 Findings on the investigated dataflow interactions of authors could tell developers that their changes might affect small and, at first sight neglegible, features surprisingly often.
-We also have a look at the specific functionality of features since their purpose could also play an important role in the number of authors interacting with it.
+We also have a look at the specific functionality of features since their purpose could also play an important role in the number of authors interacting with them.
 
 \begin{center}
 \begin{tabular}{cc}
@@ -180,31 +180,34 @@ This choice gives us more insight into a single project and allows us to combine
 
 \subsubsection*{Analyzing the Proportion and Dependencies of Commits Affecting Features through Dataflow}
 
-- we do not consider \textsc{lrzip} in our analysis, as we are only able to detect regions of three out of 10 features in the project \\
-- therefore, we can only find a fraction of all commits interacting with features, resulting in significantly lower determined proportions \\
-- an initial step of evaluating what fraction of commits affect features through dataflow, is determining which set of commits to consider in the first place \\
-- logically, we should only consider commits that could potentially be part of a dataflow-based CFI \\
-- the only prerequesite for commits is to be represented by commit regions inside a program, which is the case when there exists at least one source-code line that was last changed or added by them \\
-- we call the respective commits, \textsf{active} commits as their contributed code is still 'active' in the repository \\
-- following the calculation of the number of active commits in a project, we begin examining the created dataflow report \\
-- for each commit part of at least one dataflow-based CFI, we save the features it interacts with \\
-- by dividing the number of these commits by the number of all active commits, we can determine their proportion in their respective project \\
-- to allow for an overview over all projects, we show the calculated percentages of all projects in a \textsf{seaborn} bar plot \\
-- to provide evidence for our claim that structural CFIs heavily coincide with dataflow-based CFIs, we now compute the proportion of commits with dataflow interactions among the commits with structural interactions \\
-- given that the latter is significantly higher than the overall proportion of commits with dataflow interactions, our initial notion will be underlined \\
-- alongside the percentage of commits part of dataflow-based CFIs, we also show the percentage of active commits that are part of structural CFIs \\
-- as we expect most of the latter commits to be part of dataflow-based CFIs as well, the difference between their respective percentages indicates what proportion of commits interact with features exclusively through dataflow \\
-- following the broad overview of commits affecting features through dataflow, we intend to specify and differentiate between the origin of said dataflow \\
-- for each feature a commit interacts with through dataflow, we check whether they also structurally interact with each other \\
-- if they do structurally interact, we speak of an inside dataflow origin, otherwise we speak of an outside origin \\
-- afterwards we can split the commits with dataflow interactions into three categories \\
-- next to commits that only affect features either through inside or through outside dataflow, a commit can also interact with multiple features, once through inside and once through outside dataflow \\
-- for each project, we calculate the respective percentages of each category and present them in a stacked bar plot \\
-- logically, each bar representing a project adds up to 100\% as every commit falls into exactly one category \\
-- blue and orange category something something commits whose interactions we cannot (at least partyl) discover with structrall analysis \\
-- both bar plots are displayed next to each other in the same figure, where the sequence in which the projects are shown in both plots is determined by the proportion of commits with dataflow interactions \\
-- this allows for an easier comparison within a project, as its respective bars will have the same position in both plots \\
-- additionally to the discussed figure, we show important values, not displayed in the plots, such as the number of active commits of a project, in a \textsc{latex} table \\
+We do not consider \textsc{lrzip} here, as we are only able to detect regions of three out of 10 features in the project.
+This means that we can only find a fraction of all commits interacting with features, resulting in significantly lower determined proportions. \\
+An initial step of evaluating what fraction of commits affect features through dataflow, is determining which set of commits to consider in the first place.
+Logically, we should only consider commits that could potentially be part of a dataflow-based CFI.
+The only prerequesite for this is that commits are represented by commit regions inside a program.
+This is the case when there exists at least one source-code line that was last changed or added by them.
+We call the respective commits, \textsf{active} commits as their contributed code is still ``active'' in the repository.
+Following the calculation of the number of active commits in the projects, we begin examining the created dataflow reports.
+For each commit part of at least one dataflow-based CFI, we save the set of features it interacts with.
+By dividing the number of these commits by the number of all active commits, we can determine their proportion within their respective project.
+To allow for an overview of all projects, we show the calculated percentages in a \textsf{seaborn} bar plot.
+To provide evidence for our claim that structural CFIs heavily coincide with dataflow-based CFIs, we now compute the proportion of commits with dataflow interactions among the commits with structural interactions.
+Given that the latter is significantly higher than the overall proportion of commits with dataflow interactions, our initial notion will be confirmed.
+Alongside the percentage of commits part of dataflow-based CFIs, we also show the percentage of active commits that are part of structural CFIs.
+As we expect most of the latter commits to be part of dataflow-based CFIs as well, the difference between their respective percentages indicates what proportion of commits interact with features exclusively through dataflow.
+The percentage of commits with dataflow interactions is certainly higher than the percentage of commits with structural commits, as the latter commits largely contribute to the former, while this does not need to be the case vice versa.
+Following the broad overview of commits affecting features through dataflow, we intend to specify and differentiate between the origin of said dataflow.
+For each feature a commit interacts with through dataflow, we check whether they also structurally interact with each other.
+If they do structurally interact, we speak of an inside dataflow origin, otherwise we speak of an outside origin.
+Afterwards we can split the commits with dataflow interactions into three categories.
+Next to commits that only affect features either through inside or through outside dataflow, a commit can also interact with multiple features, once through inside and once through outside dataflow.
+For each project, we calculate the respective percentages of each category and present them in a stacked bar plot.
+Logically, each bar representing a project adds up to 100\% as every commit falls into exactly one category.
+The commits falling into categories of at least partial outside dataflow origins are part of interactions, which we could only detect with our dataflow analysis.
+Both bar plots are displayed next to each other in the same figure, where the sequence in which the projects are shown in both plots is determined by the proportion of commits with dataflow interactions.
+This allows for an easier comparison within a project, as its respective bars will have the same position in both plots.
+Statistical values, including the number of active commits and the probability for a commit to be part of a dataflow-based CFI given that it structurally interacts with features, are not included in the plots.
+As they can aid the understanding of the plots and add important context to them, we display the respective values in a \textsc{latex} table.
 
 \subsubsection*{Exploring Features and the Commits Affecting them Through Dataflow}
 
@@ -235,49 +238,59 @@ This choice gives us more insight into a single project and allows us to combine
 - this would be shown by a negative linear correlation coefficient and a falling linear regression line \\
 -
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \subsection*{\textbf{RQ3: How do authors interact with features?}}
 
-Here, we also examine the same projects as in the previous RQs.
-That way we can reuse data produced in RQ1 to map each feature to the authors that implemented it.
-For RQ1 we have already mapped each feature to the commits it interacts with, i.e. that contribute code to it.
-It's possible to extract the authors of these commits by accessing high-level repository information.
-This directly gives us the authors that implemented a feature.
-With the processed data, we are able to calculate the average number of authors used to implement a feature and plot their distribution for a sound overview.
-The size of each feature has also been calculated to answer the previous RQs.
-With this information we aim to correlate the size of a feature with the amount of authors that implemented it in a regression analysis.
+- technically, we perform the same analysis regarding features as discussed for the two previous RQs \\
+- the only difference is that we replace the commits interacting with a feature with their respective authors \\
+- thus, we can determine the authors contributing commits that structurally interact with features and those contributing commits affecting features through dataflow \\
+% exclude xz as the project only has a single author implementing all features?% 
+- to faciliate expressing this, we simply say that the respective authors interact with features based on a certain interaction type \\
+- in section \ref{sec:research_questions}, we mentioned that we only consider commits outside of features when examining the authors interacting with them through dataflow \\
+- their computation has already been explained in the operationalization of RQ2, which we reuse for this RQ \\
+- the number of authors that interact with a feature either structurally or through dataflow are presented in a \textsc{seaborn} bar plot \\
+- similarly to the previous RQs, the results of each project are shown in separate plots with labeled ticks for each feature \\
+- we also calculate the mean number of dataflow and structural authors of a project to give concrete information from what type of interaction most author interactions stem from \\
+- in a third bar for each feature, we display the number of authors that exclusively interact with them through dataflow \\
+- there, we exclude authors who also structurally interact with the feature, i.e. the authors making up the first bar \\
+- this shows us how many authors affecting a feature can only be determined via our dataflow analysis \\
+- for the structural interactions of authors, we compute what fraction of them also affect the respective features through dataflow \\
+- this can tell us to what extent the developers implementing a feature are likely to introduce the code changes whose data the feature uses later on \\
+- additionally considering whether there are more structural than dataflow authors lets us determine whether the developers of a feature are also the ones mainly responsible for changes affecting them through dataflow \\
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
