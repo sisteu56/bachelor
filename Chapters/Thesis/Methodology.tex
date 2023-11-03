@@ -211,86 +211,49 @@ As they can aid the understanding of the plots and add important context to them
 
 \subsubsection*{Exploring Features and the Commits Affecting them Through Dataflow}
 
-- intially, we determine the set of commits each feature interacts with through dataflow \\
-- the according information is extracted from the same dataflow reports used in the previous section of this RQ \\
-- depending on whether the commit also structurally interacts with a feature, we split the set of commits for each feature into two categories \\
-- outside commits are fully located outside the regions of a feature, meaning that their data flows into a feature \\
-- inside commits are at least partially located inside a feature making it very likely that their dataflow occurs within the regions of a feature \\
-- naturally, said dataflow affecting a feature is less interesting than dataflow stemming from seemingly unrelated commits \\
-- to gauge what commit kind makes up the majority of commits affecting features through dataflow, we present both values for each feature in a \textsc{seaborn} bar-plot \\
-- for every examined project, we display the number of outside and inside commits with separate bars for the different features \\
-- to enable an exact comparison, we also calculate the median for both outside and inside commits of a project \\
-- we choose the median and not the mean, as we are especially interested to detect a general trend across the features of a project and intend to avoid outliers skewing the data in one direction \\
-- besides that features with an exceptionally large number of interacting commits or higher number of commits of a certain kind are already shown in the bar plots \\
-- the features are explicitly named to allow for cross-project comparisons of certain types \\
-- in a second analysis step, we now relate the size of a feature to the number of commits affecting it through dataflow \\
-- here, we are interested in determining whether and to what extent there exists a positive linear relationship between the two \\
-- we employ two linear regression analyses, relating the size of a feature once to its outside and once to its inside commits \\
-- similarly to our investigation in \textbf{RQ1}, the results are displayed in a \textsc{seaborn} reg plot for each project \\
-- with each regression plot, we also show the two computed pearson correlation coefficients and their respective p-values \\
-- we decide for a 97.5\% rejection interval again, meaning that the p-values must be lower than 0.025 to provide enough evidence that the two datasets are indeed not un-correlated \\
-- furthermore, the correlation coefficient must range close to 1 in order to warrant a strong positive correlation \\
-- lastly, we investigate our claim that smaller features have a higher proportion of outside to inside commits affecting it through dataflow \\
-- for this, we examine the relation between the size of a feature and the ratio of its outside to inside commits \\
-- again, we create linear regression plots for each project and calculate the acccording pearson correlation coefficients and the respective p-values \\
-- potentially, we could also perform other regression analyses, for example a logarithmic regression, as they could fit our datapoints better \\
-- following our explanations in section x, we expect the ratio of outside to inside commits to decrease with increasing feature size \\
-- this would be shown by a negative linear correlation coefficient and a falling linear regression line \\
--
+Intially, we determine the set of commits each feature interacts with through dataflow.
+The according information is extracted from the same dataflow reports used in the previous section of this RQ.
+Depending on whether the commit also structurally interacts with a feature, we split the set of commits for each feature into two categories.
+Outside commits are fully located outside the regions of a feature, meaning that their data flows into a feature.
+Inside commits are at least partially located inside a feature making it very likely that their dataflow occurs within the regions of a feature.
+Naturally, said dataflow affecting a feature is less interesting than dataflow stemming from seemingly unrelated commits.
+To gauge what commit kind makes up the majority of commits affecting features through dataflow, we present both values for each feature in a \textsc{seaborn} bar-plot.
+For every examined project, we display the number of outside and inside commits with separate bars for the different features.
+To enable an exact comparison, we also calculate the median for both outside and inside commits of a project.
+We choose the median and not the mean, as we are especially interested in detecting a general trend across the features of a project and intend to avoid outliers skewing the data in one direction.
+Besides that, features with an exceptionally high number of interacting commits or a high proportion of commits of a certain kind are already shown in the bar plots.
+The features are explicitly named to allow for cross-project comparisons of certain types.
+In a second analysis step, we now relate the size of a feature to the number of commits affecting it through dataflow.
+Here, we are interested in determining whether and to what extent there exists a positive linear relationship between the two.
+We employ two linear regression analyses, relating the size of a feature once to its outside and once to its inside commits.
+Similarly to our investigation in \textbf{RQ1}, the results are displayed in a \textsc{seaborn} reg plot for each project.
+In each regression plot, we also show the two computed pearson correlation coefficients and their respective p-values.
+We decide for a 97.5\% rejection interval again, meaning that the p-values must be lower than 0.025 to provide enough evidence that the two datasets are indeed not un-correlated.
+Furthermore, the correlation coefficient must range close to 1 in order to warrant a strong positive correlation.
+Lastly, we investigate our claim that smaller features have a higher proportion of outside to inside commits affecting it through dataflow.
+For this, we examine the relation between the size of a feature and the ratio of its outside to inside commits.
+Again, we create linear regression plots for each project and calculate the acccording pearson correlation coefficients and the respective p-values.
+We could also perform other regression analyses, for example a logarithmic regression, as they could fit our datapoints better.
+Following our explanations in section \ref{sec:research_questions}, we expect the ratio of outside to inside commits to decrease with increasing feature size.
+This would result in a negative linear correlation coefficient and a falling linear regression line.
+It remains to be seen whether the respective values are statistically significant across several projects.
 
 \subsection*{\textbf{RQ3: How do authors interact with features?}}
 
-- technically, we perform the same analysis regarding features as discussed for the two previous RQs \\
-- the only difference is that we replace the commits interacting with a feature with their respective authors \\
-- thus, we can determine the authors contributing commits that structurally interact with features and those contributing commits affecting features through dataflow \\
-% exclude xz as the project only has a single author implementing all features?% 
-- to faciliate expressing this, we simply say that the respective authors interact with features based on a certain interaction type \\
-- in section \ref{sec:research_questions}, we mentioned that we only consider commits outside of features when examining the authors interacting with them through dataflow \\
-- their computation has already been explained in the operationalization of RQ2, which we reuse for this RQ \\
-- the number of authors that interact with a feature either structurally or through dataflow are presented in a \textsc{seaborn} bar plot \\
-- similarly to the previous RQs, the results of each project are shown in separate plots with labeled ticks for each feature \\
-- we also calculate the mean number of dataflow and structural authors of a project to give concrete information from what type of interaction most author interactions stem from \\
-- in a third bar for each feature, we display the number of authors that exclusively interact with them through dataflow \\
-- there, we exclude authors who also structurally interact with the feature, i.e. the authors making up the first bar \\
-- this shows us how many authors affecting a feature can only be determined via our dataflow analysis \\
-- for the structural interactions of authors, we compute what fraction of them also affect the respective features through dataflow \\
-- this can tell us to what extent the developers implementing a feature are likely to introduce the code changes whose data the feature uses later on \\
-- additionally considering whether there are more structural than dataflow authors lets us determine whether the developers of a feature are also the ones mainly responsible for changes affecting them through dataflow \\
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Technically, we perform the same analysis regarding features as discussed for the two previous RQs.
+The only difference is that we replace the commits interacting with a feature with their respective authors.
+To faciliate expressing this, we simply say that the respective authors interact with features based on a certain interaction type or that they are a feature's structural or dataflow authors.
+In section \ref{sec:research_questions}, we mentioned that we only consider commits outside of features when examining the authors interacting with them through dataflow.
+The computation of these commits has already been explained in the operationalization of RQ2, which we reuse for this RQ.
+The number of authors that interact with a feature either structurally or through dataflow are presented in a \textsc{seaborn} bar plot.
+Similarly to the previous RQs, the results of each project are shown in separate plots with labeled ticks for each feature.
+We also calculate the mean number of dataflow and structural authors of a project to give concrete information from what type of interaction most author interactions stem from.
+In a third bar for each feature, we display the number of authors that exclusively interact with them through dataflow.
+There, we exclude authors who also structurally interact with the feature, i.e. the authors making up the first bar.
+This shows us how many authors affecting a feature can only be determined via our dataflow analysis.
+For the structural interactions of authors, we compute what fraction of them also affect the respective features through dataflow.
+This can tell us to what extent the developers implementing a feature are likely to introduce code changes whose data the feature uses later on.
+Additionally considering whether there are more structural than dataflow authors lets us determine whether the developers of a feature are also the ones mainly responsible for changes affecting them through dataflow.
+Finally, we perform the same linear regression anaylsis as we have done for feature-sizes and the number of commits that interacting with them.
+By calculating the strength of their correlation, we are able to determine whether the presumed extent of a feature inside a project is an accurate predictor for the number of developers needed to implement it.
+The authors interacting with a feature through outside dataflow are also indirectly involved in its development, since the data stemming from their contributed commits is necessary for the functionality of the feature.
