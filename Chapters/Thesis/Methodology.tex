@@ -123,7 +123,7 @@ As there could be vast differences between the projects, we also work with and p
 
 From the collected structural reports, we first extract the number of structurally interacting commits and size for each feature.
 For each interacting commit, we also determine the nesting degree of its structural interaction with the feature.
-Additionally to the normal size of a feature, which we call \textsf{potential} size here, we calculate its \textsf{definite} size as well. 
+Additionally to the normal size of a feature, which we call \textsf{potential} size, we calculate its \textsf{definite} size as well. 
 The datapoints of the two properties are shown in two respective bar plots, where the values for each feature are shown in a separate bar.
 The bars are labelled after the name of the feature they present, to allow for comparisons between the two plots and between different projects.
 For comparisons between the investigated projects, we also calculate the average number of interacting commits and size of a feature for each project.
@@ -133,18 +133,17 @@ We do the same in the second plot, where the definite size forms the base of eac
 This also allows us to see how common feature nesting is inside a project and which features are nested inside other features.
 Logically, the stacked bars must be colored differently to see their respective distribution inside a feature.
 The y-axis represents the number of instructions implementing a feature, i.e. the number of instructions stemming from its feature regions.
-The definite feature-size only consists of instructions that are exclusively part of its respective regions, whereas we also count instructions part of mutltiple regions for the potential size of a feature.
-The features are sorted in an increasing order according to the number of commits interacting at nesting degree one or their definite size.
+The definite size of a feature only consists of instructions that are exclusively part of its respective regions, whereas we also count instructions part of multiple regions for the potential size of a feature.
+The features are sorted in an increasing order according to total the number of interacting commits interacting or size.
 Finally, we relate the two investigated properties in a \textsc{seaborn} regression plot.
 Here, we show whether features increasing in size, in turn structurally interact with more commits, i.e. need more commits to be implemented.
 Therefore, the value of the x-axis shows the size of a feature, whereas the y-axis shows the number of interacting commits.
 Each feature is represented by a scatter point inside the plot combining its respective y-values from the two previous plots.
 A linear regression line is drawn in the plot matching the occuring scatter points, where a rising graph could already indicate a positive correlation.
-To check whether we are dealing with a statistically significant correlation, we compute the pearson correlation coefficient and its p-value in the \textsc{stats} submodule of the \textsc{scipy} python namespace.
+To check whether we are dealing with a statistically significant linear correlation, we compute the pearson correlation coefficient and its p-value in the \textsc{stats} submodule of the \textsc{scipy} python namespace.
 To confirm our initial suspection of a strong positive correlation, the according correlation coefficient must be close to one, while the p-value must be close to zero falling below our rejection interval of 95\%.
-Additionally to considering a dataset with the total number of interacting commits and size of a feature, we also consider a more restrictive dataset.
-For this, we only relate the number of commits interacting at a nesting degree of one with the definite size of a feature.
-It might be interesting to see whether only considering structural interactions and instructions with a nesting degree of one, could produce a stronger correlation.
+Here, we only consider the total number of interacting commits and size of a feature, which are the entire bar-values of a feature.
+To underline this, we choose the color of the regression plot as a mixture of the two colors used in the bar-plots.
 
 \subsubsection*{Examining the Usage of Commits in Feature Development}
 

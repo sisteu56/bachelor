@@ -11,48 +11,37 @@ This chapter evaluates the thesis core claims.
 
 \subsubsection*{Patterns of Feature Development}\label{sec:eval_feature_development}
 
-Aside from the number of commits used during its development, we can also extract the size of a feature from its structural CFIs.
-These are the main properties we consider when investigating patterns around feature development.
-Additionally, we factor in the nesting degree of structural CFIs during our analysis allowing us to extract more information from both properties.
 Figure \ref{fig:feature_sfbr_plot} illustrates our results in three different plots for each project.
 Each row displays the results for one project with the name of the respective project being shown on the far left. \\
 In the first column, we show the number of structurally interacting commits for each feature in a bar-plot.
-We differentiate between interactions with a nesting degree of 1, which are colored in blue, and ones with a higher nesting degree colored in orange.
-The orange bar represents commits for which we are less certain of their specific purpose, where they could have been used to implement its respective feature and others at the same time. 
-Overall, we notice a large spread of structurally interacting commits between features across all projects.
-Most interactions occur at a nesting degree of 1, especially for features with many interacting commits in comparison to other features of their respective project.
-Interestingly, for features with few interacting commits, a large proportion of their interactions have a higher nesting degree than 1.
-We also notice that the range of interacting commits varies greatly between the different projects.
-In \textsc{bzip2}, the highest number of interacting commits is 7 for the \textsc{verbosity} feature, but at over 60 for the \textsc{force,no\_name} feature in \textsc{gzip}.
-The lowest number of interacting commits is 1 for all projects, except lrzip with 6, indicating that some features need very little work to be implemented.
-The projects \textsc{xz} and \textsc{bzip2} bear some similarities, such as the \textsc{Verbosity}-feature having the highest number of interacting commits.
-Both \textsc{xz} and \textsc{bzip2} also share a \textsc{ForceOverwrite}-feature, which has an average number of interacting commits in both projects, with a large portion of interactions having a nesting degree higher than one. \\
-In the second column, we display the different feature sizes for each project in a bar-plot.
-There is a wide distribution of their respective sizes among the features of a project.
-Many consist of close to 0 and up to 150 instructions, which only is a small fraction of the size of the largest features.
-Upon examining the shown feature sizes, we notice a pattern similar to that of the first column.
-Here, larger features mostly consist of definite feature size, whereas smaller features have a high proportion of potential feature size.
-This is not the case for \textsc{bzip2}, where all features have a high amount of potentially implementing instructions.
-Surprisingly, this is also true for features that only have commits structurally interacting with them at nesting degree one.
-The largest combined feature size we encounter is above 5000 for the feature \textsc{force,no\_name}, which is also the feature with most interacting commits.
-For the projects \textsc{xz}, \textsc{bzip2} and \textsc{lrzip} the average feature size ranges between 200 and 400, while \textsc{gzip} has an average ofOnly  around 1.200.
-This is the due to the very large feature we mentioned, which encompasses 4000 more instructions than the second largest feature. \\
-In the third column of figure \ref{fig:feature_sfbr_plot}, the datasets used in the two previously dicussed plots are related inside two regression plots.
-Broadly speaking, we plot the size of a feature against the number of commits that structurally interact with it.
-For the regression plot colored in blue, we only consider the definite size of a feature and commits structurally interacting with them at a nesting degree of one.
-The values of the displayed scatter points are identical with the values of the blue bars in the two previous columns. 
-In the second regression plot, we consider all structurally interacting commits and all instructions regardless of any nesting degree.
-As we now factor in the combined values of the blue and orange bars of the previous columns, the color of the plot is a combination of the two.
-The respective correlation coefficents and p-values are shown at the bottom-right of each graph.
-They are calculated with the pearson correlation coefficent, which measures the linear relationship between two datasets.
-Across all projects and both linear regressions, we note a positive correlation between the size of a feature and the number of structurally interacting commits.
-For both linear regressions, the correlation coefficients are quite high, ranging from ca. 0.9 for \textsc{xz} to ca. 0.98 for \textsc{lrzip}.
-\textsc{bzip2} makes for the only exception here, where the correlation coefficent rises from 0.59 for the broader to 0.89 for the more specific consideration.
-The p-values of \textsc{xz}, \textsc{gzip2} and the more restrictive dataset of \textsc{bzip2} are all lower than 0.025.
-Thus, they lay outside of our rejection interval of 95\% indicating a high probality that both datasets are not un-correlated.
-Combined with the high correlation coefficients, this gives us high confidence that the size of a feature and the number of commits used during its development are strongly positively correlated.
-The fact that \textsc{lrzip} only has three datapoints, means that the p-values of their correlation coefficient are also relatively high at over 0.1.
-The broader consideration of \textsc{bzip2} also encompasses values that do not produce enough statistical evidence to support the notion that the two related datasets are correlated.
+For all projects, we notice a wide distribution of structurally interacting commits between features.
+Numerous features, across all projects, interact with less than 5 commits suggesting that they need very little work to be implemented.
+On the other hand, both \textsc{xz} and \textsc{lrzip} have features structurally interacting with more than 20 commits, while \textsc{gzip} even has four features that interact with more than 60 commits.
+With a mean of 29, the features of \textsc{gzip} have by far the highest number of interacting commits on average.
+\textsc{xz}, \textsc{lrzip} and \textsc{bzip2} have much lower averages at 9, 16 and 4 respectively.
+For the three lastly mentioned projects, most structural interactions occur at a nesting degree of one.
+Still, some features are mostly or even entirely implemented by commits structurally interacting with them at a higher nesting degree.
+This is true for almost all features of \textsc{gzip}, where only \textsf{recursive}, \textsf{test} and \textsf{verbose} are exceptions to the other 11 investigated features.
+As all projects are of a compression domain, we can find several features with the same functionality across the examined projects.
+The \textsf{verbosity}-feature structurally interacts with the most commits in \textsc{xz} and \textsc{bzip2}, while the same is not the case for the \textsf{verbose}-feature of \textsc{gzip}. 
+Interestingly, most commits interact with them at a nesting degree of one, meaning that the commits were likely used to specifically change the respective features. 
+Although \textsc{gzip} encompasses the highest average number of interacting commits, its \textsf{recursive}-feature only interacts with 2 commits, while the \textsf{recursive}-feature of \textsc{lrzip} interacts with 24 commits. \\
+In the second column of figure \ref{fig:feature_sfbr_plot}, we display the calculated feature-sizes for each project.
+Again, we see a large spread between the different feature-sizes within all projects.
+Most notabely, there are large jumps between adjacent features, for example from \textsf{to\_stdout} with a size of 600 to \textsf{no\_name} with a size of 5500 in \textsc{gzip}.
+Similarly to the number of interacting commits, \textsc{gzip} has by far the highest average feature size at 2500.
+The average feature sizes for the other projects range from 190 for \testc{xz} to 390 for \textsc{bzip2}. 
+The nesting of feature-code is most common in \textsc{gzip}, where the size of every feature completely or at least largely consists of potential feature size, i.e. instructions with a higher nesting degree than one.
+Feature-nesting is least common in \textsc{xz} and \textsc{lrzip}, although features such as \textsf{Cores}, \textsf{ForceOverwrite} and \textsf{lrzcat} make for exceptions here. \\
+Finally, the datasets used in the two previously dicussed plots are related inside the regression plot of figure \ref{fig:feature_sfbr_plot}.
+For both \textsc{xz} and \textsc{gzip}, we determine a strong positive correlation between the size of a feature and its number of structurally interacting commits.
+Their linear correlation coeffecients are close to 1 at 0.91 and 0.978 respectively with p-values smaller than $10^{-4}$.
+This data provides strong evidence that our initial notion, that larger features generally need more commits to be implemented, is correct.
+While \textsc{bzip2} and \textsc{lrzip} have positive correlation coefficients of 0.585 and 0.968 respectively, their p-vlaues are relatively high at over 0.1.
+The high p-values can be explained by a lack of datapoints for \textsc{lrzip} and conflicting datapoints for \textsc{bzip2}.
+For example, do both the \textsf{opMode}- and \textsf{srcMode}-feature of \textsc{bzip2} structurally interact with 6 commits, but encompass vastly different feature sizes.
+Overall, the two projects do not produce conclusive statistical evidence that the size of a feature and the number of interacting commits is positively correlated.
+
 
 \clearpage
 
@@ -230,22 +219,78 @@ bzip2 & 0.667 & 0.216 \\
 
 \subsubsection*{Understanding Features and the Commits Affecting them Through Dataflow}\label{sec:eval_feature_dfbr}
 
-- 1st plot \\
-
-- data is rather unique for each project
-- describe why
-- median of outside commits compared to median inside commits
-- compare between projects
-- gzip has very interesting feature force,no_time,no_name with a single inside commit and almost 60 outside commits
-- explain why
-
-- 2nd plot \\
-
-
-
-- 3rd plot \\
-
 \subsection*{\textbf{RQ3: Evaluation of Author Interactions}}\label{sec:eval_author_interactions}
+
+- the project \textsc{xz} has mostly been developed by a single author, which is reflected in our results \\
+- as can be seen in figure \ref{fig:author_cfi_plot}, all except one feature have exclusively been implemented by the same author \\
+- we can conclude that it also is the developer affecting features through outside dataflow, since no feature has unique dataflow authors \\
+- it follows that the linear regression relating the size of a feature to the number of its interacting authors shows no significant correlation \\
+
+- \textsc{bzip2} inconclusive data, no correlation to be found \\
+- \textsc{lrzip} more authors of features, but no general trend to be found due to lack of features \\
+
+- \textsc{gzip}, on the other hand, provides us with much more comprehensive results \\
+- it can immediately be seen that every feature has a large number of interacting authors \\
+- the overall number of authors that interact with a feature in any way can be computed by the sum of its structural and its unique dataflow authors \\
+- this means that the lowest number of interacting authors is 7 for the \textsf{recursive}-feature and the highest number 14 for the \textsf{force}-feature \\
+- on average, a feature has more dataflow than structural authors with respective averages of 9.1 and 5.7 \\
+- the average number of unique dataflow authors is 5.9, which means that our dataflow analysis discovers many additional interacting authors in \textsc{gzip} \\
+- the number of structurally interacting authors, i.e. authors implementing a feature, range from 2 to 13 between the features of \textsc{gzip} \\
+- there is less variance in the number of a feature's outside dataflow authors ranging from 7 to 12 \\
+- features with relatively few structural authors, have a comparatively high number of dataflow authors \\
+- features with many structural authors, starting from the \textsc{no\_name}-feature, have less outside dataflow authors \\ 
+- at the same time, the number of their unique dataflow authors is rather low, implying that most of them also structurally interact with the according features \\
+- the fact that the group of features with few structural authors has much more dataflow authors conditions them to have many unique dataflow authors \\
+- still, more than 80\% of their structural authors also interact with them through outside dataflow \\
+- the same cannot be said for the group of features with many structural authors, where this is the case for less than 45\% of them \\
+- overall, there is a 57\% likelihood for the structural author of any feature to also interact with the feature through outside dataflow \\
+- similarly to the bar-plot of \textsc{gzip}, we notice two clusters when examining its regression plots in figure \ref{fig:author_cfi_plot} \\
+- the first cluster is made up of features with few structural authors, whose respective sizes range between 50 and 500 \\
+- the second cluster consists of the four features who all have over 10 structural authors and feature-sizes ranging from 5500 to 6500 \\
+- it is unsurprising that we compute a strong positive correlation between the size of a feature and its structurally interacting developers \\
+- the respective correlation coefficient is 0.976, while the p-value is smaller than $10^{-4}$ \\
+- regarding the dataflow authors of features, we note two similar clusters that consist of the same features of smaller and large sizes respectively \\
+- now, the smaller features have slightly more dataflow authors centering around 10 than the much larger features with an average of 8 \\
+- this shows itself in a negative correlation coefficient of -0.746 and a p-value of 0.003 falling out of our rejection range \\
+- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{figure}[htbp]
+  \centering
+  \includesvg[height=19cm]{gfx/results/RQ3/author-cfi-plot.svg}
+  \caption{Author CFI Plot}
+  \label{fig:author_cfi_plot}
+\end{figure}
 
 \clearpage 
 
