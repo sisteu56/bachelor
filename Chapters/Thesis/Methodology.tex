@@ -22,7 +22,7 @@ This gives us a direct estimate on how many commits were used in the development
 Our analysis also allows us to measure the size of feature, which can put the number of commits used to implement a feature into perspective.
 We refine our investigation by factoring in the nesting degrees~\ref{sec:nesting_degree} of our collected structural CFIs.
 This allows us to additionally determine the \textsf{definite} size of a feature showing us to what extent its code is nested inside other features.
-Furthermore, we can differentiate between commits that most likely and those that only potentially implemented a feature's functionality.
+Furthermore, we can differentiate between commits that most likely and those that only potentially implement a feature's functionality.
 By doing so, we intend to achieve a more accurate analysis regarding the number of commits used during a feature's development.
 
 \subsubsection*{Examining the Usage of Commits in Feature Development}
@@ -123,7 +123,7 @@ As there could be vast differences between the projects, we also work with and p
 
 From the collected structural reports, we first extract the number of structurally interacting commits and size for each feature.
 For each interacting commit, we also determine the nesting degree of its structural interaction with the feature.
-Additionally to the normal size of a feature, which we call \textsf{potential} size, we calculate its \textsf{definite} size as well. 
+Additionally to the normal size of a feature\ref{sec:feature_size}, which we call \textsf{potential} size, we calculate its \textsf{definite} size as well. 
 The datapoints of the two properties are shown in two respective bar plots, where the values for each feature are shown in a separate bar.
 The bars are labelled after the name of the feature they present, to allow for comparisons between the two plots and between different projects.
 For comparisons between the investigated projects, we also calculate the average number of interacting commits and size of a feature for each project.
