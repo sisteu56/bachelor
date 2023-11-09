@@ -56,67 +56,67 @@ Overall, the two projects do not produce conclusive statistical evidence that th
 
 \begin{figure}[htbp]
   \centering
-  \includesvg[height=13cm]{gfx/results/RQ1/commit-sfbr-plot.svg}
+  \includesvg[height=14cm]{gfx/results/RQ1/commit-sfbr-plot.svg}
   \caption{Commit Structural CFIs Plot}
   \label{fig:commit_sfbr_plot}
 \end{figure}
 
 \subsubsection*{Usage of Commits in Feature Development}\label{sec:eval_commit_usage}
 
-When proposing RQ1, we derived a best practice of commits used in feature development, namely that they should mostly change a single feature.
-We investigate to what extent this is enforced in our investigated software projects by examining the features a commit structurally interacts with, since these are the features a commit changes or implements.
-The distribution of how many commits interact with a certain number of features is displayed in figure \ref{fig:commit_sfbr_plot}.
-\textsc{xz} and \textsc{lrzip} have similar distributions, while the distributions of \textsc{gzip} and \textsc{bzip2} are rather unique.
-For \textsc{xz} and \textsc{lrzip}, we note that the majority of commits structurally interact with a single feature.
-The commit count gradually drops with an increasing number of structurally interacting features until it subsides to 0 at an x-value of 4.
-\textsc{xz} encompasses two outlier commits that interact with more than 4 features. 
-One of them imported the initial project to git and encompassed over 40000 additions.
-The other commit had many different responsibilites changing 118 files and over 3000 lines of code.
-Moving on to \textsc{gzip}, we notice a vastly different distribution compared to the previously discussed projects.
-With a commit count of 48, the majority of commits structurally interact with 4 features, while only 8 commits interact with a single feature.
-Interestingly, 47 out of the 48 commits interact with the exact same 4 features, namely \textsf{force}, \textsf{no\_name}, \textsf{method} and \textsf{decompress}.
-Even though the commit count quickly falls after its peak at an x-value of 4, there still are many outlier commits interacting with 7 or more features.
-For \textsc{bzip2}, there are much less commits used in feature-development with only 9 commits part of structural CFIs.
-The distribution consists of two clusters, the first being at one interacting feature and the second being centered around six interacting features.
+As discussed in \ref{sec:research_questions}, a best practice for commits in feature development is that one commit should generally change only one feature.
+We investigate to what extent this holds in our investigated software projects by examining the number of feature-related concerns of a commit.
+% since we determined this to be a fitting estimator for the number of features a commit changes or implements.
+The distribution of how many commits have a certain number of concerns is displayed in figure \ref{fig:commit_sfbr_plot}.
+\textsc{xz}, \textsc{gzip} and \textsc{lrzip} show similar distributions, which is why we discuss them now and \textsc{bzip2} later.
+For \textsc{xz}, \textsc{gzip} and \textsc{lrzip}, we note that the majority of commits only have single feature-related concern.
+The according percentages for commits with a single concern among all considered commits are 72\%, 69\% and 81\%.
+The commit count gradually drops with an increasing number of concerns until it subsides to 0 at an x-value of 7, 6 and 4 respectively.
+Interestingly, three commits of \textsc{gzip} have more than 10 concerns with the commit \textsf{33ae4134cc} even encompassing 47 concerns.
+Said commit originally introduced the \textsf{gzip.c}-file containing the \textsl{main}-function among other things.
+The exceptionally high number of \textsf{33ae4134cc}'s concerns can be explained by the fact that many of \textsc{gzip}'s 14 features are partially implemented within \textsf{gzip.c}.
+Additionally, the code of features is heavily nested inside each other, which means that the instructions stemming from said code encompass many different combinations of feature regions.
+For \textsc{bzip2}, there are much less commits used in feature-development compared to the other projects with only 9 commits part of structural CFIs.
+The distribution consists of two clusters, the first being at a single concern and the second cluster being located between 7 and 10 concerns.
 The second cluster encompassing 5 commits is slightly bigger than the first cluster with a commit count of 4.
-Since we are only dealing with a few commits here, that still produce quite interesting and unique data, we have a closer look at the purpose of these commits and relate it with the number of features they structurally interact with.
+Since we are only dealing with a few commits here, that still produce quite interesting and unique data, we have a closer look at the purpose of these commits and relate it to the number of their concerns.
 We find that all commits part of the second cluster were used to publish new versions of \textsc{bzip2}, always encompassing over 1000 additions.
 Three out of the four commits part of the first cluster introduced minor changes and bug fixes, never changing more than 30 source-code lines.
 The remaining commit updated \textsc{bzip2} to version 1.0.4 fixing minor bugs from the previous version with many of the added source-code lines being used for comments. 
 
 \begin{table}[t]
-\caption{Additional Information for Structural Analysis of Commits}
 \label{tab:commit_sfbr_table}
-\begin{tabular}{lllll}
- Projects & Average & Only SCFI with ND1 & Filter Large Commits & Both Restrictions \\
-  xz    & 1.47 & 1.23 & 1.3  & 1.11 \\
-  gzip  & 4.31 & 1.13 & 4.08 & 1.03 \\
-  bzip2 & 3.78 & 2.78 & 3.38 & 2.38 \\
-  lrzip & 1.3  & 1.08 & 1.3  & 1.09 \\
+\caption{Additional Information for Structural Analysis of Commits}
+\centering
+\begin{tabular}{l rSr rSr}
+\toprule
+\textbf{Projects} & \textbf{Average Number of Concerns} & \textbf{After Filtering Large Commits} \\ 
+\midrule
+  xz    & 1.48 & 1.29 \\
+  gzip  & 2.4 & 1.55 \\
+  bzip2 & 5.11 & 4.62 \\
+  lrzip & 1.3 & 1.3 \\
+\bottomrule
 \end{tabular}
 \end{table}
 
-To specify our initial observations, we show the average number of features a commit structurally interacts with in table \ref{tab:commit_sfbr_table}.
-We apply two restrictions, where we exclude certain structural CFIs and commits, allowing us to form a lower bound for the number of features a commit usually changes.
-Logically, we only consider commits with at least one interaction as we have done in figure \ref{fig:commit_sfbr_plot}.
-The first column shows us that the averages for \textsc{xz} and \textsc{lrzip}, are slightly above 1 ranging from 1.3 to 1.47.
-This is not the case for \textsc{gzip} and \textsc{bzip2} that have much higher averages at 4.31 and 3.78 respecitvely.
-In the column to the right, we compute the same average, but filter structural CFIs with higher nesting degrees than one beforehand.
-Across all projects, this ensures a decrease of the averages with the lowest value now being 1.08 for \textsc{lrzip} and the highest being 2.78 for \textsc{bzip2}.
-The most notable decrease occurs for \textsc{gzip}, which is to be expected given its very high degree of feature-nesting seen in figure \ref{fig:feature_sfbr_plot}.
-Here, it's important to clarify that we do not claim every CFI to be rightfully filtered or not filtered.
-Following our explanations in section \ref{sec:nesting_degree}, we do expect to exclude numerous CFIs whose commits did not implement the interaction's feature specifically.
-In a second restriction, we exclude commits we determined to be exceptionally large among the commits implementing features within their respective project.
-Except for \textsc{lrzip}, this measure also ensures a slight, albeit less significant, decrease of the averages. 
-We performed a qualitative analysis of the filtered commits to check whether our suspicion, that they were mostly used to refactor code, is true.
+In table~\ref{tab:commit_sfbr_table}, we display the average number of feature-related concerns within a project both before and after filtering exceptionally large commits.
+The first column contains the project to which the averages ​​in their respective row belong.
+In the following column, we show the initial averages before applying the mentioned restriction.
+\textsc{xz} and \textsc{lrzip} encompass the lowest average number of concerns at 1.48 and 1.3 respectively.
+Although the distribution of \textsc{gzip} shown in figure \ref{fig:commit_sfbr_plot} is similar to those of the formerly mentioned projects, its initial average is comparatively high at 2.4.
+The main cause for this are the discussed three commits of \textsc{gzip} with exceptionally many concerns.
+After filtering large commits within a project, we note that the averages of \textsc{xz}, \textsc{lrzip} and \textsc{gzip} become more similar.
+While the average slightly decreased for \textsc{xz} to 1.29, it stayed the same for \textsc{lrzip}.
+The three dicussed commits of \textsc{gzip} were part of the filtered commits, which explains the large drop of its average to 1.55.
+Unsurprisingly, the initial average of \textsc{bzip2} is by far the highest among all projects.
+Since most \textsc{bzip2} commits are relatively large, this is also the reason why they are not excluded from our analysis. 
+Here, only one commit with 9 concerns is removed, which lowers the average to 4.58.
+We also performed a qualitative analysis of the filtered commits to check whether our suspicion, that they were mostly used to refactor code, is true.
 We find that many of them were used to import the project or newer versions to git.
 The fact that such commits exist is unsurprising, considering that the investigated tools have been published before the release of git or before git was widespread.
 While their purpose might not be refactoring code, it does make sense to filter these commits, as they are not accurately depicting the development process of the project itself or of its features.
 Only two out of the eighteen commits we filtered in all projects, were actually used to refactor code, specifically moving contents between files or adapting the code to a newer version of C.
-We admit that for half of all exceptionally large commits we found no reason, neither refactoring code or importing the project to git, to be left out of our analysis.
-Finally, we apply both restrictions at the same time to form a lower bound for the number of features a commit usually changes.
-Although \textsc{gzip} had the highest initial average, its average is the lowest at 1.05 after the application of our two restrictions.
-For \textsc{xz}, \textsc{gzip} and \textsc{lrzip} the final average falls below 1.1, which is certainly closer to 1 than the general average.
+For half of all exceptionally large commits we found no reason, neither refactoring code or importing the project to git, to be left out of our analysis.
 
 \subsection*{\textbf{RQ2: Evaluation of Dataflow-based CFIs}}\label{sec:eval_df_cfis}
 
