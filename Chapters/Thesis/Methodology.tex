@@ -18,12 +18,13 @@ We intend to research two main properties which already provide a lot of insight
 \subsubsection*{Investigating Patterns around Feature Development}
 
 Firstly, we examine the number of commits features interact with structurally. 
-This gives us a direct estimate on how many commits were used in the development of a feature.
+This gives us an estimate on how many commits were used in the development of a feature and the according distribution among the features of a project.
 Our analysis also allows us to measure the size of feature, which can put the number of commits used to implement a feature into perspective.
-We refine our investigation by factoring in the nesting degrees~\ref{sec:nesting_degree} of our collected structural CFIs.
-This allows us to additionally determine the \textsf{definite} size of a feature showing us to what extent its code is nested inside other features.
-Furthermore, we can differentiate between commits that most likely and those that only potentially implement a feature's functionality.
-By doing so, we intend to achieve a more accurate analysis regarding the number of commits used during a feature's development.
+We refine our investigation by factoring in the nesting degrees of features \ref{def:nesting_degree}. 
+In sections \ref{sec:commit_concerns} and \ref{sec:feature_nesting_degree}, we discussed feature-nesting and the risks it bears for our analysis.
+Namely that a fraction of a feature's size can consist of instructions that do not implement its functionality.
+The same is the case for commits structurally interacting with a feature, meaning that a portion of them possibly didn't participate in its development, but in the development of other features.
+We therefore consider the frequency of feature-nesting within a project, so that we can tell how accurately our initial data reflects the development of features.
 
 \subsubsection*{Examining the Usage of Commits in Feature Development}
 
@@ -116,34 +117,28 @@ In the following sections, we explain our method of investigation in more detail
 
 \subsection*{\textbf{RQ1: How do commits and features structurally interact with each other?}}
 
-For this RQ, we examine the interactions contained in the structural reports created with our implementation in VaRA.
+For this RQ, we examine the interactions contained in the structural reports created with our \nameref{ch:implementation} in VaRA.
 As there could be vast differences between the projects, we also work with and present their respective data separately.
 
 \subsubsection*{Investigating Patterns around Feature Development}
 
 From the collected structural reports, we first extract the number of structurally interacting commits and size for each feature.
-For each interacting commit, we also determine the nesting degree of its structural interaction with the feature.
-Additionally to the normal size of a feature\ref{sec:feature_size}, which we call \textsf{potential} size, we calculate its \textsf{definite} size as well. 
 The datapoints of the two properties are shown in two respective bar plots, where the values for each feature are shown in a separate bar.
 The bars are labelled after the name of the feature they present, to allow for comparisons between the two plots and between different projects.
 For comparisons between the investigated projects, we also calculate the average number of interacting commits and size of a feature for each project.
-In the plot displaying the number of interacting commits, we stack the commits according to the nesting degree of their respective interaction with the feature.
-The first part of each bar consists of commits interacting at a nesting degree of one, the second part of commits interacting at a higher nesting degree.
-We do the same in the second plot, where the definite size forms the base of each bar upon which the difference with the potential size is added.
-This also allows us to see how common feature nesting is inside a project and which features are nested inside other features.
-Logically, the stacked bars must be colored differently to see their respective distribution inside a feature.
-The y-axis represents the number of instructions implementing a feature, i.e. the number of instructions stemming from its feature regions.
-The definite size of a feature only consists of instructions that are exclusively part of its respective regions, whereas we also count instructions part of multiple regions for the potential size of a feature.
-The features are sorted in an increasing order according to total the number of interacting commits interacting or size.
+For a simpler recognition of a distribution, the features are sorted in an increasing order according to their value in the metric of the respective plot.
+This also allows us to see whether the rank of a feature in one metric is indicative of its rank in the other metric and vice versa.
+Additionally to the size of a feature, we also determine its nesting degree(\ref{def:feature_nesting_degree}).
+The average nesting degree among the features of a project is subsequently shown in a \LaTeX-table.
+The strength of a project's overall nesting degree can in turn give us a direct estimate on the frequency of feature-nesting inside of it.
 Finally, we relate the two investigated properties in a \textsc{seaborn} regression plot.
 Here, we show whether features increasing in size, in turn structurally interact with more commits, i.e. need more commits to be implemented.
 Therefore, the value of the x-axis shows the size of a feature, whereas the y-axis shows the number of interacting commits.
 Each feature is represented by a scatter point inside the plot combining its respective y-values from the two previous plots.
 A linear regression line is drawn in the plot matching the occuring scatter points, where a rising graph could already indicate a positive correlation.
 To check whether we are dealing with a statistically significant linear correlation, we compute the pearson correlation coefficient and its p-value in the \textsc{stats} submodule of the \textsc{scipy} python namespace.
+Both values are subsequently inserted into the regression plot with the text-function of the \textsc{matplotlib}.
 To confirm our initial suspection of a strong positive correlation, the according correlation coefficient must be close to one, while the p-value must be close to zero falling below our rejection interval of 95\%.
-Here, we only consider the total number of interacting commits and size of a feature, which are the entire bar-values of a feature.
-To underline this, we choose the color of the regression plot as a mixture of the two colors used in the bar-plots.
 
 \subsubsection*{Examining the Usage of Commits in Feature Development}
 

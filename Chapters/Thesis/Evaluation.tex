@@ -11,37 +11,56 @@ This chapter evaluates the thesis core claims.
 
 \subsubsection*{Patterns of Feature Development}\label{sec:eval_feature_development}
 
+In the first part of RQ1, we examine the number of commits involved in the development of a feature and relate it to its size.
 Figure \ref{fig:feature_sfbr_plot} illustrates our results in three different plots for each project.
-Each row displays the results for one project with the name of the respective project being shown on the far left. \\
+Each row displays the results for one project with the name of the respective project being shown on the far left. 
 In the first column, we show the number of structurally interacting commits for each feature in a bar-plot.
 For all projects, we notice a wide distribution of structurally interacting commits between features.
-Numerous features, across all projects, interact with less than 5 commits suggesting that they need very little work to be implemented.
-On the other hand, both \textsc{xz} and \textsc{lrzip} have features structurally interacting with more than 20 commits, while \textsc{gzip} even has four features that interact with more than 60 commits.
+Numerous features, across all projects, interact with less than 5 commits suggesting that they need very little work to be implemented in comparison to other features.
+Both \textsc{xz} and \textsc{lrzip} have features structurally interacting with more than 20 commits, while \textsc{gzip} even has four features that interact with more than 60 commits.
 With a mean of 29, the features of \textsc{gzip} have by far the highest number of interacting commits on average.
 \textsc{xz}, \textsc{lrzip} and \textsc{bzip2} have much lower averages at 9, 16 and 4 respectively.
-For the three lastly mentioned projects, most structural interactions occur at a nesting degree of one.
-Still, some features are mostly or even entirely implemented by commits structurally interacting with them at a higher nesting degree.
-This is true for almost all features of \textsc{gzip}, where only \textsf{recursive}, \textsf{test} and \textsf{verbose} are exceptions to the other 11 investigated features.
 As all projects are of a compression domain, we can find several features with the same functionality across the examined projects.
-The \textsf{verbosity}-feature structurally interacts with the most commits in \textsc{xz} and \textsc{bzip2}, while the same is not the case for the \textsf{verbose}-feature of \textsc{gzip}. 
-Interestingly, most commits interact with them at a nesting degree of one, meaning that the commits were likely used to specifically change the respective features. 
+The \textsf{verbosity}-feature structurally interacts with the most commits in \textsc{xz} and \textsc{bzip2}, while the same is not the case for the \textsf{verbose}-feature of \textsc{gzip}.
 Although \textsc{gzip} encompasses the highest average number of interacting commits, its \textsf{recursive}-feature only interacts with 2 commits, while the \textsf{recursive}-feature of \textsc{lrzip} interacts with 24 commits. \\
 In the second column of figure \ref{fig:feature_sfbr_plot}, we display the calculated feature-sizes for each project.
-Again, we see a large spread between the different feature-sizes within all projects.
-Most notabely, there are large jumps between adjacent features, for example from \textsf{to\_stdout} with a size of 600 to \textsf{no\_name} with a size of 5500 in \textsc{gzip}.
+Again, we see a wide range of different feature-sizes within all projects.
+Most notabely, there are large jumps between adjacent features, for example from \textsf{to\_stdout} with a size of 450 to \textsf{no\_name} with a size of 7300 in \textsc{gzip}.
 Similarly to the number of interacting commits, \textsc{gzip} has by far the highest average feature size at 2500.
 The average feature sizes for the other projects range from 190 for \testc{xz} to 390 for \textsc{bzip2}. 
-The nesting of feature-code is most common in \textsc{gzip}, where the size of every feature completely or at least largely consists of potential feature size, i.e. instructions with a higher nesting degree than one.
-Feature-nesting is least common in \textsc{xz} and \textsc{lrzip}, although features such as \textsf{Cores}, \textsf{ForceOverwrite} and \textsf{lrzcat} make for exceptions here. \\
-Finally, the datasets used in the two previously dicussed plots are related inside the regression plot of figure \ref{fig:feature_sfbr_plot}.
+In table \ref{tab:feature_sfbr_table}, we display the average nesting degree of features for all projects.
+Feature-nesting is the least common for \textsc{xz} and \textsc{lrzip} and most common for \textsc{gzip} with an average of 0.93 indicating that the majority of features are nested to large extents.
+This also the case for the four, by far largest, features of \textsc{gzip}, namely \textsf{no\_name, method, force} and \textsf{decompress}.
+Specifically, 90 to 100\% of the instructions constituting their size are identical among the mentioned features.
+It is therefore not surprising that most, particularly 66, of the commits interacting with each feature are identical for all four features.
+Here, it is highly doubtful whether the size of a feature and the number of interacting commits reflect the actual number of \texttt{implementing} commits and instructions of a specific feature. \\
+Finally, the metrics used in the two previously dicussed plots are compared to each other using the regression plot of figure \ref{fig:feature_sfbr_plot}.
+That is, we compare the size of a feature with the number of commits that structurally interact with it.
+The values of the blue dots each represent a feature and are therefore identical to the values of the bars in the two previous columns.
 For both \textsc{xz} and \textsc{gzip}, we determine a strong positive correlation between the size of a feature and its number of structurally interacting commits.
 Their linear correlation coeffecients are close to 1 at 0.91 and 0.978 respectively with p-values smaller than $10^{-4}$.
-This data provides strong evidence that our initial notion, that larger features generally need more commits to be implemented, is correct.
+% This data provides strong evidence that our initial notion, that larger features generally need more commits to be implemented, is correct.
+This data provides strong evidence that the observed correlation is statistically significant.
 While \textsc{bzip2} and \textsc{lrzip} have positive correlation coefficients of 0.585 and 0.968 respectively, their p-vlaues are relatively high at over 0.1.
 The high p-values can be explained by a lack of datapoints for \textsc{lrzip} and conflicting datapoints for \textsc{bzip2}.
 For example, do both the \textsf{opMode}- and \textsf{srcMode}-feature of \textsc{bzip2} structurally interact with 6 commits, but encompass vastly different feature sizes.
 Overall, the two projects do not produce conclusive statistical evidence that the size of a feature and the number of interacting commits is positively correlated.
 
+\begin{table}[t]
+\caption{Additional Information for Structural Analysis of Features}
+\label{tab:feature_sfbr_table}
+\centering
+\begin{tabular}{l rS}
+\toprule
+\textbf{Projects} & \textbf{Average Feature Nesting Degree} \\ 
+\midrule
+  xz    & 0.34 \\
+  gzip  & 0.93 \\
+  bzip2 & 0.64 \\
+  lrzip & 0.37 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \clearpage
 
@@ -84,8 +103,8 @@ Three out of the four commits part of the first cluster introduced minor changes
 The remaining commit updated \textsc{bzip2} to version 1.0.4 fixing minor bugs from the previous version with many of the added source-code lines being used for comments. 
 
 \begin{table}[t]
-\label{tab:commit_sfbr_table}
 \caption{Additional Information for Structural Analysis of Commits}
+\label{tab:commit_sfbr_table}
 \centering
 \begin{tabular}{l rSr rSr}
 \toprule
