@@ -20,7 +20,7 @@ We intend to research two main properties which already provide a lot of insight
 Firstly, we examine the number of commits features interact with structurally. 
 This gives us an estimate on how many commits were used in the development of a feature and the according distribution among the features of a project.
 Our analysis also allows us to measure the size of feature, which can put the number of commits used to implement a feature into perspective.
-We refine our investigation by factoring in the nesting degrees of features \ref{def:nesting_degree}. 
+We refine our investigation by factoring in the nesting degrees of features (\ref{def:feature_nesting_degree}). 
 In sections \ref{sec:commit_concerns} and \ref{sec:feature_nesting_degree}, we discussed feature-nesting and the risks it bears for our analysis.
 Namely that a fraction of a feature's size can consist of instructions that do not implement its functionality.
 The same is the case for commits structurally interacting with a feature, meaning that a portion of them possibly didn't participate in its development, but in the development of other features.
@@ -35,7 +35,7 @@ As different features implement separate functionalities, it's unlikely for a co
 Transferring this to our work, high quality commits should mostly change a single feature.
 Acquiring data on this issue might show how strictly this policy is enforced in the development of features across different projects. 
 In section \ref{sec:commit_concerns}, we discussed that, due to feature nesting, a commit can structurally interact with multiple features at the same time while only changing functionality of one of them.
-Instead of considering the features a commit structurally interacts, we rather examine the number of its feature-related concerncs~\ref{def:commit_concerns} for this RQ.
+Instead of considering the features a commit structurally interacts, we rather examine the number of its feature-related concerns (\ref{def:commit_concerns}) for this RQ.
 This way we aim to achieve a more accurate preditction for the number of features a commit changed or implemented.
 In our analysis, we should ideally filter commits whose purpose was refactoring code, since they do not fit our criteria of changing or adding functionality to a feature.
 Exceptionally large commits might be best considered for this, as this is where we expect most commits used for large-scale refactoring to appear.
@@ -126,7 +126,7 @@ From the collected structural reports, we first extract the number of structural
 The datapoints of the two properties are shown in two respective bar plots, where the values for each feature are shown in a separate bar.
 The bars are labelled after the name of the feature they present, to allow for comparisons between the two plots and between different projects.
 For comparisons between the investigated projects, we also calculate the average number of interacting commits and size of a feature for each project.
-For a simpler recognition of a distribution, the features are sorted in an increasing order according to their value in the metric of the respective plot.
+For a simpler recognition of the existing distribution, the features are sorted in an increasing order according to their value in the metric of the respective plot.
 This also allows us to see whether the rank of a feature in one metric is indicative of its rank in the other metric and vice versa.
 Additionally to the size of a feature, we also determine its nesting degree(\ref{def:feature_nesting_degree}).
 The average nesting degree among the features of a project is subsequently shown in a \LaTeX-table.
@@ -142,7 +142,7 @@ To confirm our initial suspection of a strong positive correlation, the accordin
 
 \subsubsection*{Examining the Usage of Commits in Feature Development}
 
-For each commit part of at least one structural interaction, we determine the number of its concerns~\ref{def:commit_concerns}.
+For each commit part of at least one structural interaction, we determine the number of its feature-related concerns (\ref{def:commit_concerns}).
 For this, we examine the complex structural CFIs discussed in our \nameref{ch:implementation}.
 There, we increment the number of a commit's concerns upon finding a new set of features it structurally interacts with at the same time, i.e. within the same instructions.
 Following this, we give a comprehensive overview of our results in a \textsc{seaborn} histplot for every investigated project.
@@ -151,7 +151,7 @@ If 50 commits deal with a single concern inside a project, the y-value of one wi
 Thus, we can quickly see to what extent our derived best practice surrounding commits in feature development is enforced in a project.
 The more commits are located at one in comparison to other x-values, the more commits are likely to have only changed a single feature.
 To facilitate comparisons between projects, we choose the same x- and y-labels for every histogram. 
-Commits with exceptionally many concerns are shown in an additional x-tick to avoid an overly long x-axis.
+Commits with exceptionally many feature-related concerns are shown in an additional x-tick to avoid an overly long x-axis.
 Instead, we mention these commits explicitly during our evaluation and relate the number of their concerns to their specific purpose. \\
 In a second analysis step, we filter exceptionally large commits, whose purpose we expect to be something else than implementing features, such as code-refactoring.
 Similiarly to the regions of a commit, we determine its size in a repository as the number of source-code lines that were last changed or added by it.
