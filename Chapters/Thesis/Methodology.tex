@@ -68,13 +68,14 @@ This allows us to especially focus on commits part of outside dataflow interacti
 
 Dataflow-based CFIs allow us to examine another interesting property, namely the number of commits affecting a feature through dataflow.
 Here, we differentiate between commits \textsc{inside} and \textsc{outside} of features, i.e. commits that either do or don't contribute code to them.
-We examine the proportion of outside to inside commits influencing a feature to gauge where most dataflow interactions of a feature stem from.
+We examine the ratio of outside to inside commits influencing a feature to gauge where most dataflow interactions of a feature stem from.
 Considering our previous assumptions, the ratio of outside to inside commits could decrease with increasing size of a feature.
 Smaller features are likely to structurally interact with less commits than their larger counterparts, resulting in them also interacting with less inside commits through dataflow.
-However, the number of outside commits affecting data of a feature is not dependent on feature size in such a way.
+However, the number of outside commits affecting data of a feature might not be dependent on feature size to such an extent.
 This leads us to another relationship worth investigating, namely the relation between the size of a feature and the number of outside and inside commits interacting with it through dataflow.
 We examine the two commit kinds separately, as we already have a strong supposition for inside commits, but are less certain for outside commits. 
 Determining to what extent feature size is the driving factor in this relation, could tell us whether it is worth considering other possible properties of features in future analyses.
+Discovering features with unusually many outside commits in relation to their size could also allow us to detect feature-code that is central-code for a project.
 
 \subsection*{\textbf{RQ3: How do authors interact with features?}}
 

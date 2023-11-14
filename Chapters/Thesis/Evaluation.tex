@@ -54,7 +54,7 @@ Overall, the two projects do not produce conclusive statistical evidence that th
 \caption{Additional Information for Structural Analysis of Features}
 \label{tab:feature_sfbr_table}
 \centering
-\begin{tabular}{l rS}
+\begin{tabular}{l r}
 \toprule
 \textbf{Projects} & \textbf{Average Feature Nesting Degree} \\ 
 \midrule
@@ -110,14 +110,14 @@ The remaining commit updated \textsc{bzip2} to version 1.0.4 fixing minor bugs f
 \caption{Additional Information for Structural Analysis of Commits}
 \label{tab:commit_sfbr_table}
 \centering
-\begin{tabular}{l rSr rSr}
+\begin{tabular}{l r r}
 \toprule
 \textbf{Projects} & \textbf{Average Number of Concerns} & \textbf{After Filtering Large Commits} \\ 
 \midrule
   xz    & 1.48 & 1.29 \\
-  gzip  & 2.4 & 1.55 \\
+  gzip  & 2.40 & 1.55 \\
   bzip2 & 5.11 & 4.62 \\
-  lrzip & 1.3 & 1.3 \\
+  lrzip & 1.30 & 1.30 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -164,12 +164,16 @@ Comparing the two bar-types, we notice that the percentage of commits with struc
 \begin{table}[t]
 \caption{Additional Information for Dataflow Analysis of Commits}
 \label{tab:commit_dfbr_table}
-\begin{tabular}{lll}
- Projects & Number of Active Commits & Probability for Commit to be part of dataflow CFI \\
- 	  & 			     & given that it is part of structural CFI \\
-xz & 1039 & 0.883 \\
-gzip & 194 & 0.933 \\
-bzip2 & 37 & 0.889 \\
+\centering
+\begin{tabular}{l r r}
+\toprule
+\textbf{Projects} & \textbf{Number of Active Commits} & \textbf{Probability for Commit to be part of dataflow CFI} \\ 
+ 		  & 			     	      & \textbf{given that it is part of structural CFI} \\
+\midrule
+  xz    & 1039 & 0.883 \\
+  gzip  & 194 & 1.000 \\
+  bzip2 & 37 & 0.889 \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -213,7 +217,7 @@ The contrast is slightly weaker for \textsc{bzip2} with a 3.1 times higher likel
 
 \begin{figure}[htbp]
   \centering
-  \includesvg[height=9cm]{gfx/results/RQ2/proportional_commit_dfbr_plot.svg}
+  \includesvg[height=8.9cm]{gfx/results/RQ2/proportional_commit_dfbr_plot.svg}
   \caption{Proportional Dataflow-Plot for Commits}
   \label{fig:commit_dfbr_plot}
 \end{figure}
@@ -221,12 +225,16 @@ The contrast is slightly weaker for \textsc{bzip2} with a 3.1 times higher likel
 \begin{table}[t]
 \caption{Relating Inside Dataflow to Outside Dataflow}
 \label{tab:commit_dfbr_rel_table}
-\begin{tabular}{lll}
- Projects & Probability for Commits Part of Structural CFIs & Same Probability Given 	\\
- 	  & to Affect other Features Through Outside DF     & Any Active Commit		\\
-xz & 0.417 & 0.086 \\
-gzip & 0.596 & 0.381 \\
-bzip2 & 0.667 & 0.216 \\
+\centering
+\begin{tabular}{l r r}
+\toprule
+\textbf{Projects} & \textbf{Probability for Commits Part of Structural CFIs} & \textbf{Same Probability Given} \\ 
+ 		  & \textbf{to Affect other Features Through Outside DF}     & \textbf{Any Active Commit} \\
+\midrule
+  xz    & 0.417 & 0.086 \\
+  gzip  & 0.596 & 0.381 \\
+  bzip2 & 0.667 & 0.216 \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -242,6 +250,84 @@ bzip2 & 0.667 & 0.216 \\
 \clearpage
 
 \subsubsection*{Understanding Features and the Commits Affecting them Through Dataflow}\label{sec:eval_feature_dfbr}
+
+- besides exmaining the ratio of outside and inside commits affecting a feature through dataflow, we also relate the two metrics to the size of a feature \\
+- furthermore, we want to put our thesis, that the proportion of outside to inside commits of a feature decreases as its size increases, to the test \\
+- our results are shown in figure \ref{fig:feature_dfbr_plot} in three plots for each of our investigated projects \\
+- in column one of the respective figure, we display the number of outside and inside commits for each feature in a bar plot \\
+- we note that the majority of features in \textsc{xz}, \textsc{gzip} and \textsc{lrzip} are affected by more outside than inside commits through dataflow \\
+- for \textsc{xz} and \textsc{gzip} this is underlined in median-values of 18.5 and 54 for outside commits and median-values of 6.5 and 14 for inside commits among their features \\
+% mention dichomitry between gzip's four largest features and the rest??
+- for features of \textsc{xz} and \textsc{gzip} with more outside than inside commits, we also notice very high ratios of outside to inside commits \\
+- they range from 2 to 9 in \textsc{xz} with a mean of 4.4 and from 3 to 32 in \textsc{gzip} with a mean of 10.8 \\
+- for features with more inside than outside commits affecting them through dataflow, we determined much lower ratios and according range of inside to outside commits \\
+- they range from 1.17 to 1.44 in \textsc{xz} with a mean of 1.3 and from 2.3 to 2.8 in \textsc{gzip} with a mean of 2.5 \\
+- at least for these two projects, the number of outside commits is often not only slightly higher than the number of inside commits, but instead exceeds it by many maginutes \\
+% - due to the high degree of feature-nesting determined for \textsc{gzip} in the evaluation of RQ1, we decided to test  
+% same not true for inside commits
+- the features of \textsc{bzip2} exhibit a different general behavior than the features of the projects discussed above \\
+- specifically, most features encompass more or at least the same number of inside than outside affecting them through dataflow \\
+- the range and maximum number of interacting commits is also much lower compared to the other examined projects \\
+
+- in the second column of figure \ref{fig:feature_dfbr_plot}, we compare the number of inside and and the number of outside commits of a feature with its size in a regression plot \\
+- unsurprisingly, we find a strong positive correlation regarding the inside commits of features across all projects \\
+- especially, the correlation coefficients for \textsc{xz}, \textsc{gzip} and \textsc{lrzip} range close to 1 with a minimum value of 0.935 \\
+- \textsc{xz} and \textsc{gzip} encompass p-values of less than $10^{-4}$ supporting a statisitically significant correlation \\
+- the correlations regarding the outside commits affecting features through dataflow are vastly different from project to project \\
+- \textsc{xz} is the only project with a strong positive correlation with a coefficient of 0.824 \\
+- a low p-value of 0.003 outside of our rejection interval makes the data seem statistically significant at first \\
+- however, the dots of its regression plot are scattered rather randomly and the number of interacting commits generally do not increase with rising feature-size \\
+- we determined the \textsf{Verbosity}-feature to be the main reason for our calculated strong positive correlation \\
+- this becomes clear when we disregard \textsf{Verbosity} in our analysis, which results in the coefficient dropping close to 0 and the p-value rising to 1 \\
+- \textsc{gzip} encompasses a negative correlation coefficient of -0.772 and p-value of 0.002 justifiying the existence of significant statistical evidence \\
+- the falling linear regression line is mainly formed by the two existing clusters, where one consists of four very large and the other cluster of nine relatively small features \\
+- the former cluster consists of features that each interact with around 30 outside commits through dataflow \\
+- the cluster consisting of features with small sizes encompasses higher values between 50 and 65 \\
+- the only feature of \textsc{gzip} that cannot be assigned to a cluster is the \textsf{recursive}-feature, which rather fits into the first cluster according to its number of outside commits and into the second cluster according to its size \\
+- in \textsc{bzip2}, the number of outside commits affecting a feature through dataflow and its size are un-correlated \\ 
+- a correlation coefficinet of 0.545 and a high p-value of 0.633 do not provide significant statistical evidence for the existence of a correlation \\
+
+- in the third column of figure \ref{fig:feature_dfbr_plot}, we finally relate the size of a feature to its proportion of outside to inside commits \\
+- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \subsection*{\textbf{RQ3: Evaluation of Author Interactions}}\label{sec:eval_author_interactions}
 
