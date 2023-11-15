@@ -143,24 +143,30 @@ For half of all exceptionally large commits we found no reason, neither refactor
 
 \subsection*{\textbf{RQ2: Evaluation of Dataflow-based CFIs}}\label{sec:eval_df_cfis}
 
+Although dataflow-based CFIs only include dataflow in one direction, namely from commits to features, we examine properties, that can be extracted from this type of CFIs, for both commits and features.
+Our results regarding the commits affecting features through dataflow are shown in figure \ref{fig:proportional_commit_dfbr_plot} and in the tables \ref{tab:x} and \ref{tab:y}.
+Figure \ref{fig:feature_dfbr_plot} displays our results for the features of a project and the commits that affect them through dataflow.
+
 \subsubsection*{Proportion and Dependencies of Commits Affecting Features through Dataflow}\label{sec:eval_commit_dfbr}
 
-The initial step in evaluating what fraction of commits affect features through dataflow, is determing the number of active commits.
-Active commits are represented by at least one commit region inside a program, meaning that they fullfil the minimum requirement to be part of a dataflow-based CFI.
-The respective values are shown in the first column of table \ref{tab:commit_dfbr_table} for each project.
+At first, we examine the fraction of commits affecting features through dataflow among the \texttt{active} commits of a project.
+There, we also evaluate the effects and dependencies of commits part of structural CFIs on said fraction.
+Following this, we intend to determine the proportion of outside dataflow origins within the commits with dataflow interactions.
+The respective number of active commits are shown in the first column of table \ref{tab:commit_dfbr_table} for each project.
 We determined \textsc{xz} to have the highest number of active commits at 1039, while \textsc{bzip2} only has a tiny fraction of that at 37.
-In the first plot of figure \ref{fig:commit_dfbr_plot}, the bars colored in red show what percenateg of commits interact with features through dataflow.
+In the first plot of figure \ref{fig:commit_dfbr_plot}, the bars colored in red show what percentage of commits interact with features through dataflow.
 We notice that the respective percentages are vastly different from project to project.
-The majority of \textsc{gzip}'s active commits are part of dataflow-based CFIs at 53.6\%.
-This percentage gets halved for \textsc{bzip2} with about 27\%, with another large drop to 11.3\% for \textsc{xz}.
-This means that roughly every second commit in \textsc{gzip}, every fourth commit in \textsc{bzip2} and every ninth commit in \textsc{xz} affects features through dataflow.
+The majority of \textsc{gzip}'s active commits are part of dataflow-based CFIs at 62.9\%.
+This percentage drops to about 27\% for \textsc{bzip2}, with another large reduction to 11.3\% for \textsc{xz}.
+This means that more than every second commit in \textsc{gzip}, roughly every fourth commit in \textsc{bzip2} and every ninth commit in \textsc{xz} affects features through dataflow.
 The bars colored in grey display the fraction of active commits structurally interacting with features.
-In addition to the obvious fact of how often commits are used to implement features, this also gives us an estimation on the extend of feature-code in a project.
+In addition to the obvious fact of how often commits are used to implement features, this also bears important consequences for the fraction of commits with dataflow interactions.
+\iffalse
 The more commits are part of structural CFIs, the more of the code contributed by them and therefore the overall code of a project will be part of feature regions.
 Logically, the accuracy of this estimation depends on many factors, such as the extend to which commits contributing code to features, also contribute code to other parts of a program.
 Still, given the large disparity in the percentage of commits with structural interactions, we can be relatively certain that \textsc{xz} has the lowest proportion and \textsc{gzip} the largest proportion of feature-code with \textsc{bzip2} somewhere inbetween.
-Comparing the two bar-types, we notice that the percentage of commits with structural interactions is lower than the percentage of commits with dataflow interactions for each project.
-
+\fi
+Comparing the two bar-types, we notice that the percentage of commits with structural interactions is lower than the percentage of commits with dataflow interactions for each project. \\
 \begin{table}[t]
 \caption{Additional Information for Dataflow Analysis of Commits}
 \label{tab:commit_dfbr_table}
@@ -176,20 +182,22 @@ Comparing the two bar-types, we notice that the percentage of commits with struc
 \bottomrule
 \end{tabular}
 \end{table}
-
 This phenomenon can be explained considering the values presented in the second column of table \ref{tab:commit_dfbr_table}.
 There, we show the probablity for a commit to be part on any dataflow-based CFI, given that said commit is part of any structural CFI.
-We see that the probabilities are roughly the same for each project at around 90\%.
+We see that the probabilities are slightly below 90\% for \textsc{xz} as well as \textsc{bzip2} and even at 100\% for \textsc{gzip}.
 This means that by only taking into account commits part of structural CFIs, we already encounter a lot of commits that affect features through dataflow.
 If we then consider the entire set of active commits, the number of commits with dataflow interactions will likely exceed the number of commits with structural interactions.
-Across all projects, the probability of a commit interacting with features through dataflow, given that it is part of structural CFIs, is much higher than the same probability for any active commit.
-This is a clear indication that our assumptions in section \ref{sec:combination_cfis}, that structural CFIs heavily coincide with dataflow-based CFIs, are correct.
-Since our intent is to especially focus on commits whose interactions with features can only be discovered by employing our dataflow analysis, we now aim to quantify these commits in the investigated projects.
+This also implies that most, if not all, commits constituting the grey bar of a project will in turn constitute parts of the red bar as well. \\
+\iffalse
+Across all projects, the probability for a commit to interact with features through dataflow, given that it is part of structural CFIs, is much higher than the same probability for any active commit.
+We consider this as a clear indication that our assumptions in section \ref{sec:combination_cfis}, that structural CFIs heavily coincide with dataflow-based CFIs, are correct.
+Since our intent is to especially focus on commits whose interactions with features can only be discovered by employing our dataflow analysis, we quantified the respective commits in the investigated projects.
 For this, we examine the relative difference between the percentages of commits with structural and commits with dataflow interactions.
 This difference roughly determines what share of commits are part of the discussed more interesting dataflow interactions.
 The difference is the smallest for \textsc{bzip2} at 10\% and slightly higher than that for \textsc{gzip} at 15\%.
-\textsc{xz} has by far the biggest relative difference at almost 49\%, which means that our dataflow analysis reveals many additional interactions here.
-We explore the topic of different dataflow interaction types more thoroughly in our second plot, which focuses on the \textsf{origin} of dataflow. \\
+\textsc{xz} has by far the biggest relative difference at almost 49\%, which means that our dataflow analysis reveals many additional interactions here. 
+\fi
+We explore the topic of different dataflow interaction types more thoroughly in our second plot, which focuses on the \textsf{origin} of dataflow.
 There, we have a closer look at the commits affecting features through dataflow and where their dataflow stems from.
 Naturally, dataflow occuring inside the regions of a feature is more intentional and therefore less interesting, than dataflow originating outside its regions.
 In section \ref{sec:combination_cfis}, we explain, that the dataflow of commits and features not structurally interacting with each other, must be outside dataflow.
@@ -198,22 +206,24 @@ Therefore, we cannot be sure whether the dataflow of these interactions originat
 Due to the inherent properties of structural interactions, i.e. heavily coinciding with dataflow interactions, we assume their dataflow to originate inside the regions of a feature.
 In the second plot of figure \ref{fig:commit_dfbr_plot}, we separate the commits with dataflow interactions into three categories based on dataflow origin.
 The first category, shown as the bar colored in blue, represents commits that only interact with features through outside dataflow.
-They make up the majority of commits for \textsc{xz} at 56.4\% and only 20\% of commits for both \textsc{bzip2} and \textsc{gzip}.
+They make up the majority of commits for \textsc{xz} at 56.4\% and 20\% as well as 25.4\% of commits for \textsc{bzip2} and \textsc{gzip} respectively.
 The second category represents commits that interact with features through outside and inside dataflow.
 Logically, these commits affect at least two features through dataflow and only structurally interact with a subset of them.
-Surprsingly, they form the majority of commits for \textsc{bzip2} and \textsc{gzip} at 60 and 51\% respectively and around 20\% of commits for \textsc{xz}.
+Surprsingly, they form the majority of commits for \textsc{bzip2} and \textsc{gzip} at 60 and 44.3\% respectively and around 20\% of commits for \textsc{xz}.
 The proportion of commits that only interact with features through inside dataflow varies less between the projects.
-\textsc{gzip} has the highest percentage at 28.8\%, \textsc{bzip2} the lowest at 20\% with \textsc{xz} inbetween the two at 23.9\%. \\
+\textsc{gzip} has the highest percentage at 31.3\%, \textsc{bzip2} the lowest at 20\% with \textsc{xz} inbetween the two at 23.9\%. \\
+\iffalse
 We admit that the high proportions of commits with both inside and outside dataflow are rather unexpected.
 They hinder a clear separation of commits with dataflow interactions into less and more interesting commits, e.g. commits whose dataflow interactions are more and less obvious.
-We notice that commits interacting with features through inside dataflow, have a high chance to also interact with other features through outside dataflow.
-By definition, all commits interacting with features through inside dataflow also structurally intercact with them.
+\fi
+We notice that commits interacting with features through inside dataflow, have a high chance to also interact with \texttt{other} features through outside dataflow.
+By definition, all commits interacting with features through inside dataflow also structurally interact with them.
 From previous explanations, we also know these commits are almost identical to the entire set of commits with structural interactions.
-It follows that commits part of structural CFIs must also have a high, albeit slightly lower, chance to affect features through outside dataflow.
-We compare this probability to the probability of any active commit to interact with features through outside df in table \ref{tab:commit_dfbr_rel_table}.
-The strongest contrast occurs for \textsc{xz}, where 41.7\% of commits structurally interacting with features, interact with other features through outside df, making them 4.8 times more likely to do so compared to any active commit of \textsc{xz} at 8.6\%.
+It follows that commits part of structural CFIs must also have a high, albeit slightly lower, chance to affect other features through outside dataflow.
+We compare this probability to the probability of any active commit to interact with features through outside dataflow in table \ref{tab:commit_dfbr_rel_table}.
+The strongest contrast occurs for \textsc{xz}, where 41.7\% of commits structurally interacting with features, interact with other features through outside dataflow, making them 4.8 times more likely to do so compared to any active commit of \textsc{xz} at 8.6\%.
 The contrast is slightly weaker for \textsc{bzip2} with a 3.1 times higher likelihood and according percentages of 66.7 and 21.6\% respectively. 
-\text{gzip} has the weakest contrast at 1.58 and respective probabilites of 59.6 and 38.1\%. 
+\text{gzip} has the weakest contrast at 1.5 and respective probabilites of 59.6 and 38.1\%. 
 
 \begin{figure}[htbp]
   \centering
@@ -251,47 +261,50 @@ The contrast is slightly weaker for \textsc{bzip2} with a 3.1 times higher likel
 
 \subsubsection*{Understanding Features and the Commits Affecting them Through Dataflow}\label{sec:eval_feature_dfbr}
 
-- besides exmaining the ratio of outside and inside commits affecting a feature through dataflow, we also relate the two metrics to the size of a feature \\
-- furthermore, we want to put our thesis, that the proportion of outside to inside commits of a feature decreases as its size increases, to the test \\
-- our results are shown in figure \ref{fig:feature_dfbr_plot} in three plots for each of our investigated projects \\
-- in column one of the respective figure, we display the number of outside and inside commits for each feature in a bar plot \\
-- we note that the majority of features in \textsc{xz}, \textsc{gzip} and \textsc{lrzip} are affected by more outside than inside commits through dataflow \\
-- for \textsc{xz} and \textsc{gzip} this is underlined in median-values of 18.5 and 54 for outside commits and median-values of 6.5 and 14 for inside commits among their features \\
+Besides exmaining the ratio of outside and inside commits affecting a feature through dataflow, we also relate the two metrics to the size of a feature.
+Furthermore, we want to put our thesis, that the proportion of outside to inside commits of a feature decreases as its size increases, to the test.
+Our results are shown in figure \ref{fig:feature_dfbr_plot} in three plots for each of our investigated projects.
+In column one of the respective figure, we display the number of outside and inside commits for each feature in a bar plot.
+We note that the majority of features in \textsc{xz}, \textsc{gzip} and \textsc{lrzip} are affected by more outside than inside commits through dataflow.
+For \textsc{xz} and \textsc{gzip} this is underlined in median-values of 18.5 and 54 for outside commits and median-values of 6.5 and 14 for inside commits among their features.
 % mention dichomitry between gzip's four largest features and the rest??
-- for features of \textsc{xz} and \textsc{gzip} with more outside than inside commits, we also notice very high ratios of outside to inside commits \\
-- they range from 2 to 9 in \textsc{xz} with a mean of 4.4 and from 3 to 32 in \textsc{gzip} with a mean of 10.8 \\
-- for features with more inside than outside commits affecting them through dataflow, we determined much lower ratios and according range of inside to outside commits \\
-- they range from 1.17 to 1.44 in \textsc{xz} with a mean of 1.3 and from 2.3 to 2.8 in \textsc{gzip} with a mean of 2.5 \\
-- at least for these two projects, the number of outside commits is often not only slightly higher than the number of inside commits, but instead exceeds it by many maginutes \\
+For features of \textsc{xz} and \textsc{gzip} with more outside than inside commits, we also notice very high ratios of outside to inside commits.
+They range from 2 to 9 in \textsc{xz} with a mean of 4.4 and from 3 to 32 in \textsc{gzip} with a mean of 10.8.
+For features with more inside than outside commits affecting them through dataflow, we determined much lower ratios and according ranges of inside to outside commits.
+They range from 1.17 to 1.44 in \textsc{xz} with a mean of 1.3 and from 2.3 to 2.8 in \textsc{gzip} with a mean of 2.5.
+At least for these two projects, the number of outside commits is often not only slightly higher than the number of inside commits, but instead exceeds it by many maginutes.
 % - due to the high degree of feature-nesting determined for \textsc{gzip} in the evaluation of RQ1, we decided to test  
 % same not true for inside commits
-- the features of \textsc{bzip2} exhibit a different general behavior than the features of the projects discussed above \\
-- specifically, most features encompass more or at least the same number of inside than outside affecting them through dataflow \\
-- the range and maximum number of interacting commits is also much lower compared to the other examined projects \\
-
-- in the second column of figure \ref{fig:feature_dfbr_plot}, we compare the number of inside and and the number of outside commits of a feature with its size in a regression plot \\
-- unsurprisingly, we find a strong positive correlation regarding the inside commits of features across all projects \\
-- especially, the correlation coefficients for \textsc{xz}, \textsc{gzip} and \textsc{lrzip} range close to 1 with a minimum value of 0.935 \\
-- \textsc{xz} and \textsc{gzip} encompass p-values of less than $10^{-4}$ supporting a statisitically significant correlation \\
-- the correlations regarding the outside commits affecting features through dataflow are vastly different from project to project \\
-- \textsc{xz} is the only project with a strong positive correlation with a coefficient of 0.824 \\
-- a low p-value of 0.003 outside of our rejection interval makes the data seem statistically significant at first \\
-- however, the dots of its regression plot are scattered rather randomly and the number of interacting commits generally do not increase with rising feature-size \\
-- we determined the \textsf{Verbosity}-feature to be the main reason for our calculated strong positive correlation \\
-- this becomes clear when we disregard \textsf{Verbosity} in our analysis, which results in the coefficient dropping close to 0 and the p-value rising to 1 \\
-- \textsc{gzip} encompasses a negative correlation coefficient of -0.772 and p-value of 0.002 justifiying the existence of significant statistical evidence \\
-- the falling linear regression line is mainly formed by the two existing clusters, where one consists of four very large and the other cluster of nine relatively small features \\
-- the former cluster consists of features that each interact with around 30 outside commits through dataflow \\
-- the cluster consisting of features with small sizes encompasses higher values between 50 and 65 \\
-- the only feature of \textsc{gzip} that cannot be assigned to a cluster is the \textsf{recursive}-feature, which rather fits into the first cluster according to its number of outside commits and into the second cluster according to its size \\
-- in \textsc{bzip2}, the number of outside commits affecting a feature through dataflow and its size are un-correlated \\ 
-- a correlation coefficinet of 0.545 and a high p-value of 0.633 do not provide significant statistical evidence for the existence of a correlation \\
-
-- in the third column of figure \ref{fig:feature_dfbr_plot}, we finally relate the size of a feature to its proportion of outside to inside commits \\
-- 
-
-
-
+The features of \textsc{bzip2} exhibit a different general behavior than the features of the projects discussed above.
+Specifically, 6 out of 8 features encompass more or at least the same number of inside than outside affecting them through dataflow.
+The range and maximum number of interacting commits is also much lower compared to the other examined projects. \\
+In the second column of figure \ref{fig:feature_dfbr_plot}, we compare the number of inside and the number of outside commits of a feature with its size in a regression plot.
+As suspected during the formulation of RQ2, we find a strong positive correlation regarding the inside commits of features across all projects.
+Especially, the correlation coefficients for \textsc{xz}, \textsc{gzip} and \textsc{lrzip} range close to 1 with a minimum value of 0.935.
+\textsc{xz} and \textsc{gzip} encompass p-values of less than $10^{-4}$ supporting a statisitically significant correlation.
+The correlations regarding the outside commits affecting features through dataflow are vastly different from project to project.
+\textsc{xz} is the only project with a strong positive correlation with a coefficient of 0.824.
+A low p-value of 0.003 outside of our rejection interval makes the data seem statistically significant at first.
+However, the dots of its regression plot are scattered rather randomly and the number of interacting commits generally does not increase with rising feature-size.
+We determined the \textsf{Verbosity}-feature to be the main reason for our calculated strong positive correlation.
+This becomes clear when we disregard \textsf{Verbosity} in our analysis, which results in the coefficient dropping close to 0 and the p-value rising to 1.
+\textsc{gzip} encompasses a negative correlation coefficient of -0.772 and a p-value of 0.002 justifiying the existence of significant statistical evidence.
+The falling linear regression line is mainly formed by the two existing clusters, where one consists of four very large and the other cluster of nine relatively small features.
+The former cluster consists of features that each interact with around 30 outside commits through dataflow.
+The cluster consisting of features with small sizes encompasses higher values between 50 and 65.
+The only feature of \textsc{gzip} that cannot be assigned to a cluster is the \textsf{recursive}-feature, which rather fits into the first cluster according to its number of outside commits and into the second cluster according to its size.
+In \textsc{bzip2}, the number of outside commits affecting a feature through dataflow and its size are un-correlated.
+A correlation coefficient of 0.545 and a high p-value of 0.633 do not provide significant statistical evidence for the existence of a correlation in \textsc{lrzip}. \\
+In the third column of figure \ref{fig:feature_dfbr_plot}, we finally relate the size of a feature to its proportion of outside to inside commits.
+At first, we notice that the calculated correlation coefficients are negative across all projects.
+The fact that the coefficients of \textsc{xz} and \textsc{bzip2} are close to 0 and the p-values correspondingly high is illustrated by the rather random distribution of dots in their respective regression plots.
+Their data should therefore not be regarded as statistically significant.
+Compared to the aforementioned projects, \textsc{gzip}'s p-value of 0.035 is very low, while it also has a lower correlation coefficient of -0.588.
+Similarly to \textsc{gzips}'s previous plots, we can identify two clusters.
+A cluster of dots is again formed by the four largest features, encompassing proportions of outside to inside commits slightly below 0.5.
+The other cluster is located at the beginning of the x-axis with a wide spread across the y-axis, indicating its low feature-size and a wide range of proportions from 3 to 32.
+The coefficient of \textsc{lrzip} is by far the smallest among all projects at -0.99, but the small number of features results in a p-value of 0.088.
+It follows that none of the determined negative correlations are statistically significant, as their p-values fall into our rejection interval of 97.5.
 
 
 
