@@ -139,20 +139,21 @@ We find that many of them were used to import the project or newer versions to g
 The fact that such commits exist is unsurprising, considering that the investigated tools have been published before the release of git or before git was widespread.
 While their purpose might not be refactoring code, it does make sense to filter these commits, as they are not accurately depicting the development process of the project itself or of its features.
 Only two out of the eighteen commits we filtered in all projects, were actually used to refactor code, specifically moving contents between files or adapting the code to a newer version of C.
-For half of all exceptionally large commits we found no reason, neither refactoring code or importing the project to git, to be left out of our analysis.
+For half of all exceptionally large commits we found no reason, neither refactoring code nor importing the project to git, to be left out of our analysis.
 
 \subsection*{\textbf{RQ2: Evaluation of Dataflow-based CFIs}}\label{sec:eval_df_cfis}
 
-Although dataflow-based CFIs only include dataflow in one direction, namely from commits to features, we examine properties, that can be extracted from this type of CFIs, for both commits and features.
-Our results regarding the commits affecting features through dataflow are shown in figure \ref{fig:proportional_commit_dfbr_plot} and in the tables \ref{tab:x} and \ref{tab:y}.
+Although dataflow-based CFIs only focus on dataflow in one direction, namely from commits to features, we examine properties for both commits and features and investigate them separately.
+Our results regarding the commits affecting features through dataflow are shown in figure \ref{fig:commit_dfbr_plot} and in the tables \ref{tab:commit_dfbr_table}, \ref{tab:commit_exclusive_and_partial_dfbr_table} and \ref{tab:commit_dfbr_rel_table}.
 Figure \ref{fig:feature_dfbr_plot} displays our results for the features of a project and the commits that affect them through dataflow.
 
 \subsubsection*{Proportion and Dependencies of Commits Affecting Features through Dataflow}\label{sec:eval_commit_dfbr}
 
 At first, we examine the fraction of commits affecting features through dataflow among the \texttt{active} commits of a project.
 There, we also evaluate the effects and dependencies of commits part of structural CFIs on said fraction.
-Following this, we intend to determine the proportion of outside dataflow origins within the commits with dataflow interactions.
-The respective number of active commits are shown in the first column of table \ref{tab:commit_dfbr_table} for each project.
+Following this, we intend to determine the proportion of outside dataflow origins within the set of commits with dataflow interactions.
+This also allows us to quantify the commits whose interactions with features can only be discovered through our dataflow analysis.
+The number of active commits are shown in the first column of table \ref{tab:commit_dfbr_table} for each project.
 We determined \textsc{xz} to have the highest number of active commits at 1039, while \textsc{bzip2} only has a tiny fraction of that at 37.
 In the first plot of figure \ref{fig:commit_dfbr_plot}, the bars colored in red show what percentage of commits interact with features through dataflow.
 We notice that the respective percentages are vastly different from project to project.
@@ -177,17 +178,17 @@ Comparing the two bar-types, we notice that the percentage of commits with struc
  		  & 			     	      & \textbf{given that it is part of structural CFI} \\
 \midrule
   xz    & 1039 & 0.883 \\
-  gzip  & 194 & 1.000 \\
   bzip2 & 37 & 0.889 \\
+  gzip  & 194 & 1.000 \\
 \bottomrule
 \end{tabular}
 \end{table}
 This phenomenon can be explained considering the values presented in the second column of table \ref{tab:commit_dfbr_table}.
-There, we show the probablity for a commit to be part on any dataflow-based CFI, given that said commit is part of any structural CFI.
+There, we show the probablity for a commit to be part of any dataflow-based CFI, given that said commit is part of any structural CFI.
 We see that the probabilities are slightly below 90\% for \textsc{xz} as well as \textsc{bzip2} and even at 100\% for \textsc{gzip}.
 This means that by only taking into account commits part of structural CFIs, we already encounter a lot of commits that affect features through dataflow.
 If we then consider the entire set of active commits, the number of commits with dataflow interactions will likely exceed the number of commits with structural interactions.
-This also implies that most, if not all, commits constituting the grey bar of a project will in turn constitute parts of the red bar as well. \\
+This also implies that most, if not all, commits constituting the grey bar of a project in turn constitute parts of the red bar as well. \\
 \iffalse
 Across all projects, the probability for a commit to interact with features through dataflow, given that it is part of structural CFIs, is much higher than the same probability for any active commit.
 We consider this as a clear indication that our assumptions in section \ref{sec:combination_cfis}, that structural CFIs heavily coincide with dataflow-based CFIs, are correct.
@@ -197,21 +198,42 @@ This difference roughly determines what share of commits are part of the discuss
 The difference is the smallest for \textsc{bzip2} at 10\% and slightly higher than that for \textsc{gzip} at 15\%.
 \textsc{xz} has by far the biggest relative difference at almost 49\%, which means that our dataflow analysis reveals many additional interactions here. 
 \fi
-We explore the topic of different dataflow interaction types more thoroughly in our second plot, which focuses on the \textsf{origin} of dataflow.
+We explore the topic of different dataflow interaction types more thoroughly with our second plot, which focuses on the \textsf{origin} of dataflow.
 There, we have a closer look at the commits affecting features through dataflow and where their dataflow stems from.
-Naturally, dataflow occuring inside the regions of a feature is more intentional and therefore less interesting, than dataflow originating outside its regions.
-In section \ref{sec:combination_cfis}, we explain, that the dataflow of commits and features not structurally interacting with each other, must be outside dataflow.
-Even though the regions of a commit and regions of a feature must partially overlap in order for them to structurally interact, such a commit can still have regions not part of any feature regions.
-Therefore, we cannot be sure whether the dataflow of these interactions originates from outside or inside the regions of a feature.
-Due to the inherent properties of structural interactions, i.e. heavily coinciding with dataflow interactions, we assume their dataflow to originate inside the regions of a feature.
 In the second plot of figure \ref{fig:commit_dfbr_plot}, we separate the commits with dataflow interactions into three categories based on dataflow origin.
 The first category, shown as the bar colored in blue, represents commits that only interact with features through outside dataflow.
-They make up the majority of commits for \textsc{xz} at 56.4\% and 20\% as well as 25.4\% of commits for \textsc{bzip2} and \textsc{gzip} respectively.
+They make up the majority of commits for \textsc{xz} at 56.4\%, but only 20\% as well as 25.4\% of commits for \textsc{bzip2} and \textsc{gzip} respectively.
 The second category represents commits that interact with features through outside and inside dataflow.
 Logically, these commits affect at least two features through dataflow and only structurally interact with a subset of them.
 Surprsingly, they form the majority of commits for \textsc{bzip2} and \textsc{gzip} at 60 and 44.3\% respectively and around 20\% of commits for \textsc{xz}.
 The proportion of commits that only interact with features through inside dataflow varies less between the projects.
 \textsc{gzip} has the highest percentage at 31.3\%, \textsc{bzip2} the lowest at 20\% with \textsc{xz} inbetween the two at 23.9\%. \\
+\begin{table}[t]
+\caption{Commits exclusively/partially interacting with features \texttt{only} through dataflow}
+\label{tab:commit_exclusive_and_partial_dfbr_table}
+\centering
+\begin{tabular}{lSSSS}
+    \toprule
+    \multirow{2}{*}{} &
+      \multicolumn{2}{c}{\textbf{Commit Count}} &
+      \multicolumn{2}{c}{\textbf{Percentage of all active commits}} \\
+      & {Exclusive} & {Partial} & {Exclusive} & {Partial} \\
+      \midrule
+    xz & 66 & 23 & 6.4 & 2.2 \\
+    bzip2 & 2 & 6 & 5.4 & 16.4 \\
+    gzip & 31 & 54 & 16.0 & 27.9 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+Combining the data presented in both plots, we calculated the number and percentage of active commits in a project whose interactions with features were exclusively discovered by our dataflow analysis.
+The respective values are shown in table \ref{tab:commit_exclusive_and_partial_dfbr_table} on the left-hand side of each column.
+With a count of 66, most commits were reveiled for \textsc{xz}, although its percentage remains comparatively small due to its high number of active commits.
+\textsc{gzip} encompasses by far the highest percentage at 16\% with a commit count of 31.
+On the right-hand side of the columns in table \ref{tab:commit_exclusive_and_partial_dfbr_table} we display the number and percentage of commits where only a subset of their interactions with features was discovered by our dataflow analysis.
+These commits are most common in \textsc{gzip} with a count of 54 making up more than every fourth active commit at 27.9\%.
+Similarly to the overall percentage of commits with dataflow interactions, they are less common in \textsc{bzip2} at 16.4\% and least common in \textsc{xz} at 2.2\%. \\
+% give a more accurate description of additional/new information our dataflow analysis can really add to CFIs in a project
+% this is due to the fact that many dataflow interactions between a commit and a feature are implied/already reveiled due to them structurally interacting as well
 \iffalse
 We admit that the high proportions of commits with both inside and outside dataflow are rather unexpected.
 They hinder a clear separation of commits with dataflow interactions into less and more interesting commits, e.g. commits whose dataflow interactions are more and less obvious.
@@ -242,8 +264,8 @@ The contrast is slightly weaker for \textsc{bzip2} with a 3.1 times higher likel
  		  & \textbf{to Affect other Features Through Outside DF}     & \textbf{Any Active Commit} \\
 \midrule
   xz    & 0.417 & 0.086 \\
-  gzip  & 0.596 & 0.381 \\
   bzip2 & 0.667 & 0.216 \\
+  gzip  & 0.596 & 0.381 \\
 \bottomrule
 \end{tabular}
 \end{table}

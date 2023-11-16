@@ -45,9 +45,11 @@ A qualitative review of these commits is still necessary to make a final decisio
 
 Investigating dataflow inside a program can unveil interactions between its entities that were previously hidden from programmers.
 This can help them understand the extent to which different parts of a program influence each other.
+\iffalse
 Furthermore, deploying the introduced analysis in a direct manner could ensure improvements in the daily life of a developer.
 In the context of our work, an example for this could be the faciliation of finding the cause of and subsequently fixing bugs in features.
-Bugs occuring in certain features could be traced back to the commits responsible for them by factoring in recent commits affecting said features through dataflow. \\
+Bugs occuring in certain features could be traced back to the commits responsible for them by factoring in recent commits affecting said features through dataflow. 
+\fi 
 Previous studies have laid the groundwork for researching dataflow interactions between different abstract entities of a program.
 While it has shown a wide range of interesting use-cases, it has focused solely on dataflow between commits.
 That's why we aim to provide first insights into the properties of dataflow-based CFIs.
@@ -181,21 +183,26 @@ By dividing the number of these commits by the number of all active commits, we 
 To allow for an overview of all projects, we show the calculated percentages in a \textsf{seaborn} bar plot.
 To provide evidence for our claim that structural CFIs heavily coincide with dataflow-based CFIs, we now compute the proportion of commits with dataflow interactions among the commits with structural interactions.
 Given that the latter is significantly higher than the overall proportion of commits with dataflow interactions, our initial notion will be confirmed.
-Alongside the percentage of commits part of dataflow-based CFIs, we also show the percentage of active commits that are part of structural CFIs.
+Alongside the percentage of commits part of dataflow-based CFIs, we also show the percentage of active commits that are part of structural CFIs in the first bar plot.
 As we expect most of the latter commits to be part of dataflow-based CFIs as well, the difference between their respective percentages indicates what proportion of commits interact with features exclusively through dataflow.
-The percentage of commits with dataflow interactions is certainly higher than the percentage of commits with structural commits, as the latter commits largely contribute to the former, while this does not need to be the case vice versa.
 Following the broad overview of commits affecting features through dataflow, we intend to specify and differentiate between the origin of said dataflow.
 For each feature a commit interacts with through dataflow, we check whether they also structurally interact with each other.
 If they do structurally interact, we speak of an inside dataflow origin, otherwise we speak of an outside origin.
-Afterwards we can split the commits with dataflow interactions into three categories.
+Naturally, dataflow occuring inside the regions of a feature is more intentional and therefore less interesting, than dataflow originating outside its regions.
+In section \ref{sec:combination_cfis}, we explain, that the dataflow of commits and features not structurally interacting with each other, must be outside dataflow.
+Even though the regions of a commit and regions of a feature must partially overlap in order for them to structurally interact, such a commit can still have regions not part of any feature regions.
+Therefore, we cannot be sure whether the dataflow of these interactions originates from outside or inside the regions of a feature.
+Due to the inherent properties of structural interactions, i.e. heavily coinciding with dataflow interactions, we assume their dataflow to originate inside the regions of a feature.
+Upon determining the dataflow origin of each CFI, we split the commits with dataflow interactions into three categories.
 Next to commits that only affect features either through inside or through outside dataflow, a commit can also interact with multiple features, once through inside and once through outside dataflow.
 For each project, we calculate the respective percentages of each category and present them in a stacked bar plot.
 Logically, each bar representing a project adds up to 100\% as every commit falls into exactly one category.
 The commits falling into categories of at least partial outside dataflow origins are part of interactions, which we could only detect with our dataflow analysis.
+To quantify the according commits within a project, we calculate their number and percentage among a project's active commits.
 Both bar plots are displayed next to each other in the same figure, where the sequence in which the projects are shown in both plots is determined by the proportion of commits with dataflow interactions.
 This allows for an easier comparison within a project, as its respective bars will have the same position in both plots.
 Statistical values, including the number of active commits and the probability for a commit to be part of a dataflow-based CFI given that it structurally interacts with features, are not included in the plots.
-As they can aid the understanding of the plots and add important context to them, we display the respective values in a \textsc{latex} table.
+As they can aid the understanding of the plots and add important context to them, we display the respective values in a \LaTeX-table.
 
 \subsubsection*{Exploring Features and the Commits Affecting them Through Dataflow}
 
