@@ -441,7 +441,7 @@ It follows that none of the determined negative correlations are statistically s
 
 \section{Discussion}\label{sec:discussion}
 
-\subsection*{\textbf{RQ1: Structural CFIs}}\label{sec:eval_struc_cfis}
+\subsection*{\textbf{RQ1: Structural CFIs}}\label{sec:disc_struc_cfis}
 
 Generally, we have seen our expectations for possible results of RQ1 mostly confirmed.
 Here, we briefly formulate our most important results, which we discuss in more detail in the following sub-sections.
@@ -508,6 +508,80 @@ The actual development of the tool in the git repository began after \textsc{bzi
 The remaining 3 commits introduce minor changes and small bug fixes to the respective features they interact with.
 This means that \textsc{bzip2}'s features were largely already implemented when the actual development within the repository started.
 Thus, the average number of concerns of a commit as well as their overall distribution are not good representatives of other projects developed in git. 
+
+\subsection*{\textbf{RQ2: Dataflow-based CFIs}}\label{sec:disc_df_cfis}
+
+\subsubsection*{Proportion and Dependencies of Commits Affecting Features through Dataflow}
+
+- we have seen that the proportion of commits part of dataflow-based CFIs varies a lot between our investigated projects \\
+- while only 11\% of commits in \textsc{xz} affect features through dataflow, the majority of commits do so in \textsc{gzip} \\
+% still substantial amount??
+- one major reason for the discussed differences is the fact that the proportion of structural commits acts as the \texttt{lowest bound} for the proportion of commits with dataflow interactions \\
+- as 90-100\% of commits part of structural CFIs are also part of dataflow-based CFIs, the percentage of commits part of dataflow-based CFIs never falls below the percentage of commits part of structural interactions \\
+- the effects of said lowest bound can be recognized by the fact that a project's rank among the dataflow proportions of commits reflects its rank among the structural proportions \\
+- that is also because the percentages of commits, whose interactions with features were only discovered by our dataflow analysis, are the same or only a fraction of the percentages of those with structural interactions \\
+- similar strong differences in the structural proportions of commits can thus also be found in the dataflow proportions \\
+- including structural CFIs in the evaluation of our dataflow-based CFIs was definitely necessary to properly categorize their proportion and the new information they could add to the analysis a project \\
+- nevertheless, we fully believe that our dataflow analysis is an important part of understanding commit-feature interactions within a project \\ 
+- for \textsec{xz}, the majority of commits interacting with features were exclusivly reveiled by our dataflow analysis \\
+- for 8, 21 and 44\% of active commits in \textsc{xz}, \textsc{bzip2} and \textsc{gzip}, it reveiled additional interactions with features that we could not discover with our structural analysis \\
+- this means that the data of, on first sight unrelated, commits and features can be highly connected \\ 
+% percentage has to do with extent of feature-code in a project
+- besides that, we found that many commits interacting with features both structurally and through dataflow, also interact with \texttt{other} features \texttt{only} through dataflow \\
+- this lead us to examine whether commits structurally interacting with features are more likely to affect features through outside dataflow in comparison to any active commit \\
+- we found sufficient evidence to support the notion that this is indeed the case, including an almost 5-times higher probability in \textsc{xz} \\
+- this suggests that data, changed or allocated by a commit in one feature, is often used within a different feature again \\
+% Of course, it can also happen that a commit changes code outside of features in addition to feature code and the data flow into other features originates exclusively from the latter code.
+% With our current analysis in VaRA, we cannot determine the number of these occurrences and therefore exclude them from our analysis.
+% However, we see little reason to assume that they influence our results to a statistically significant extent. 
+% In RQ1, we saw that most commits only change one feature, so there is a strong suspicion that most commits that touch feature code only touch feature code.
+- therefore, a developer changing code of a feature should be aware that data of said code has an increased probability to affect the functionality of other features \\
+- in the following section, we will also seek to underline this notion by determining how often commits affecting a feature through outside dataflow, structurally interact with other features \\
+- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsubsection*{Understanding Features and the Commits Affecting them Through Dataflow}
 
 \section{Threats to Validity}\label{sec:threats}
 
