@@ -514,8 +514,7 @@ Thus, the average number of concerns of a commit as well as their overall distri
 \subsubsection*{Proportion and Dependencies of Commits Affecting Features through Dataflow}
 
 We have seen that the proportion of commits part of dataflow-based CFIs varies a lot between our investigated projects.
-Wile only 11\% of commits in \textsc{xz} affect features through dataflow, the majority of commits do so in \textsc{gzip}.
-% still substantial amount??
+While only 11\% of commits in \textsc{xz} affect features through dataflow, the majority of commits do so in \textsc{gzip}.
 One major reason for the discussed differences is the fact that the proportion of structural commits acts as the \texttt{lowest bound} for the proportion of commits with dataflow interactions.
 As 90-100\% of commits part of structural CFIs are also part of dataflow-based CFIs, the percentage of commits part of dataflow-based CFIs never falls below the percentage of commits part of structural interactions.
 The effects of said lowest bound can be recognized by the fact that a project's rank among the dataflow proportions of commits reflects its rank among the structural proportions.
@@ -528,7 +527,6 @@ Nevertheless, we fully believe that our dataflow analysis is an important part o
 For \textsec{xz}, the majority of commits interacting with features were exclusivly reveiled by our dataflow analysis.
 For 8, 21 and 44\% of active commits in \textsc{xz}, \textsc{bzip2} and \textsc{gzip}, it reveiled additional interactions with features that we could not discover with our structural analysis.
 This means that the data of, on first sight unrelated, commits and features can be highly connected. 
-% percentage has to do with extent of feature-code in a project
 Besides that, we found that many commits interacting with features both structurally and through dataflow, also interact with \texttt{other} features \texttt{only} through dataflow.
 This lead us to examine whether commits structurally interacting with features are more likely to affect features through outside dataflow in comparison to any active commit.
 We found sufficient evidence to support the notion that this is indeed the case, including an almost 5-times higher probability in \textsc{xz}.
@@ -538,6 +536,7 @@ This suggests that data, changed or allocated by a commit in one feature, is oft
 % However, we see little reason to assume that they influence our results to a statistically significant extent. 
 % In RQ1, we saw that most commits only change one feature, so there is a strong suspicion that most commits that touch feature code only touch feature code.
 Therefore, a developer changing code of a feature should be aware that data of said code has an increased probability to affect the functionality of other features.
+This also provides evidence that feature-code and remaining code of a program is more separate from each other than the initial percentage of commits with outside dataflow interactions would suggest.
 In the following section, we will also seek to underline this notion by determining how often commits affecting a feature through outside dataflow, structurally interact with other features. \\
 Lastly, we discuss the extent of feature-code in a project and its consequences on the proportion of commits with structural as well as dataflow interactions.
 For \textsc{xz} and \textsc{gzip}, we have confirmed that a feature's number of structurally interacting commits is strongly positively correlated with its size.
@@ -553,48 +552,73 @@ Accordingly, \textsc{xz} has a higher share of commits affecting features throug
 It should be noted however that the exent of feature-code does not have an exaction relation ot the proportion of commits with structural interactions.
 From \textsc{xz}'s 17\% extent of feature-code, we would expect a signficantly higher number than the 5.8\% of commits part of structural CFIs for example.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \subsubsection*{Understanding Features and the Commits Affecting them Through Dataflow}
+
+- especially in the case of \textsc{xz} and \textsc{gzip}, we have found significant evidence to support the notion that features are generally affected by more outside than inside commits through dataflow \\
+- this means that most detected dataflow interactions of features originate outside of its regions and subsequently flows into them \\
+- the ratio of outside to inside commits is often extremely skewed towards outside commits, while the opposite is rarely the case and if so, to a much smaller degree \\
+- one reason for this is that even features with little size are affected by many outside commits and only few inside commits \\
+- that is because the number of a feature's inside commits is strongly positively correlated with its size, while the same is not the case for a feature's outside commits \\
+- specifically, we did not find evidence to suggest that the size of a feature and the number of outside commits affecting it through dataflow are correlated in some way or another \\
+- the positive correlation found for \textsc{xz} is mainly driven by its largest feature, where the correlation coefficient subsides to 0 without it \\
+- \textsc{gzip} shows a statistically signficant negative correlation, \textsc{bzip2} no correlation and \textsc{lrzip} a statisitcally insignifcant positive correlation \\
+- from the previous explanations, it follows that the number of inside commits generally increases with rising size of a feature, while the number of outside commits is less predictable \\
+- this observation supports the notion that the proportion of outside to inside commits of a feature and its size are negatively correlated \\
+- while we determined the according linear correlation coefficients to be negative for all projects, they are rather high and their respective p-values too low to warrant significant evidence \\
+- still, most data points to the existance of a, ableit slight, negative correlation, which could be confirmed by investigating more projects \\
+
+- during the evaluation of the first part of RQ1, we found that commits that structurally interact with features have an increased probability of influencing other features via outside dataflow \\
+- to continue our investigation in this regard, we have determined the proportion of outside commits of features that are part of structural CFIs as well \\
+- the average proportions are 0.41, 0.59, 0.75 and 0.43 for the features of \textsc{xz}, \textsc{gzip}, \textsc{bzip2} and \textsc{lrzip}, respectively \\
+- all features except \textsf{force} of \textsc{gzip} have proportions of more than 0.2 and the majority of values range close to the average of a project \\
+- we can therefore confirm that a significant proportion of the data that flows into a feature probably originates from other features or has been modified there. \\
+
+- the regression plots of \textsc{gzip} showed that the results of the linear regressions were mainly caused by two clusters of features \\
+- one cluster consists of large features with many inside and comparatively few outside commits, the other of features with a small size and significantly more outside than inside commits \\
+- in the evaluation of RQ1, we have already explained that, due to feature-nesting, the commits that structurally interact with the features from the first cluster are almost identical \\
+- this suggests that the inside commits of said cluster are also fairly congruent and that this could also apply to the outside commits of the two clusters \\
+
+- correlation of gzip mainly driven by two clusters discussed in our evaluation => in eval of RQ1 we also found out that the commits the features of the cluster with large size interact with are largely identical => we found the same to be true for the outside commits of cluster with small sizes and for the outside and inside commits of the other cluster => due to feature-nesting => makes the data perhaps less significant, as the data of many commits could flow into instructions that do not implement functionality of the features the commits interact with
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \section{Threats to Validity}\label{sec:threats}
 
