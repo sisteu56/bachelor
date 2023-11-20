@@ -513,32 +513,45 @@ Thus, the average number of concerns of a commit as well as their overall distri
 
 \subsubsection*{Proportion and Dependencies of Commits Affecting Features through Dataflow}
 
-- we have seen that the proportion of commits part of dataflow-based CFIs varies a lot between our investigated projects \\
-- while only 11\% of commits in \textsc{xz} affect features through dataflow, the majority of commits do so in \textsc{gzip} \\
+We have seen that the proportion of commits part of dataflow-based CFIs varies a lot between our investigated projects.
+Wile only 11\% of commits in \textsc{xz} affect features through dataflow, the majority of commits do so in \textsc{gzip}.
 % still substantial amount??
-- one major reason for the discussed differences is the fact that the proportion of structural commits acts as the \texttt{lowest bound} for the proportion of commits with dataflow interactions \\
-- as 90-100\% of commits part of structural CFIs are also part of dataflow-based CFIs, the percentage of commits part of dataflow-based CFIs never falls below the percentage of commits part of structural interactions \\
-- the effects of said lowest bound can be recognized by the fact that a project's rank among the dataflow proportions of commits reflects its rank among the structural proportions \\
-- that is also because the percentages of commits, whose interactions with features were only discovered by our dataflow analysis, are the same or only a fraction of the percentages of those with structural interactions \\
-- similar strong differences in the structural proportions of commits can thus also be found in the dataflow proportions \\
-- including structural CFIs in the evaluation of our dataflow-based CFIs was definitely necessary to properly categorize their proportion and the new information they could add to the analysis a project \\
-- nevertheless, we fully believe that our dataflow analysis is an important part of understanding commit-feature interactions within a project \\ 
-- for \textsec{xz}, the majority of commits interacting with features were exclusivly reveiled by our dataflow analysis \\
-- for 8, 21 and 44\% of active commits in \textsc{xz}, \textsc{bzip2} and \textsc{gzip}, it reveiled additional interactions with features that we could not discover with our structural analysis \\
-- this means that the data of, on first sight unrelated, commits and features can be highly connected \\ 
+One major reason for the discussed differences is the fact that the proportion of structural commits acts as the \texttt{lowest bound} for the proportion of commits with dataflow interactions.
+As 90-100\% of commits part of structural CFIs are also part of dataflow-based CFIs, the percentage of commits part of dataflow-based CFIs never falls below the percentage of commits part of structural interactions.
+The effects of said lowest bound can be recognized by the fact that a project's rank among the dataflow proportions of commits reflects its rank among the structural proportions.
+That is also because the percentages of commits, whose interactions with features were only discovered by our dataflow analysis, are the same or only a fraction of the percentages of those with structural interactions.
+Similar strong differences in the structural proportions of commits can thus also be found in the dataflow proportions.
+Including structural CFIs in the evaluation of our dataflow-based CFIs was definitely necessary to properly categorize their proportion and the new information they could add to the analysis of a project.
+A substantial share of the examined dataflow interactions stem from our previously investigated set of structural interactions.
+As we have determined structural CFIs to heavily coincide with dataflow-based CFIs, we already know of this set of dataflow interactions prior to our dataflow analysis. \\
+Nevertheless, we fully believe that our dataflow analysis is an important part of understanding commit-feature interactions within a project.
+For \textsec{xz}, the majority of commits interacting with features were exclusivly reveiled by our dataflow analysis.
+For 8, 21 and 44\% of active commits in \textsc{xz}, \textsc{bzip2} and \textsc{gzip}, it reveiled additional interactions with features that we could not discover with our structural analysis.
+This means that the data of, on first sight unrelated, commits and features can be highly connected. 
 % percentage has to do with extent of feature-code in a project
-- besides that, we found that many commits interacting with features both structurally and through dataflow, also interact with \texttt{other} features \texttt{only} through dataflow \\
-- this lead us to examine whether commits structurally interacting with features are more likely to affect features through outside dataflow in comparison to any active commit \\
-- we found sufficient evidence to support the notion that this is indeed the case, including an almost 5-times higher probability in \textsc{xz} \\
-- this suggests that data, changed or allocated by a commit in one feature, is often used within a different feature again \\
+Besides that, we found that many commits interacting with features both structurally and through dataflow, also interact with \texttt{other} features \texttt{only} through dataflow.
+This lead us to examine whether commits structurally interacting with features are more likely to affect features through outside dataflow in comparison to any active commit.
+We found sufficient evidence to support the notion that this is indeed the case, including an almost 5-times higher probability in \textsc{xz}.
+This suggests that data, changed or allocated by a commit in one feature, is often used within a different feature again.
 % Of course, it can also happen that a commit changes code outside of features in addition to feature code and the data flow into other features originates exclusively from the latter code.
 % With our current analysis in VaRA, we cannot determine the number of these occurrences and therefore exclude them from our analysis.
 % However, we see little reason to assume that they influence our results to a statistically significant extent. 
 % In RQ1, we saw that most commits only change one feature, so there is a strong suspicion that most commits that touch feature code only touch feature code.
-- therefore, a developer changing code of a feature should be aware that data of said code has an increased probability to affect the functionality of other features \\
-- in the following section, we will also seek to underline this notion by determining how often commits affecting a feature through outside dataflow, structurally interact with other features \\
-- 
-
+Therefore, a developer changing code of a feature should be aware that data of said code has an increased probability to affect the functionality of other features.
+In the following section, we will also seek to underline this notion by determining how often commits affecting a feature through outside dataflow, structurally interact with other features. \\
+Lastly, we discuss the extent of feature-code in a project and its consequences on the proportion of commits with structural as well as dataflow interactions.
+For \textsc{xz} and \textsc{gzip}, we have confirmed that a feature's number of structurally interacting commits is strongly positively correlated with its size.
+It follows that a higher extent of feature-code implies a higher proportion of commits with structural interactions.
+As the latter proportion acts as a lower bound for the proportion of commits with dataflow interactions, we assume the exent of feature-code to also have a strong influence on said proportion.
+At the same time less feature-code and a higher number of active could elavate the share of commits affecting features through outside dataflow.
+This is due to a lower share of structurally interacting commits and therefore less inside dataflow as well as a higher number of active commits located outside of feature-regions leading to more possible outside dataflow.
+We decided to compute the extent of feature-code in a project as the fraction of all instructions that are part of feature regions.
+Thus, we determined the extent of feature-code to be 17.2\% in \textsc{xz} and 57.6\% in \textsc{gzip}. 
+In our evaluation we have also seen that \textsc{xz} encompasses five times as many active commits than \textsc{gzip}.
+We find that our observations in RQ2 roughly match these values considering our previous explanations.
+Accordingly, \textsc{xz} has a higher share of commits affecting features through outside dataflow but a substantially lower share of active commits part of dataflow interactions.
+It should be noted however that the exent of feature-code does not have an exaction relation ot the proportion of commits with structural interactions.
+From \textsc{xz}'s 17\% extent of feature-code, we would expect a signficantly higher number than the 5.8\% of commits part of structural CFIs for example.
 
 
 
