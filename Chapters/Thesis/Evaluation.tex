@@ -70,8 +70,8 @@ Overall, the two projects do not produce conclusive statistical evidence that th
 
 \begin{figure}[htbp]
   \centering
-  \includesvg[height=19cm]{gfx/results/RQ1/feature-sfbr-plot.svg}
-  \caption{Feature Structural CFIs Plot}
+  \includesvg[height=17cm]{gfx/results/RQ1/feature-sfbr-plot.svg}
+  \caption{The Distribution of Feature Sizes and Structurally Interacting Commits of Features \\ and their Linear Correlation}
   \label{fig:feature_sfbr_plot}
 \end{figure}
 
@@ -80,7 +80,7 @@ Overall, the two projects do not produce conclusive statistical evidence that th
 \begin{figure}[htbp]
   \centering
   \includesvg[height=14cm]{gfx/results/RQ1/commit-sfbr-plot.svg}
-  \caption{Commit Structural CFIs Plot}
+  \caption{The Distribution of the Number of Feature-Related Concerns for Commits}
   \label{fig:commit_sfbr_plot}
 \end{figure}
 
@@ -250,7 +250,7 @@ The contrast is slightly weaker for \textsc{bzip2} with a 3.1 times higher likel
 \begin{figure}[htbp]
   \centering
   \includesvg[height=8.9cm]{gfx/results/RQ2/proportional_commit_dfbr_plot.svg}
-  \caption{Proportional Dataflow-Plot for Commits}
+  \caption{The Proportion of Commits with Dataflow Interactions and their Dataflow Origin}
   \label{fig:commit_dfbr_plot}
 \end{figure}
 
@@ -275,7 +275,7 @@ The contrast is slightly weaker for \textsc{bzip2} with a 3.1 times higher likel
 \begin{figure}[htbp]
   \centering
   \includesvg[height=19.2cm]{gfx/results/RQ2/feature_dfbr_plot.svg}
-  \caption{Proportional Dataflow-Plot for Features}
+  \caption{The Distribution and Proportion of Outside and Inside Commits Affecting a Feature through Dataflow and their Linear Correlation to the Size of a Feature}
   \label{fig:feature_dfbr_plot}
 \end{figure}
 
@@ -365,7 +365,7 @@ This shows itself in a strong negative correlation coefficient of -0.872 and a p
 \begin{figure}[htbp]
   \centering
   \includesvg[height=18cm]{gfx/results/RQ3/author-cfi-plot.svg}
-  \caption{Author CFI Plot}
+  \caption{The Distribution of Structural, Outside Dataflow and Unique Dataflow Authors of Features and their Linear Correlation to the Size of a Feature}
   \label{fig:author_cfi_plot}
 \end{figure}
 
@@ -522,17 +522,33 @@ This also means that commits not changing any feature-code are less likely to af
 - similarly to not knowing whether the commit of a structural CFI specifically changes functionality of the interaction's feature, this casts doubt whether the data changed by commit of a dataflow-based CFI flows into instructions that implement the functionality of the CFI's respective feature \\
 \fi
 
+\subsection*{\textbf{RQ3: Discussion of Author Interactions}}\label{sec:disc_author_interactions}
 
-
-
-
-
-
-
-
-
-
-
+- we find that our dataflow analysis was able to reveal many additional developers that did not directly participate in the development of a feature, but rather contributed commits whose data is used inside features \\
+- in most features of \textsc{gzip}, \textsc{bzip2} and \textsc{lrzip}, we detect a similar or higher number of unique df authors compared to the number of structural authors \\
+- while most unique df authors are naturally found for features with more dataflow than structural authors, there also exist unique df authors for features with more structural authors \\
+- although structural authors often interact with their respective features via outside dataflow, the average of slightly over 50\% across the mentioned projects is too low to say that they almost always do so \\
+- the only statistically significant correlations relating the size of a feature to its number of interacting authors were produced by \textsc{gzip} \\
+- here we were able to gather initial evidence that the number of authors implementing a feature strongly increases with its size. \\
+- in contrast, we found the opposite to be true for the number of authors influencing it through outside dataflow. \\
+- however, as only a single project delivered statistically significant results, we consider the question to be completely open to further research. \\
+- \textsc{xz} and \textsc{bzip2} are unsuitable for the computation of a significant correlation due to their small number of different authors and \textsc{lrzip} due to its small number of features \\
+- \textsc{gzip}'s strong positive correlation in regards to its structural authors matches its correlation between the size of a feature and its number of structurally interacting commits in RQ1 \\
+- this is also the case for \textsc{gzip}'s strong negative correlation regarding its dataflow authors and the correlation calculated for the number of outside commits in RQ2 \\
+- overall, we can see that the number of respective commits interacting with a feature compared to other features in the same project is strongly connected to the number of respective authors interacting with the feature compared to other features \\
+- specifically, the two are positively correlated with a coefficient of 0.73 and a p-value of 0.004 for the number of structural commits and authors and a coefficient of 0.54 and a p-value of 0.058 for the number of outside dataflow commits and authors \\
+- thus, the number of commits interacting with a feature can also inform us about the number of authors that interact with it \\
+- in RQ1, we discovered that the majority of the structural commits of the four largest features of \textsc{gzip} are identical. \\
+- logically, this also applies to x\% of the structural authors of these features. \\
+- as discussed in the pervious section, the same applies to the outside commits of the two feature-clusters of \textsc{gzip}, although the proportion of identical commits is lower there. \\
+- similarly, the proportion of identical dataflow authors is x\% for the first cluster formed by the four largest features and y\% for the second cluster of smaller features excluding \textsf{recursive} \\
+% authors that implemented features of the first cluster also implemented features of the second cluster??
+% gzip in total x authors structurally interacting with features and a total of y authors interacting with features through outside dataflow
+% this means that only x-y of the authors affecting features through dataflow do not implement features in any way
+% here it is important to note that \textsc{gzip} and its used library \textsc{gnulib} have 14 unique contributors, which means that all developers interact with features either structurally or through dataflow or both 
+% this is also not surprising given \textsc{gzip}'s high extent of feature-code making up the majority of its instructions 
+% that the extent of feature-code plays a role in what share of authors interact with features can also be seen for \textsc{bzip2} with an extent of 8.2\%
+% while there are 19 contributors in \textsc{bzip2}'s git-repository, there only exist 5 unique authors interacting with its features in any way
 
 
 
