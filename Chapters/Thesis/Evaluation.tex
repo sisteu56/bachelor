@@ -563,5 +563,40 @@ The fact that \textsc{bzip2} only encompasses 3 unique outside dataflow authors,
 
 \section{Threats to Validity}\label{sec:threats}
 
-In this section, discuss the threats to internal and external validity.
+There are some potential threats to the internal validity of our gathered data, which stem from our implementation in VaRA. \\
+From the definition of \nameref{def:feature_regions}, it follows that we implement feature regions in such a way that any instruction, whose execution depends on a configuration variable, is part of a feature region.
+However, not every such instruction also implements the functionality of a feature, as can be seen in listing~\ref{lst:feature_region_overapproximation}.
+This means that the regions of a feature can overapproximate the instructions responsible for its functionality.
+If the instructions, the CFI of a feature occurs in, are such overapproximated instructions, it follows that said CFI is overapproximated as well.
+Since feature regions are used for computing both structural and dataflow-based CFIs, our generated reports probably contain overapproximated CFIs.
+Furthermore, \citet{sattler2023seal} explains that our deployed VaRA taint analysis does not necessarily detect all dataflows occuring in a program.
+This results in taints being underapproximated, meaning that some instructions are not tainted when they correctly should be.
+Thus, some dataflow interactions could be missed by our deployed commit-feature interaction analysis. 
+The detection and tracking of configuration variables stored in structs is currently being implemented in VaRA and was not usable for this work.  
+Specifically, the configuration variables of some features in \textsc{xz} and \textsc{lrzip} cannot be detected, meaning that no CFIs can be collected for them. 
+Logically, this affects the overall and project-specific results of our RQs.
+For example, the percentage of commits with only one feature-related concerns are likely lowered by considering less features. \\
+% Especially in the case of \textsc{lrzip}, a higher number of features could provide more statistically significant results by increasing the number of datapoints in our linear correlations \\
+Concerning the external validity of our findings, most dangers stem from the selection of projects we investigate.
+Our pool of investigated projects is limited and it is likely that the way commits and features are used in them is different to other projects to some extent.
+In previous chapters, we mentioned that the chosen projects are rather small and from a compression domain.
+This could mean that our findings might not be applicable for projects of larger sizes or of different domains.
+As we already factor in the size of a feature in the analysis of our data, we are able to mitigate some doubts about the applicability of our results onto larger projects. 
+Apart from the general selection of our exmained projects, \textsc{bzip2} in particular is a project whose results must be treated with caution.  
+In the \nameref{sec:discussion} of RQ1, we already explained that the overall project and its features were largely already implemented when the actual development in the git-repository started.
+This is reflected in a total of only 37 active commits and a maximum of 7 interacting commits for a feature. 
+Accordingly, the results of \textsc{bzip2} differ significantly from those of the other projects. 
+It was important for us to describe this fact accordingly so that we can justifiably attribute less weight to the results of \textsc{bzip2}.  
+It is worth mentioning that the git-development of the other three projects also began with a pre-existing version.  
+However, their features were not or only partially implemented at that point.
+Their entire code has also changed significantly since then, as can be deducted from the high number of active commits.
+We do therefore not consider this circumstance as a major threat to the validity of the results for \textsc{xz}, \textsc{gzip} and \textsc{lrzip}. \\
+
+\begin{lstlisting}[language=python, caption={Feature Region Overapproximation. The function of \texttt{FeatureEncryption} is to send the message encrypted. According to our definition of feature regions all instructions stemming from the shown lines of code belong to a region of \texttt{FeatureEncryption}, as their execution depends on the configuration variable of \texttt{FeatureEncryption}. However only instructions stemming from the lines 1-2 implement the actual functionality of the feature. Thus our analysis overapproximates the lines 3-4 to also belong to the feature.}, label={lst:feature_region_overapproximation}]
+1. if FeatureEncryption:                              %\vartriangleright% %FeatureEncryption%
+2.    sendEncryptedMessage(message)                   %\vartriangleright% %FeatureEncryption%
+3. else:                                              %\vartriangleright% %FeatureEncryption%
+4.    sendMessage(message)                            %\vartriangleright% %FeatureEncryption%
+\end{lstlisting}
+\label{lst:feature_region_overapproximation
 
