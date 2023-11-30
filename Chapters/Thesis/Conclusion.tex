@@ -5,3 +5,28 @@
 \section{Conclusion}\label{sec:conclusion}
 
 \section{Future Work}\label{sec:futurework}
+
+- in this work, some expressions can be ambigious due to limits in our analysis and a high degree of feature-nesting \\
+- by improving our analysis and finding ways to decipher nested features, future research could prevent these ambiguities \\
+- we say that a commit affects a feature through inside dataflow, meaning that the dataflow occurs inside the regions of the feature, when it also structurally interacts with the feature \\
+- as the commit could also be partially located outside the feature, we could be dealing with an outside dataflow origin as well \\
+- one way to solve this issue could be to track whether the commit taint, belonging to data being used within a feature, originated inside the regions of said feature \\
+- for this, we need to assign such a taint the feature regions of the instruction it stems from \\
+- if 
+
+- in regards to feature-nesting, it would be extremely helpful to know which set of features is implemented by an instruction part of multiple feature regions \\
+- here, a qualitive analysis of nested features is necessary to detect whether and what patterns there exist to help determine which nested feature is being implemented \\
+- gaining information form the developers of these features could provide us with important insights \\
+- for example, we could say that features, whose regions are the most nested in a set of consecutive instructions, are currently being implemented \\
+-
+
+- regarding dataflow interactions, we have only investigated dataflow in one direction, namely from commits to features \\
+- combining this with an investigation of dataflow from features to commits could tell us which commits connect data from different features \\
+- we suppose that commits that are affected by and affect several features through outside dataflow are central to the interplay of the involved features \\
+- as we have seen evidence that dataflow between features is quite common, there should exist many such commits \\
+
+- more projects and of different domains => solidy or revise our results \\
+- at least 10 features such that correlations are more likely to be statistically significant \\
+- some RQs such as the correlation between the size of a feature and its proportion of outside to inside commits still left to be answered => more datapoints needed \\
+
+
