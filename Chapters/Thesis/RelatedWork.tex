@@ -7,7 +7,7 @@ However, investigating feature interactions has been around for a long time, whi
 In an article published in 2023, \citet{sattler2023seal} analysed several open-source projects with their novel approach, SEAL.
 SEAL merges low-level data-flow with high-level repository information in the form of commit interactions.
 The paper shows the importance of a combination of low-level program analysis and high-level repository mining techniques by discussing research problems that neither analysis can answer on its own.
-For example SEAL is able to detect commits that are central in the dependency structure of a program\cite{sattler2023seal}.
+For example, SEAL is able to detect commits that are central in the dependency structure of a program\cite{sattler2023seal}.
 This was used to identify small commits affecting central code that would normally not be considered impactful to a program.
 Furthermore, they investigated author interactions at a dataflow level with the help of commit interactions.
 Thus, they can identify interactions between developers that cannot be detected by a purely syntactical approach.
@@ -18,6 +18,11 @@ This is accomplished by SEAL enriching program analyses with computed repository
 In our research, we also focus on features who are configured via configuration options, which we call configuration variables. 
 Their analysis tool Lotrack can detect which configuration options must be activated in order for certain code segments, implementing a feature's functionality, to be executed.
 They evaluated Lotrack on numerous real-world Android and Java applications and observed a high accuracy for the predicted code execution constraints\cite{lillack2014tracking}. \\
-Referencing this paper \citet{kolesnikov2017relation} published a case study on the relation of external and internal feature interactions.
+- feature interactions are a broad research topic in software engingeering encompassing numerous types \\
+- one type: bugs that exclusviely occur if a certain features are activated \\
+- other type: selection of specific features that cause performance issues \\
+- more related to our work: at source-code level, i.e. between code implementing features: control-flow, structural and potentially dataflow etc. \\
+- theory: they could help predict properties of other types, for example performance with feature-interactions \\
+Specifically, \citet{kolesnikov2017relation} published a case study on the relation of external and internal feature interactions.
 Internal feature interactions are control-flow feature interactions that can be detected through static program analysis as mentioned above.
 They concluded that considering internal feature interactions could potentially help predict external, performance feature interactions\cite{kolesnikov2017relation}.
