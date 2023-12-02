@@ -56,7 +56,7 @@ Overall, the two projects do not produce conclusive statistical evidence that th
 \centering
 \begin{tabular}{l r}
 \toprule
-\textbf{Projects} & \textbf{Average Feature Nesting Degree} \\ 
+\textbf{Projects} & \overline{\textbf{Nesting Degree}} \\ 
 \midrule
   xz    & 0.34 \\
   gzip  & 0.93 \\
@@ -112,7 +112,7 @@ The remaining commit updated \textsc{bzip2} to version 1.0.4 fixing minor bugs f
 \centering
 \begin{tabular}{l r r}
 \toprule
-\textbf{Projects} & \textbf{Average Number of Concerns} & \textbf{After Filtering Large Commits} \\ 
+\textbf{Projects} & \overline{\textbf{Concerns}} & \textbf{After Filtering Large Commits} \\ 
 \midrule
   xz    & 1.48 & 1.29 \\
   gzip  & 2.40 & 1.55 \\
@@ -155,8 +155,7 @@ Figure \ref{fig:feature_dfbr_plot} displays our results for the features of a pr
 \centering
 \begin{tabular}{l r r}
 \toprule
-\textbf{Projects} & \textbf{Number of Active Commits} & \textbf{Probability for Commit to be part of dataflow CFI} \\ 
- 		  & 			     	      & \textbf{given that it is part of structural CFI} \\
+\textbf{Projects} & \textbf{Active Commits} & \textbf{P($\rightsquigarrow$(C)\mid$\circledcirc$(C))} \\
 \midrule
   xz    & 1039 & 0.883 \\
   bzip2 & 37 & 0.889 \\
@@ -206,7 +205,7 @@ The proportion of commits that only interact with features through inside datafl
 \caption{Commits exclusively/partially interacting with features \texttt{only} through dataflow}
 \label{tab:commit_exclusive_and_partial_dfbr_table}
 \centering
-\begin{tabular}{lSSSS}
+\begin{tabular}{lrrrr}}
     \toprule
     \textbf{Projects}
     \multirow{2}{*}{} &
