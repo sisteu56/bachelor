@@ -2,10 +2,52 @@
 \chapter{Concluding Remarks}\label{ch:conclusion}
 %************************************************
 
-\section{Conclusion}\label{sec:conclusion}
+% \section{Conclusion}\label{sec:conclusion}
 
-\section{Future Work}\label{sec:futurework}
+% \section{Future Work}\label{sec:futurework}
 
+- in this thesis, we achieved an initial overview of CFIs in software projects, specifically structural and dataflow-based CFIs, their interplay as well as other properties influencing them \\
+- we were able to answer or at least gain some interesting insights into numerous research topics we set out to investigate \\
+
+- in RQ1, we found that the number of commits used during their development varies strongly between the features of a project \\
+- here, the size of a feature is an accurate predictor for the number of commits as the two metrics are strongly positively correlated \\
+- regarding the usage of commits during feature development, we support the notion that they usually change a single feature as the majority of them only have one feature-related concern \cite{} \\
+
+- similarly to the number of implementing commits, the number of commits affecting a feature through outside dataflow also encompasses a wide range among the features of a project \\
+- admittedly, our analysis potentially underestimates the number of commits whose dataflow stems from the outside, although this could be fixed in future research \\
+- we say that a commit affects a feature through inside dataflow, meaning that the dataflow occurs inside the regions of the feature, when it also structurally interacts with the feature \\
+- as the commit could also be partially located outside the feature, we could be dealing with an outside dataflow origin instead \\
+- one way to solve this issue could be to track whether the commit taint \ref{}, belonging to data being used within a feature, originated inside the regions of said feature \\
+- we found conflicting evidence regarding the linear correlation between the size of a feature and its number of outside commits interacting with it through dataflow \\
+- all of our four examined projects produce unique results ranging from positive to no and even strong negative correlations \\
+- further research is necessary to determine whether there exists an accurate predictor for a feature's number of outside commits where considering properties of a feature besides its size might be required \\
+% which properties
+- likewise, our results regarding the proposed decrease in the proportion of outside to inside commits in a feature with an increase in its size are not conclusive \\
+- while most evidence points to existence of such a relation, more projects must be examined to gather statistically significant data \\
+
+- the fraction of commits part of dataflow interactions are not unanimous among the projects and can be unexpectedly high \\
+- they range from every ninth commit in \textsc{xz} to more than every second commit in \textsc{gzip} \\
+- furthermore, we found that their fraction in a project is strongly influenced by the percentage of commits that structurally interact with features \\
+- specifically, we proposed that said percentage acts as a lower bound for them since we could confirm the notion that structural CFIs heavily coincide with dataflow-based CFIs \ref{} \\
+- still, our dataflow analysis revealed previously hidden interactions for the majority of commits interacting with features in all projects \\
+- nonetheless, future research should factor in the discussed dependency between structural and dataflow interactions to properly assess the amount of new information a dataflow analysis can contribute \\
+% to differentiate between less and more interesting CFIs...
+- by considering structural CFIs in RQ2, we were also able to determine that commits used to implement features have an increased likelihood to affect other features via outside dataflow \\
+% => the same is true for authors
+
+
+
+
+
+
+
+
+
+
+
+
+
+\iffalse 
 - in this work, some expressions can be ambigious due to limits in our analysis and a high degree of feature-nesting \\
 - by improving our analysis and finding ways to decipher nested features, future research could prevent these ambiguities \\
 - we say that a commit affects a feature through inside dataflow, meaning that the dataflow occurs inside the regions of the feature, when it also structurally interacts with the feature \\
@@ -28,5 +70,5 @@
 - more projects and of different domains => solidy or revise our results \\
 - at least 10 features such that correlations are more likely to be statistically significant \\
 - some RQs such as the correlation between the size of a feature and its proportion of outside to inside commits still left to be answered => more datapoints needed \\
-
+\fi
 

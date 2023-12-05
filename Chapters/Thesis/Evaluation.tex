@@ -201,6 +201,7 @@ Logically, these commits affect at least two features through dataflow and only 
 Surprsingly, they form the majority of commits for \textsc{bzip2} and \textsc{gzip} at 60 and 44.3\% respectively and around 20\% of commits for \textsc{xz}.
 The proportion of commits that only interact with features through inside dataflow varies less between the projects.
 \textsc{gzip} has the highest percentage at 31.3\%, \textsc{bzip2} the lowest at 20\% with \textsc{xz} inbetween the two at 23.9\%. \\
+\iffalse
 \begin{table}[t]
 \caption{Commits exclusively/partially interacting with features \texttt{only} through dataflow}
 \label{tab:commit_exclusive_and_partial_dfbr_table}
@@ -208,7 +209,7 @@ The proportion of commits that only interact with features through inside datafl
 \begin{tabular}{lrrrr}}
     \toprule
     \textbf{Projects}
-    \multirow{2}{*}{} &
+    \multirow{2}{*} &
       \multicolumn{2}{c}{\textbf{Commit Count}} &
       \multicolumn{2}{c}{\textbf{Percentage of all active commits}} \\
       & {Exclusive} & {Partial} & {Exclusive} & {Partial} \\
@@ -219,6 +220,7 @@ The proportion of commits that only interact with features through inside datafl
     \bottomrule
   \end{tabular}
 \end{table}
+\fi
 Combining the data presented in both plots, we calculated the number and percentage of active commits in a project whose interactions with features were exclusively discovered by our dataflow analysis.
 The respective values are shown in table \ref{tab:commit_exclusive_and_partial_dfbr_table} on the left-hand side of the second and third column.
 With a count of 66, most commits were reveiled for \textsc{xz}, although its percentage remains comparatively small due to its high number of active commits.
@@ -232,8 +234,7 @@ Similarly to the overall percentage of commits with dataflow interactions, they 
 \centering
 \begin{tabular}{l r r}
 \toprule
-\textbf{Projects} & \textbf{Probability for Commits Part of Structural CFIs} & \textbf{Same Probability Given} \\ 
- 		  & \textbf{to Affect other Features Through Outside DF}     & \textbf{Any Active Commit} \\
+\textbf{Projects} & \textbf{P(out$\rightsquigarrow$(C)\mid$\circledcirc$(C))} & \textbf{P(out$\rightsquigarrow$(C))} \\ 
 \midrule
   xz    & 0.417 & 0.086 \\
   bzip2 & 0.667 & 0.216 \\
@@ -254,7 +255,7 @@ The contrast is slightly weaker for \textsc{bzip2} with a 3.1 times higher likel
 
 \begin{figure}[htbp]
   \centering
-  \includesvg[height=8.9cm]{gfx/results/RQ2/proportional_commit_dfbr_plot.svg}
+  \includesvg[height=10cm]{gfx/results/RQ2/proportional_commit_dfbr_plot.svg}
   \caption{The Proportion of Commits with Dataflow Interactions and their Dataflow Origin}
   \label{fig:commit_dfbr_plot}
 \end{figure}
@@ -263,7 +264,7 @@ The contrast is slightly weaker for \textsc{bzip2} with a 3.1 times higher likel
 
 \begin{figure}[htbp]
   \centering
-  \includesvg[height=19.2cm]{gfx/results/RQ2/feature_dfbr_plot.svg}
+  \includesvg[height=18cm]{gfx/results/RQ2/feature_dfbr_plot.svg}
   \caption{The Distribution and Proportion of Outside and Inside Commits Affecting a Feature through Dataflow and their Linear Correlation to the Size of a Feature}
   \label{fig:feature_dfbr_plot}
 \end{figure}
