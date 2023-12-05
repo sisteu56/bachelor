@@ -25,14 +25,14 @@
 - likewise, our results regarding the proposed decrease in the proportion of outside to inside commits in a feature with an increase in its size are not conclusive \\
 - while most evidence points to existence of such a relation, more projects must be examined to gather statistically significant data \\
 
-- the fraction of commits part of dataflow interactions are not unanimous among the projects and can be unexpectedly high \\
+- the fraction of commits part of dataflow interactions are not unanimous among the projects and more common than we expected in our proposal \\
 - they range from every ninth commit in \textsc{xz} to more than every second commit in \textsc{gzip} \\
 - furthermore, we found that their fraction in a project is strongly influenced by the percentage of commits that structurally interact with features \\
 - specifically, we proposed that said percentage acts as a lower bound for them since we could confirm the notion that structural CFIs heavily coincide with dataflow-based CFIs \ref{} \\
 - still, our dataflow analysis revealed previously hidden interactions for the majority of commits interacting with features in all projects \\
 - nonetheless, future research should factor in the discussed dependency between structural and dataflow interactions to properly assess the amount of new information a dataflow analysis can contribute \\
 % to differentiate between less and more interesting CFIs...
-- by considering structural CFIs in RQ2, we were also able to determine that commits used to implement features have an increased likelihood to affect other features via outside dataflow \\
+- although this was not a topic we intended to examine, we determined that commits used to implement features have an increased likelihood to affect other features via outside dataflow \\
 % => the same is true for authors
 
 
