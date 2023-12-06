@@ -32,11 +32,26 @@
 - still, our dataflow analysis revealed previously hidden interactions for the majority of commits interacting with features in all projects \\
 - nonetheless, future research should factor in the discussed dependency between structural and dataflow interactions to properly assess the amount of new information a dataflow analysis can contribute \\
 % to differentiate between less and more interesting CFIs...
-- although this was not a topic we intended to examine, we determined that commits used to implement features have an increased likelihood to affect other features via outside dataflow \\
-% => the same is true for authors
 
+- although this was not a topic we initially intended to examine, we determined that commits used to implement features have an increased likelihood to affect other features via outside dataflow \\
+- this implies that the data of certain features is strongly connected, which could serve as motivation to investigate dataflow interactions between features \\
+- discovering which types of features often share data and thus depend on each other could potentially have implications on other, for example bug-related \ref{}, interactions between them \\
+- in relation to this, future studies might want to determine commits, located outside of features, whose code serve as an intersection for the dataflow between certain features \\
+- the respective commits can additionally be considered when trying to find the cause of bugs or other issues occuring in relation to feature interactions \ref{} \\
+- to determine these commits, our analysis needs to be extentend allowing us to examine dataflow from features to commits as well \\
+- commits that are affected by and affect certain features through outside dataflow might be commits that are central to the interplay of the involved features \\
 
+- one major problem we faced when evaluating RQ3 was that \textsc{xz}, which played an important role in answering the previous two RQs, was essentially of no use here \\
+- that is, because \textsc{xz} was mostly developed by a single author, which means that its features only interact with a single author as well \\
+- we therefore consider our results for RQ3 to be preliminary and advocate for the examination of more projects \\
+- still, the remaining projects have given us some insights on how authors interact with features \\
+- we have generally found that a feature has more authors affecting it through outside dataflow than structurally interacting authors, i.e. those directly involved in its implementation \\
+% - around half of the authors implementing a feature also introduce commits that affect it through outside dataflow
+% - thus, our dataflow analysis was able to discover many additional interacting authors that we could not reveal with our structural analysis 
 
+- across all RQs, we have seen that projects encompassing a higher number of features produce statistically more significant correlations than projects encompassing less features \\
+- \textsc{xz} encompasses 10 features and produces p-values falling out of our pre-defined rejection interval, whereas this is not the case for \textsc{bzip2} and \textsc{lrzip} encompassing 8 and 3 features respectively \\
+- we therefore propose that future research should preferably investigate projects with a minimum of 10 features if they intent to compute correlation coefficients or other metrics relying on the number of provided datapoints \\
 
 
 
