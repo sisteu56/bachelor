@@ -2,6 +2,46 @@
 \chapter{Introduction}\label{ch:introduction}
 %************************************************
 
+Features play an important part in modern programming, which shows in program paradigms such as feature-oriented programming,
+where they are used to implement specific functionalities, can be activated or deactivated and thus add configurability to software systems.
+As commits are used to contribute new source-code to a repository, it follows that commits can structurally interact with features by introducing source-code implementing their functionality. 
+Furthermore, seemingly unrelated code, that was changed or added by commits, might influence soure-code of a feature through dataflow.
+We aim to give initial insights into these topics by investigating \nameref{ch:example_chapter} (CFIs).
+
+Within a program, there exist many different abstract entities, such as commits and features, each serving different responsibilites.
+For a better understanding of them, it is advantageous to know whether they interact with or among each other.
+In the context of CFIs, bugs occuring in a feature could be linked to the latest commits affecting data of said feature, and consequently the authors responsible for these bugs.
+Especially for dataflow spanning over multiple files and many lines of code, it might be difficult to determine the respective interactions by studying the program yourself.
+To enable an automatic detection of these interactions and allow for a complete overview of them inside a software project, Sattler et al.\cite{sattler2023thesis} created the interaction analysis tool VaRA\cite{VaRA2023}.
+
+In a prior study, \citet{sattler2023seal} used VaRA to examine interactions between commits showing that research on this topic can be applied to improve many aspects of software development.
+For example, their research allowed for a deeper understanding of interactions between developers by linking commit interactions to their respective authors\cite{sattler2023seal}. 
+Similarly to commit interactions, internal feature interactions are dependencies between features at source-code level. 
+While they have been the topic of some studies\cite{kolesnikov2017relation}, the main intention was to utilize them as a predictor for external, e.g. performance interactions\cite{siegmund2012predicting} of features.
+
+We pick up and extend on previous research by being the first to investigate interactions between commits and features.
+For this, we introduce the concept of structural and dataflow-based CFIs.
+Structural CFIs occur inside a program when there exists overlap between source-code changed by a commit and source-code constituting a feature.
+This overlap implies that the commit changed or implemented functionality of the feature, meaning that structural CFIs can produce data on feature development.
+We speak of dataflow-based CFIs when there exists dataflow from the code representations of commits to that of features.
+Thus, commits of these interactions introduced changes in the program affecting data, which is later used inside a feature.
+CFIs based on dataflow examine the program on a deeper layer, allowing us to detect additional interactions missed by structural CFIs.
+By combining dataflow-based and structural interactions, we can specify whether dataflow stems from outside or from inside the code constituting a feature, thus producing more informative data.
+
+In a second analysis step, we follow the discussed approach of Sattler et al. by enriching CFIs with high-level repository information.
+In the same way in which we examine the influence of commits on features, we can now examine how the authors contributing these commits interact with them.
+As with commits, we say that developers can affect features structurally or through dataflow.
+There are some important differences though, as a developer can be the author of multiple commits, which can in turn affect features in different ways.
+Thus, developers implementing features might also be the ones contributing the changes located outside of feature-code that influence them through dataflow.
+
 \section{Goal of this Thesis}
+
+The primary focus of this thesis is to gain an overview of how commits interact with features in software projects. 
+Our goal is to lay basic groundwork regarding this subject, while leaving more detailed questions to future research. 
+As previously mentioned, we investigate two types of commit-feature interactions, namely structural and dataflow-based interactions. 
+Using structural CFIs, we aim to reveal insights about the development process of features and usage of commits therein. 
+We also investigate to what extend our dataflow analysis can reveal interactions that cannot be discovered with a purely syntactical analysis.
+By examining the interplay between the two types of CFIs, we hope to establish dependencies that will be considered in future studies.
+Lastly, we provide first insights into author-feature interactions and determine whether this is a subject worthy of further investigation.
 
 \section{Overview}
