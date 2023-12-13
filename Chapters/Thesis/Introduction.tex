@@ -42,6 +42,16 @@ As previously mentioned, we investigate two types of commit-feature interactions
 Using structural CFIs, we aim to reveal insights about the development process of features and usage of commits therein. 
 We also investigate to what extend our dataflow analysis can reveal interactions that cannot be discovered with a purely syntactical analysis.
 By examining the interplay between the two types of CFIs, we hope to establish dependencies that will be considered in future studies.
-Lastly, we provide first insights into author-feature interactions and determine whether this is a subject worthy of further investigation.
+Finally, we provide first insights on interactions of authors with features to incentivize that this subject could be worthy of further investigation.
 
 \section{Overview}
+
+The \hyperref[ch:background]{Background} chapter serves as an introduction to the concepts of code regions and interaction analysis, which are necessary to properly define structural and dataflow-based CFIs.
+Their definition then takes place in the \hyperref[ch:example_chapter]{Commit-Feature Interactions} chapter, where we thouroughly dicuss their meaning in software projects as well as our \nameref{ch:implementation} of their detection in VaRA.
+We also define properties surrounding features and commits, that are used in the following chapters, like the size of a feature~(\ref{sec:feature_size}) and the feature-related concerns of a commit~(\ref{sec:commit_concerns}).
+The research questions of this paper are established in the \hyperref[ch:methodology]{Methodology} chapter, in which we also explain their investigation.
+The \hyperref[ch:evaluation]{Evaluation} includes a detailed description of our results for the three posed research questions, followed by a separate discussion of the findings for each RQ containing background information and possible reasons for them.
+In the last section of \autoref{ch:evaluation}, we address potential internal and external \nameref{sec:threats} of this work.
+In \hyperref[ch:related_work]{Related Work}, we summarize previous studies investigating interactions inbetween commits and inbetween features.
+We also cover topics such as the detection methods of feature-specific code and previous research on feature development. % to be done 
+To finish the thesis, we summarize our results as well as their discussion and formulate thoughts adressing future research in our \hyperref[ch:conclusion]{Concluding Remarks}.
