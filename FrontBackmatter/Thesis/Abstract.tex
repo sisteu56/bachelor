@@ -11,18 +11,25 @@
 
 \chapter*{Abstract}
 
-- in software engineering, features play a pivotal role in implementing functionality of applications and adding configurability to them \\
-- their code is maintained in git repositories, where commits are used to introduce the latest source-code changes, thus gradually building the overall application and its features \\ % commits are an incremental unit of development
-- to allow for a deeper understanding of commits and features as well as their interplay, we connect both entities in the form of commit-feature interactions (CFIs) \\
-- for this, we extend the interaction analysis tool VaRA to implement the detection of structural and dataflow-based CFIs \\
-- while the former provides information about the direct involvement of commits in developing features, the latter can uncover seemingly unrelated commits still influencing the functionality of features \\
-- as previous research has focused exclusively on interactions either among commits or among features, we are first to study interactions between the two entities \\
-- specifically, we show use-cases of investigating CFIs including insights into the development process of features and usage of commits therein \\
-- this enabled us, for instance, to confirm a derived best practice surrounding commits in feature development—namely, that commits should only change a single feature \\ 
-- furthermore, our dataflow analysis 
+In software engineering, features play a pivotal role in implementing functionality of applications and adding configurability to them.
+Their code is maintained in git repositories, where commits are used to introduce the latest source-code changes, thus gradually building the overall application and its features. % commits are an incremental unit of development
+To allow for a deeper understanding of commits and features as well as their interplay, we connect both entities in the form of commit-feature interactions (CFIs).
+For this, we extend the interaction analysis tool VaRA to implement the detection of structural and dataflow-based CFIs.
+While the former provides information about the direct involvement of commits in developing features, the latter can uncover seemingly unrelated commits still influencing their functionality.
 
-- with this thesis, we accomplished an initial overview of CFIs, their applications and dependencies between the two introduced types \\
-- 
+As previous studies have focused exclusively on interactions either among commits or among features, we are first to study interactions between the two entities. % we delve into research topics that neither can answer on their own,
+We address research topics that neither can answer on their own, including insights into the development process of features and usage of commits therein. % , in particular we show use cases for the investigation of CFIs,
+This enabled us, for instance, to confirm a derived best practice surrounding commits in feature development - namely, that commits should only change a single feature.
+Furthermore, we find our employed dataflow analysis to be an essential part of gaining a complete overview of the interactions between commits and features in a project, as the majority of them take place only at dataflow level.
+It should be noted that a substantial amount of dataflow occurs within or between features, and does not stem from other parts of a program.
+That is, because commits constituting code of features have an almost certain chance of interacting with them via dataflow as well as a significantly increased probability of influencing other features. % this designates...
+
+In this work, we also illustrate how CFIs can be applied to investigate an alternative albeit related form of interaction: author-feature interactions, achieved by mapping commits to their respective authors.
+As some examined projects proved to be unfit for investigation on this topic, we were not able to conclusively answer our research questions here.
+Nevertheless, we are convinced that this form of interaction promises to improve the understanding of developers on their interplay with features.
+% based on the applications we have worked out
+
+With this thesis, we accomplished an initial overview of commit-feature interactions, their use-cases as well as further applications and utilized them to determine dependencies between the involved entities. % the two involved entities
 
 \vfill
 
