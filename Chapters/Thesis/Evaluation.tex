@@ -3,9 +3,16 @@
 %************************************************
 
 This chapter evaluates the thesis core claims.
-- for this, we investigate four projects
+At first, we describe the results of our three RQs in \autoref{sec:results}.
+Following this, we dicuss our results and to what extent they answer our posed research questions.
+In \autoref{sec:threats}, we focus on internal and external threats to the validity of our findings and gathered data. 
 
 \section{Results}\label{sec:results}
+
+Here, we evaluate the results of each RQ separately. 
+As in \autoref{ch:methodology}, we divide the first two RQs into two sub-sections each.
+Most of our results are represented by plots with at least one figure containing them per RQ and sub-section.
+Important statistical values of the examined projects, which we refer to in the text, are additionally shown in tables.
 
 \subsection*{\textbf{RQ1: Evaluation of Structural CFIs}}\label{sec:eval_struc_cfis}
 
@@ -366,6 +373,10 @@ This shows itself in a strong negative correlation coefficient of -0.872 and a p
 
 \section{Discussion}\label{sec:discussion}
 
+In this section, we first formulate whether and how the previously evaluated results can answer our research questions.
+We also relate findings between the RQs and their sub-sections to highlight similarities and differences between them.
+Besides that, we look at possible reasons for our results and further interesting thoughts related to them.
+
 \subsection*{\textbf{RQ1: Structural CFIs}}\label{sec:disc_struc_cfis}
 
 Generally, we have seen our expectations for possible results of RQ1 mostly confirmed.
@@ -572,7 +583,24 @@ Thus, some dataflow interactions could be missed by our deployed commit-feature 
 The detection and tracking of configuration variables stored in structs is currently being implemented in VaRA and was not usable for this work.  
 Specifically, the configuration variables of some features in \textsc{xz} and \textsc{lrzip} cannot be detected, meaning that no CFIs can be collected for them. 
 Logically, this affects the overall and project-specific results of our RQs.
-For example, the percentage of commits with only one feature-related concerns are likely lowered by considering less features. \\
+For example, the percentage of commits with only one feature-related concerns are likely lowered by considering less features. 
+Especially in the case of \textsc{lrzip}, we work with a small number of features resulting in very few datapoints that can be used for the computation of our results.
+Accordingly, the p-values of computed linear correlatio
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\\
 % Especially in the case of \textsc{lrzip}, a higher number of features could provide more statistically significant results by increasing the number of datapoints in our linear correlations \\
 Concerning the external validity of our findings, most dangers stem from the selection of projects we investigate.
 Our pool of investigated projects is limited and it is likely that the way commits and features are used in them is different to other projects to some extent.
