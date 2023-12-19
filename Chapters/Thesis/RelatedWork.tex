@@ -14,11 +14,14 @@ Thus, they can identify interactions between developers that cannot be detected 
 They found that, especially in smaller projects, there often exists one main developer authoring the majority of commits~\cite{sattler2023seal} and thus accounting for most author interactions logically. 
 It was also explained how SEAL makes it possible to relate occurences of bad programming practices to developers. 
 This is accomplished by SEAL enriching program analyses with computed repository information. \\
-\citet{lillack2014tracking} first implemented the automatic detection of features inside programs by tracking their load-time configuration options along program flow.
+\citet{lillack2014tracking} was first to track load-time configuration options along program flow to implement the automatic detection of features inside programs.
 In our research, we also focus on features who are configured via configuration options, which we call configuration variables. 
 Their analysis tool Lotrack can detect which configuration options must be activated in order for certain code segments, implementing a feature's functionality, to be executed.
 They evaluated Lotrack on numerous real-world Android and Java applications and observed a high accuracy for the predicted code execution constraints~\cite{lillack2014tracking}.
-- in C => feature-code can be detected through pre-processors => studied by Apel et al. \\
+
+- instead of using load-time configuration options, applications also use the C Preprocessor to implement variability \\
+- numerous studies investigating configurable software systems have focused on such applications including the Linux kernel~\cite{} \\
+
 Feature interactions are a broad research topic in software systems encompassing numerous forms~\cite{apel2014feature}.
 For example, interaction bugs are bugs caused by feature interactions that occur if and only if multiple features are activated~\cite{nie2011survey}.
 Furthermore, performance interactions are defined as unexpected behavior when combining features that cannot be explained by their individual performance~\cite{siegmund2012predicting}.
@@ -30,6 +33,12 @@ Internal feature interactions are control-flow feature interactions that can be 
 They concluded that considering internal feature interactions could potentially help predict external feature interactions~\cite{kolesnikov2017relation}.  
 
 Feature Development
+
+- in the last section of this chapter, we summarize prior research on feature development, as it is a major topic of this work. \\
+- in contrast to our other research topic of evaluating the dataflow from commits to features, feature development has been the focus of several studies. \\
+
+\iffalse
+focus on evolution in space <=> vs focus on evolution in time
 
 => most features introduced with no scattering => some features become scattered in the project later on (linux kernel)
 https://www.se.cs.uni-saarland.de/publications/docs/PQM+18.pdf
@@ -47,8 +56,20 @@ https://www.se.cs.uni-saarland.de/publications/docs/ICSE2010.pdf
 newer studies have also looked at how commits change feature-code over time (13-20 years development cycles)
 => Our results show that features undergo frequent changes, often with substantial modifications of their code. 
 https://dl.acm.org/doi/abs/10.1145/3486609.3487195
+% We also observed commits in which changes affect multiple features and files, sometimes including dependencies and interactions between features.
 
+Further, it provides a detailed understanding of the intensity of changes affecting variability information in these types of artifacts. 
+=> We apply our approach to the Linux kernel revealing that changes to variability information occur infrequently and only affect small parts of the analyzed artifacts.
+=> most commits do not change features (only 11\% do so) and most changes are rather small (1-10 lines)
+https://dl.acm.org/doi/abs/10.1145/3233027.3233032
+https://dl.gi.de/server/api/core/bitstreams/79b32c0b-da27-4ec6-9313-5c0887accd05/content
 
+=> conflicting evidence
+
+features in the linux kernel mostly modular, feature retirement rather frequent
+https://gsd.uwaterloo.ca/sites/default/files/paper_0.pdf
+
+\fi
 
 
 
