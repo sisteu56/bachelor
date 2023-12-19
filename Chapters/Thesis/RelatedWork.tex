@@ -30,17 +30,18 @@ Most related to our work, feature interactions can also occur at source-code lev
 Since they are ``realitively easy to identify''\cite{apel2014feature}, they could be used to predict other kinds of interactions, although this is not necessarily the case~\cite{apel2014feature}.
 Specifically, \citet{kolesnikov2017relation} published a case study on the relation of external, i.e. performance, and internal feature interactions.  
 Internal feature interactions are control-flow feature interactions that can be detected through static program analysis as mentioned above. 
-They concluded that considering internal feature interactions could potentially help predict external feature interactions~\cite{kolesnikov2017relation}.  
-
-Feature Development
+They concluded that considering internal feature interactions could potentially help predict external feature interactions~\cite{kolesnikov2017relation}.
 
 - in the last section of this chapter, we summarize prior research on feature development, as it is a major topic of this work. \\
 - in contrast to our other research topic of evaluating the dataflow from commits to features, feature development has been the focus of several studies. \\
+- \citet{passos2021scattering} analysed feature scattering in the Linux kernel, specifically its device drivers, and found that most features (82\%) are introduced without scattering \\
+- overall, the percentage of scattered driver features falls around or below 20\% in the examined releases~\cite{passos2021scattering}, meaning that most of them are implemented rather modularly \\
+- \citet{liebig2010analysis} average nesting degree of one => moderately nested
 
 \iffalse
 focus on evolution in space <=> vs focus on evolution in time
 
-=> most features introduced with no scattering => some features become scattered in the project later on (linux kernel)
+=> most features introduced with no scattering (82\%)
 https://www.se.cs.uni-saarland.de/publications/docs/PQM+18.pdf
 differences in code scattering of mandatory and optional features => mandatory features less scattered
 https://dl.acm.org/doi/abs/10.1145/3168365.3168371
@@ -48,7 +49,7 @@ https://dl.acm.org/doi/abs/10.1145/3168365.3168371
 optional feature problem: features are orthogonal in the feature-model, but their implementations are not independent
 http://btn1x4.inf.uni-bayreuth.de/publications/dotor_buchmann/Feature%20Analysis/Apel_SPCL2009.pdf
 
-average nesting depth of features is low => features are rarely nested inside other, larger features
+average nesting depth of features is low => features are modaretly nested inside other, larger features
 tangling degree of feature expressions is low => most #ifdef statements use few feature constants
 lines of feature-code and number of feature constants positively correlated with total lines and the two in turn positively correlated
 https://www.se.cs.uni-saarland.de/publications/docs/ICSE2010.pdf
