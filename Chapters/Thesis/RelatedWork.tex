@@ -3,7 +3,8 @@
 %************************************************
 
 Interactions between features~\cite{lillack2014tracking,kolesnikov2017relation} and interactions between commits~\cite{sattler2023seal} have already been used to answer many research questions surrounding software systems.
-However, investigating feature interactions has been around for a long time, while examining commit interactions is a more recent phenomenon. \\
+However, investigating feature interactions has been around for a long time, while examining commit interactions is a more recent phenomenon. 
+
 In an article published in 2023, \citet{sattler2023seal} analysed several open-source projects with their novel approach, SEAL.
 SEAL merges low-level data-flow with high-level repository information in the form of commit interactions.
 The paper shows the importance of a combination of low-level program analysis and high-level repository mining techniques by discussing research problems that neither analysis can answer on its own.
@@ -13,14 +14,15 @@ Furthermore, they investigated author interactions at a dataflow level with the 
 Thus, they can identify interactions between developers that cannot be detected by a purely syntactical approach.
 They found that, especially in smaller projects, there often exists one main developer authoring the majority of commits~\cite{sattler2023seal} and thus accounting for most author interactions logically. 
 It was also explained how SEAL makes it possible to relate occurences of bad programming practices to developers. 
-This is accomplished by SEAL enriching program analyses with computed repository information. \\
+This is accomplished by SEAL enriching program analyses with computed repository information. 
+
 \citet{lillack2014tracking} was first to track load-time configuration options along program flow to implement the automatic detection of features inside programs.
 In our research, we also focus on features who are configured via configuration options, which we call configuration variables. 
 Their analysis tool Lotrack can detect which configuration options must be activated in order for certain code segments, implementing a feature's functionality, to be executed.
 They evaluated Lotrack on numerous real-world Android and Java applications and observed a high accuracy for the predicted code execution constraints~\cite{lillack2014tracking}.
-
-- instead of using load-time configuration options, applications also use the C Preprocessor to implement variability \\
-- numerous studies investigating configurable software systems have focused on such applications including the Linux kernel~\cite{} \\
+Instead of using load-time configuration options, applications also use the C Preprocessor to implement variability.
+Numerous studies investigating configurable software systems have focused on such applications including the Linux kernel~\cite{passos2021scattering,michelon2021lifecycle}.
+% our research is new in that it focuses on projects, where variability is implemnted differently
 
 Feature interactions are a broad research topic in software systems encompassing numerous forms~\cite{apel2014feature}.
 For example, interaction bugs are bugs caused by feature interactions that occur if and only if multiple features are activated~\cite{nie2011survey}.
@@ -32,11 +34,20 @@ Specifically, \citet{kolesnikov2017relation} published a case study on the relat
 Internal feature interactions are control-flow feature interactions that can be detected through static program analysis as mentioned above. 
 They concluded that considering internal feature interactions could potentially help predict external feature interactions~\cite{kolesnikov2017relation}.
 
-- in the last section of this chapter, we summarize prior research on feature development, as it is a major topic of this work. \\
-- in contrast to our other research topic of evaluating the dataflow from commits to features, feature development has been the focus of several studies. \\
-- \citet{passos2021scattering} analysed feature scattering in the Linux kernel, specifically its device drivers, and found that most features (82\%) are introduced without scattering \\
-- overall, the percentage of scattered driver features falls around or below 20\% in the examined releases~\cite{passos2021scattering}, meaning that most of them are implemented rather modularly \\
-- \citet{liebig2010analysis} average nesting degree of one => moderately nested
+In the last section of this chapter, we summarize prior research on feature development, as it is a major topic of this work.
+In contrast to our other research topic of evaluating the dataflow from commits to features, feature development and related topics have been the focus of several studies.
+\citet{passos2021scattering} analysed feature scattering in the Linux kernel, specifically its device drivers, and found that most features (82\%) are introduced without scattering.
+Overall, the percentage of driver features classified as scattered falls around or below 20\% in the examined releases~\cite{passos2021scattering}, meaning that most of them are implemented rather modularly.
+% - when analyzing variability in 40 configurable software systems, \citet{liebig2010analysis} determined that feature ``nesting is used moderately''~\cite{liebig2010analysis} \\
+% - while most features are, at least partially, nested inside other features
+\citet{michelon2021lifecycle} investigated the life cycle of features in four configurable software systems by examining how commits change the code of features over their entire development.
+They found that features are frequently changed and that these changes often include ``substantial modifcations''~\cite{michelon2021lifecycle}.
+Interestingly, \citet{michelon2021lifecycle} noted that commits are more likely to change multiple features at once than they are to introduce changes only to a specific feature.
+This allowed them to determine that certain features evolve together, as commits changing code of one feature often change code of its co-evolving feature as well.
+Furthermore, the majority of commits affecting feature code change code of the base system as well~\cite{michelon2021lifecycle}, which means that commits are unlikely to only change feature specific code.
+While the retirement of a feature marks the end of its development, it is arguably still a part of it.
+\citet{michelon2021lifecycle} also investigated this topic and found that features are rarely removed after their introduction.
+This is not the case for the Linux kernel however, as \citet{passos2013coevolution} discovered that ``feature retirement is rather frequent'' in it.
 
 \iffalse
 focus on evolution in space <=> vs focus on evolution in time
@@ -60,6 +71,7 @@ https://dl.acm.org/doi/abs/10.1145/3486609.3487195
 % We also observed commits in which changes affect multiple features and files, sometimes including dependencies and interactions between features.
 
 Further, it provides a detailed understanding of the intensity of changes affecting variability information in these types of artifacts. 
+variablity information => information in feature expressions??
 => We apply our approach to the Linux kernel revealing that changes to variability information occur infrequently and only affect small parts of the analyzed artifacts.
 => most commits do not change features (only 11\% do so) and most changes are rather small (1-10 lines)
 https://dl.acm.org/doi/abs/10.1145/3233027.3233032
@@ -71,25 +83,3 @@ features in the linux kernel mostly modular, feature retirement rather frequent
 https://gsd.uwaterloo.ca/sites/default/files/paper_0.pdf
 
 \fi
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
