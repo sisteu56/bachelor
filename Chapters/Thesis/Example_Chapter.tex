@@ -1,20 +1,20 @@
 %************************************************
-\chapter{Commit-Feature Interactions}\setcurrentname{Commit-Feature Interactions}\label{ch:example_chapter}
+\chapter{Commit-Feature Interactions}\label{ch:example_chapter}
 %************************************************
 
 In this section, we define structural and dataflow-based commit-feature interactions as well as properties related to them.
 Furthermore, their meaning and relationship inside a software project is explained here. 
-In the \nameref{ch:background} chapter, we discussed what purpose commits and features serve in a software project.
+In the \hyperref[ch:background]{Background Chapter}, we discussed what purpose commits and features serve in a software project.
 Commits are used to add new changes, whereas features are cohesive entities in a program implementing a specific functionality.
 In this work, structural interactions are used to investigate how commits implement features and their functionality.
 In addition, dataflow interactions are examined to gain additional knowledge on how new changes to a program, in the form of commits, affect features. 
 
 \section{Structural CFIs}\label{sec:structural_cfis}
 
-In the background chapter, we dicussed the concept of \nameref{ch:code_regions}, especially commit and feature regions. 
+In \autoref{ch:background}, we dicussed the concept of \hyperref[ch:code_regions]{code regions}, especially commit and feature regions. 
 Logically, we speak of structural interactions between features and commits when their respective regions structurally interact. 
 This structural interaction between code regions occurs when at least one instruction is part of both regions.
-This is the case when code regions structurally interact through the \nameref{def:structural_relation} ($\circledcirc$).
+This is the case when code regions structurally interact through the \hyperref[def:structural_relation]{structural interaction relation} ($\circledcirc$).
 
 \begin{definition}\label{def:structural_cfi}
 \emph{A commit C with its commit regions $r_{1C}$, $r_{2C}$,... and a feature F with its feature regions $r_{1F}$, $r_{2F}$,... structurally interact, if at least one commit region $r_{iC}$ and one feature region $r_{jF}$ structurally interact with each other, i.e. $r_{iC}$ $\circledcirc$ $r_{jF}$.}
@@ -22,12 +22,13 @@ This is the case when code regions structurally interact through the \nameref{de
 
 Structural CFIs carry an important meaning, namely that the commit of the interaction was used to implement or change functionality of the feature of said interaction.
 This can be seen when looking at an instruction accounting for a structural interaction, as it is both part of a commit as well as a feature region.
-From the definition of \nameref{def:commit_regions}, it follows that the instruction stems from a source-code line that was last changed by the region's respective commit. 
-From the definition of \nameref{def:feature_regions}, we also know that the instruction implements functionality of the feature region's respective feature. 
+From the definition of \hyperref[def:commit_regions]{commit regions}, it follows that the instruction stems from a source-code line that was last changed by the region's respective commit. 
+From the definition of \hyperref[def:feature_regions]{feature regions}, we also know that the instruction implements functionality of the feature region's respective feature. 
+% disclaimer: this is not always
 Thus, the commit of a structural interaction was used to extend or change the code implementing the feature of that interaction.
-Following this, we can say that the commits, a feature structurally interacts with, implement the entire functionality of the feature.
-That is because each source-code line of a git-repository was introduced by a commit and can only belong to a single commit.
-Thus every instruction, including those part of feature regions, is annotated by exactly one commit region. 
+Following this, we can say that the commits a feature structurally interacts with implement the entire functionality of the feature.
+That is, because each source-code line of a git-repository was introduced by a commit and can only belong to a single commit.
+Thus, every instruction, including those part of feature regions, is annotated by exactly one commit region. 
 
 Knowing the commits used to implement a feature allows us to determine the authors that developed it.
 This is made possible by simply linking the commits, a feature structurally interacts with, to their respective authors.
@@ -37,11 +38,11 @@ By determining the authors of a feature, we can achieve a deeper insight into it
 
 Determining which commits affect a feature through dataflow can reveal additional interactions between commits and features that cannot be discovered with a structural analysis.
 Especially dataflows that span over multiple files and many lines of code might be difficult for a programmer to be aware of.
-Employing VaRA's dataflow analysis, that is dicussed in section~\ref{ch:implementation}, facilitates the detection of these dataflow interactions. \\
-Commit interactions based on dataflow were explained in the \nameref{sec:interaction_analysis} section and can be considered as precursors to dataflow-based commit-feature interactions.
-Similarly to commits interacting with other commits through dataflow, commits interact with features through dataflow, when there exists dataflow from a commit to a feature region.
-This means that data allocared or changed within a commit region flows as input to an instruction located inside a feature region.
-This pattern can also be matched to the \nameref{def:dataflow_relation} ($\rightsquigarrow$) when defining dataflow-based commit-feature interactions.
+Employing VaRA's dataflow analysis, which is dicussed in \autoref{ch:implementation}, facilitates the detection of these dataflow interactions. \\
+Commit interactions based on dataflow were explained in \autoref{sec:interaction_analysis} and can be considered cousins of dataflow-based commit-feature interactions.
+Similarly to commits interacting with other commits through dataflow, commits interact with features through dataflow when there exists dataflow from a commit to a feature region.
+This means that data allocated or changed within a commit region flows as input to an instruction located inside a feature region.
+This pattern can also be matched to the \hyperref[def:dataflow_relation]{dataflow interaction relation} ($\rightsquigarrow$) when defining dataflow-based commit-feature interactions.
 
 \begin{definition}\label{def:dataflow_cfi}
 \emph{A commit C with its commit regions $r_{1C}$, $r_{2C}$,... and a feature F with its feature regions $r_{1F}$, $r_{2F}$,... interact through dataflow, if at least one commit region $r_{iC}$ interacts with a feature region $r_{jF}$ through dataflow, i.e. $r_{iC}$ $\rightsquigarrow$ $r_{jF}$.}
@@ -56,12 +57,12 @@ This pattern can also be matched to the \nameref{def:dataflow_relation} ($\right
 6.    return ret;                                  %\vartriangleright% %\texttt{d93df4a}%   
 7. }                                               %\vartriangleright% %\texttt{d93df4a}%   
 \end{lstlisting}
-\textsf{The above code snippet contains both structural as well as dataflow-based commit-feature interactions.
-Commit \texttt{fc3a17d} implements the functionality of \texttt{FeatureDouble} for this function.
+The above code snippet contains both structural as well as dataflow-based commit-feature interactions.
+Commit \textsf{fc3a17d} implements the functionality of \textsf{FeatureDouble} for this function.
 It follows that a structural commit-feature interaction can be found between them, as their respective commit and feature regions structurally interact.
-Commit \texttt{7edb283} introduces the variable \texttt{ret} that is later used inside the feature region of \texttt{FeatureDouble}. 
+Commit \textsf{7edb283} introduces the variable \textsf{ret} that is later used inside the feature region of \textsf{FeatureDouble}. 
 This accounts for a commit-feature interaction through dataflow, as data that was produced within a commit region is used as input 
-by an instruction belonging to a feature region of \texttt{FeatureDouble} later on in the program.}
+by an instruction belonging to a feature region of \textsf{FeatureDouble} later on in the program.
 
 \section{Combination of CFIs}\label{sec:combination_cfis}
 
@@ -69,7 +70,7 @@ When investigating dataflow-based CFIs, it is important to be aware of the fact 
 This means that whenever commits and features structurally interact, they are likely to interact through dataflow as well.
 As our structural analysis has already discovered that these commits and features interact with each other, 
 we are more interested in commit-feature interactions that can only be detected by a dataflow analysis.
-That this relationship between structural and dataflow interactions exists becomes clear when looking at an instruction accounting for a structural CFI.
+It becomes clear that this relationship between structural and dataflow interactions exists when looking at an instruction accounting for a structural CFI.
 From definition~\ref{def:structural_cfi}, we know that the instruction belongs to a commit region of the interaction's respective commit.
 It follows that data changed inside the instruction produces commit taints for instructions that use the data as input. 
 Now, if instructions that use the data as input are also part of a feature region of the interaction's respective feature, the commit and feature of the structural interaction will also interact through dataflow.
@@ -126,10 +127,10 @@ An examplatory use-case is shown in the listing below. \\
 \end{lstlisting}
 \label{lst:commit_concerns}
 The above code-snippet illustrates how considering the feature-related concerns of a commit is more insightful than simply looking at the features it structurally interacts with. 
-We can see that the commit \texttt{e37a1c8} exclusively implements functionality of the \texttt{CheckZero}-feature. 
-Still, it also structurally interacts with the \texttt{Min}-feature, as the code of \texttt{CheckZero} is nested inside of it. 
-However, commit \texttt{e37a1c8} only has a single feature-related concern, as it only affects source-code lines that encompass regions of the same set of features.
-If commit \texttt{b9ea2f3} instead introduced the entire code-snippet, it would have two feature-related concerns.
+We can see that the commit \textsf{e37a1c8} exclusively implements functionality of the \textsf{CheckZero}-feature. 
+Still, it also structurally interacts with the \textsf{Min}-feature, as the code of \textsf{CheckZero} is nested inside of it. 
+However, commit \textsf{e37a1c8} only has a single feature-related concern, as it only affects source-code lines that encompass regions of the same set of features.
+If commit \textsf{b9ea2f3} instead introduced the entire code-snippet, it would have two feature-related concerns.
 In both cases, the feature-related concerns accurately reflect the number of features that were implemented by a commit.
 At the same time, this is not true for the number of features a commit structurally interacts with.
 
@@ -150,7 +151,8 @@ Besides that, the overlap degree of a feature informs us about the frequency of 
 The detection of structural as well as dataflow-based commit-feature interactions is implemented in VaRA \cite{VaRA2023}.
 Additionaly to commit regions, VaRA maps information about its feature regions onto the compiler's IR.
 Commit regions contain the hash and repository of their respective commits, whereas feature regions contain the name of the feature they originated from.
-VaRA also gives us access to every llvm-IR instruction of a program and its attached information. \\
+VaRA also gives us access to every llvm-IR instruction of a program and its attached information.
+
 To accommodate later evaluations using feature-related concerns of a commit and feature nesting factors, we create reports featuring a more complex datatype than a sole structural CFI.
 For this, we specifically save which features a commit structurally interacts with at the same time, i.e. inside the same instructions.
 We know that an instruction is always part of exactly one commit region, but could possibly belong to any number of feature regions.
@@ -159,12 +161,14 @@ For every such instruction, we store the discussed interaction, as the commit an
 For each interaction, we also save the number of instructions it occurs in. 
 This is accomplished by incrementing its instruction counter if we happen to encounter a duplicate. 
 % By creating complex structural reports, we can not only determine the nesting degree of each structural CFI later on, but also the nesting degrees of the instructions they occur in.
-This allows us to calculate the size of a feature~\ref{def:feature_size}, as the sum over the instruction counters of all found interactions the feature is part of.
-To determine a feature's nesting factor~\ref{def:feature_nesting_factor}, we have to additionally compute the number of instructions where its feature regions do not appear exclusively.
+This allows us to calculate the size of a feature~(\ref{def:feature_size}), as the sum over the instruction counters of all found interactions the feature is part of.
+To determine a feature's overlap degree~(\ref{def:feature_overlap_degree}), we have to additionally compute the number of instructions where its feature regions do not appear exclusively.
 The computation is identical to that of a feature's size with the sole difference being that we only consider interactions encompassing multiple features.
-To compute the feature-related concerns of a commit~\ref{def:feature_related_concerns}, we examine the sets of features present in the complex structural CFIs the commit is part of.
-For every new set of features that is not identical to any previous set we encountered, the number of concerns is increased by one.  \\
-In the \nameref{sec:interaction_analysis} section, we discussed the taint analysis deployed by VaRA.
+According to its definition, the overlap degree of a feature can subsequently be calculated by dividing the just determined number of instructions by the feature's size.
+% To compute the feature-related concerns of a commit~\ref{def:feature_related_concerns}, we examine the sets of features present in the complex structural CFIs the commit is part of.
+% For every new set of features that is not identical to any previous set we encountered, the number of concerns is increased by one.
+
+In \autoref{sec:interaction_analysis}, we discussed the taint analysis deployed by VaRA.
 There, VaRA computes information about which code regions have affected an instruction through dataflow.
 Checking whether a taint stems from a commit region allows us to extract information about which commits have tainted an instruction.
 Thus, dataflow-based commit-feature interactions can also be collected on instruction level.
