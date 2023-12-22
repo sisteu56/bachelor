@@ -6,8 +6,10 @@ The purpose of this chapter is to first formulate the research questions that we
 
 \section{Research Questions}\label{sec:research_questions}
 
-In \autoref{ch:example_chapter}, we dicussed the different meanings of structural and dataflow-based interactions.
-With this knowledge, investigate patterns in feature development and usage of commits therin as well as findings about how likely seemingly unrelated commits are to affect features inside a program.
+In \autoref{ch:example_chapter}, we dicussed the different meanings of structural and dataflow-based commit-feature interactions.
+With this knowledge, we investigate patterns in feature development and the usage of commits therin and how often seemingly unrelated commits affect features inside a program.
+In RQ1, we focus on research topcis that can be answered with structural CFIs, while we explore the additional information dataflow-based CFIs can provide in RQ2.
+In RQ3, we look into the use-cases of author-feature interactions, which we extract from our previously examined commit-feature interactions.
 
 \subsection*{\textbf{RQ1: How do commits and features structurally interact with each other?}}
 
@@ -18,23 +20,25 @@ We research two main properties which already provide a lot of insight into the 
 Firstly, we examine the number of commits features interact with structurally. 
 This gives us an estimate on how many commits were used in the development of a feature and the according distribution among the features of a project.
 Our analysis also allows us to measure the size of feature, which can put the number of commits used to implement a feature into perspective.
-We refine our investigation by factoring in the nesting degrees of features (\ref{def:feature_nesting_degree}). 
-In sections \ref{sec:commit_concerns} and \ref{sec:feature_nesting_degree}, we discussed feature-nesting and the risks it bears for our analysis.
-Namely that a fraction of a feature's size can consist of instructions that do not implement its functionality.
-The same is the case for commits structurally interacting with a feature, meaning that a portion of them possibly didn't participate in its development, but in the development of other features.
-We therefore consider the frequency of feature-nesting within a project, so that we can tell how accurately our initial data reflects the development of features.
+We refine our investigation by factoring in the overlap degrees of features (\ref{def:feature_overlap_degree}). 
+In sections \ref{sec:feature_overlap} and \ref{sec:feature_overlap_degree}, we discussed feature overlap and, in the case of it being caused by feature nesting, the risks it bears for our analysis, namely that a fraction of a feature's size can consist of instructions that do not implement its functionality.
+The same is true for commits structurally interacting with a feature, meaning that a portion of them possibly did not participate in its development, but in the development of other features.
+We therefore consider the frequency of feature overlap within a project, so that we can tell how accurately our initial data reflects the development of features.
 
 \subsubsection*{Examining the Usage of Commits in Feature Development}
 
-Secondly, we investigate the number of features a commit usually changes by examining its structural CFIs. 
+Secondly, we investigate the number of responsibilites in relation to features a commit usually deals with by examining the features it structurally interacts with. 
 This is especially interesting when considering best practices surrounding the usage of commits.
-It is preferred to keep commits atomic\cite{hundhausen2021commit_metrics} meaning they should only have a single responsibility.
-As different features implement separate functionalities, it's unlikely for a commit to change several features while dealing with the same issue.
-Transferring this to our work, high quality commits should mostly change a single feature.
+It is preferred to keep commits atomic~\cite{hundhausen2021commit_metrics} meaning they should only have a single responsibility.
+% As different features implement separate functionalities, it's unlikely for a commit to change several features while dealing with the same issue.
+Transferring this to our work, high quality commits should mostly have single feature-related responsibility.
 Acquiring data on this issue might show how strictly this policy is enforced in the development of features across different projects. 
-In section \ref{sec:commit_concerns}, we discussed that, due to feature nesting, a commit can structurally interact with multiple features at the same time while only changing functionality of one of them.
-Instead of considering the features a commit structurally interacts, we rather examine the number of its feature-related concerns (\ref{def:commit_concerns}) for this RQ.
-This way we aim to achieve a more accurate preditction for the number of features a commit changed or implemented.
+In section \ref{sec:commit_concerns}, we discussed that, due to feature overlap, a commit can structurally interact with multiple features at the same time while only dealing with a single concern.
+For example, a commit could be introducing changes to a feature nested inside other features or coordinate the interplay between several features.
+To achieve a more accurate prediction for the responsibilites of a commit, we examine the number of a commit's feature-related concerns~(\ref{def:commit_concerns}).
+% Instead of considering the features a commit structurally interacts, we rather examine the number of its feature-related concerns~(\ref{def:commit_concerns}) for this RQ.
+% This way we aim to achieve a more accurate preditction for the number of features a commit changed or implemented.
+
 In our analysis, we should ideally filter commits whose purpose was refactoring code, since they do not fit our criteria of changing or adding functionality to a feature.
 Exceptionally large commits might be best considered for this, as this is where we expect most commits used for large-scale refactoring to appear.
 A qualitative review of these commits is still necessary to make a final decision on whether they should be filtered.
@@ -77,21 +81,6 @@ We examine the two commit kinds separately, as we already have a strong supposit
 Determining to what extent feature size is the driving factor in this relation, could tell us whether it is worth considering other possible properties of features in future analyses.
 Discovering features with unusually many outside commits in relation to their size could also allow us to detect feature code that is central code for a project.
 
-\subsection*{\textbf{RQ3: How do authors interact with features?}}
-
-A simple yet promising way to extract more information out of the collected CFIs is to link the interaction's commits to their respective authors.
-Thus, we are able to investigate how authors interact with features both structurally and through dataflow.
-Similarly to the number of commits implementing a feature, we can now calculate the number of authors that participated in its development.
-The same applies to commits interacting with features through dataflow, for which we can now determine the authors contributing these commits.
-Here, we only consider outside commits, i.e. commits not constituting code of the feature, since we have already considered all inside commits when investigating the developers implementing a feature.
-We are especially interested in how many authors exclusively interact with a feature through dataflow in comparison to the number of its developers.
-This lets us determine whether the developers that implement features are also the ones mainly responsible for changes affecting them through dataflow. \\
-Finally, we relate both types of author interactions to the respective size of a feature.
-Regarding structural interactions, this allows us to determine whether a feature's extent in the source-code of a project is driving factor in the amount of authors needed to implement it. 
-Software companies could use evidence on this issue as advice on how to allocate programmers on to-be implemented features.
-Findings on the investigated dataflow interactions of authors could tell developers that their changes might affect small and, at first sight neglegible, features surprisingly often.
-We also have a look at the specific functionality of features since their purpose could also play an important role in the number of authors interacting with them.
-
 \begin{center}
 \begin{tabular}{c}
 \includegraphics[height=6cm]{gfx/Commits-of-a-Software-Project.png}
@@ -100,6 +89,38 @@ We also have a look at the specific functionality of features since their purpos
 \end{center}
 In the first two RQs we have discussed different kinds of commits and the ways in which they interact with features. 
 The above figure showcases them in a venn diagram and illustrates the dependencies and divisions between them.
+
+\subsection*{\textbf{RQ3: How do authors interact with features?}}
+
+A simple yet promising way to extract more information out of the collected CFIs is to link the interaction's commits to their respective authors.
+Thus, we are able to investigate how authors interact with features both structurally and through dataflow.
+Similarly to the number of commits implementing a feature, we can now calculate the number of authors that participated in its development.
+The same applies to commits interacting with features through dataflow, for which we can now determine the authors contributing these commits.
+Here, we only consider outside commits, i.e. commits not constituting code of the feature, since we have already considered all inside commits when investigating the developers implementing a feature.
+We are especially interested in how many authors exclusively interact with a feature through dataflow in comparison to the number of its developers.
+This lets us determine whether the developers that implement features are also the ones mainly responsible for changes affecting them through dataflow.
+
+Finally, we relate both types of author interactions to the respective size of a feature.
+Regarding structural interactions, this allows us to determine whether a feature's extent in the source-code of a project is driving factor in the amount of authors needed to implement it. 
+Software companies could use evidence on this issue as advice on how to allocate programmers on to-be implemented features.
+Findings on the investigated dataflow interactions of authors could tell developers that their changes might affect small and, at first sight neglegible, features surprisingly often.
+We also have a look at the specific functionality of features since their purpose could also play an important role in the number of authors interacting with them.
+
+\begin{table}[t]
+\caption{The examined projects including relevant information for them}
+\label{tab:examined_projects}
+\centering
+\begin{tabular}{l r r r}
+\toprule
+\textbf{Projects} & \textbf{Projet Size (LOC)} & \textbf{History Size} & \textbf{Investigated Features} \\ 
+\midrule
+  xz    & $\math{48450}$  & $\math{1866}$  & $\math{10}$ \\
+  gzip\tablefootnote{we exclude \textsc{gzip}'s submodule \textsc{gnulib} here since we only consider features of \textsc{gzip}'s main code}  & $\math{8121}$ & $\math{605}$ & $\math{14}$ \\
+  bzip2 & $\math{6866}$   & $\math{168}$   & $\math{8}$  \\
+  lrzip & $\math{17647}$  & $\math{978}$   & $\math{3}$  \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \section{Operationalization}\label{sec:operationalization}
 
@@ -110,7 +131,7 @@ The collected data is then processed in order to gain information for each commi
 The processed data is used to calculate statistical information, such as the mean and variance, or the strength of a correlation.
 To facilitate a faster and better understanding of the processed data and calculated statistics, we display them graphically via bar or regression plots.
 
-The projects we investigate in this work, \textsc{xz}, \textsc{gzip}, \textsc{bzip2} and \textsc{lrzip} are listed in \autoref{tab:examined_projects}.
+The projects we investigate in this work are listed in \autoref{tab:examined_projects} with additional information for them.
 All of them are of a small size and are used in a compression domain.
 This choice is based on the fact, that our research intends to only lay basic groundwork, where smaller projects can already offer a lot of insight.
 Since we only investigate a few projects, we chose them to be of a similar domain, such that a comparison between them makes more sense.
@@ -120,22 +141,6 @@ In the following sections, we explain our method of investigation in more detail
 
 For this RQ, we examine the interactions contained in the structural reports created with our \nameref{ch:implementation} in VaRA.
 As there could be vast differences between the projects, we also work with and present their respective data separately.
-
-\begin{table}[t]
-\caption{The examined projects including relevant information for them}
-\label{tab:examined_projects}
-\centering
-\begin{tabular}{l r r r}
-\toprule
-\textbf{Projects} & \textbf{Projet Size (LOC)} & \textbf{History Size} & \textbf{Investigated Features} \\ 
-\midrule
-  xz    & \math{48450}  & \math{1866}  & \math{10} \\
-  gzip  & \math{626048} & \math{22198} & \math{14} \\
-  bzip2 & \math{6866}   & \math{168}   & \math{8}  \\
-  lrzip & \math{17647}  & \math{978}   & \math{3}  \\
-\bottomrule
-\end{tabular}
-\end{table}
 
 \subsubsection*{Investigating Patterns around Feature Development}
 
