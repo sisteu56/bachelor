@@ -48,7 +48,7 @@ This pattern can also be matched to the \hyperref[def:dataflow_relation]{dataflo
 \emph{A commit C with its commit regions $r_{1C}$, $r_{2C}$,... and a feature F with its feature regions $r_{1F}$, $r_{2F}$,... interact through dataflow, if at least one commit region $r_{iC}$ interacts with a feature region $r_{jF}$ through dataflow, i.e. $r_{iC}$ $\rightsquigarrow$ $r_{jF}$.}
 \end{definition}
 
-\begin{lstlisting}[language=C++, caption={Illustration of structural and dataflow-based CFIs}, label=DescriptiveLabel]	
+\begin{lstlisting}[language=C++, caption={Illustration of Structural and Dataflow-based CFIs}, label=DescriptiveLabel]	
 1. int calc(int val) {                             %\vartriangleright% %\texttt{d93df4a}%
 2.    int ret = val + 5;                           %\vartriangleright% %\texttt{7edb283}%
 3.    if (FeatureDouble) {                         %\vartriangleright% %\texttt{fc3a17d}%    %\vartriangleright% %FeatureDouble%
@@ -115,7 +115,7 @@ It follows that we can assign a commit a number of concerns according to its str
 Feature-related concerns should be used as a measure to gauge the responsibilities of a commit that are difficult to decipher due to feature overlap. 
 An examplatory use-case is shown in the listing below. \\
                              
-\begin{lstlisting}[language=C++, caption={Example use-case for the feature-related concerns of a commit}]	
+\begin{lstlisting}[language=C++, caption={Example Use-case for the Feature-related Concerns of a Commit}]	
 26. if (Min) {                             %\vartriangleright% %\texttt{b9ea2f3}%    %\vartriangleright% %Min%
 27.    val = min(x,y)                      %\vartriangleright% %\texttt{b9ea2f3}%    %\vartriangleright% %Min%
 28.    if (CheckZero) {                    %\vartriangleright% %\texttt{e37a1c8}%    %\vartriangleright% %Min% %\land% %CheckZero%
