@@ -177,26 +177,25 @@ Figure \ref{fig:feature_dfbr_plot} displays our results for the features of a pr
 
 At first, we examine the fraction of commits affecting features through dataflow among the \emph{active} commits of a project.
 There, we also evaluate the effects and dependencies of commits part of structural CFIs on said fraction.
-Following this, we intend to determine the proportion of outside dataflow origins within the set of commits with dataflow interactions.
+Following this, we evaluate the proportion of outside dataflow origins within the set of commits with dataflow interactions.
 This also allows us to quantify the commits whose interactions with features can only be discovered through our dataflow analysis.
+
 The number of active commits are shown in the second column of table \ref{tab:commit_dfbr_table} for each project.
 We determined \textsc{xz} to have the highest number of active commits at $\math{1039}$, while \textsc{bzip2} only has a tiny fraction of that at $\math{37}$.
 In the first plot of figure \ref{fig:commit_dfbr_plot}, the bars colored in red show what percentage of commits interact with features through dataflow.
 We notice that the respective percentages are vastly different from project to project.
-The majority of \textsc{gzip}'s active commits are part of dataflow-based CFIs at $\math{37.1}$\%\footnote{this percentage is calculated only considering active commits of \textsc{gzip} and not its sub-module \textsc{gnulib}; we explained this choice more thouroughly in the Operationalization chapter}.
+A significant portion of \textsc{gzip}'s active commits are part of dataflow-based CFIs at $\math{37.1}$\%\footnote{this percentage is calculated only considering active commits of \textsc{gzip} and not its sub-module \textsc{gnulib}; we explained this choice more thouroughly in the Operationalization chapter}.
 This percentage drops to about $\math{27}$\% for \textsc{bzip2}, with another large reduction to $\math{11.3}$\% for \textsc{xz}.
 This means that more than every third active commit in \textsc{gzip}, roughly every fourth in \textsc{bzip2} and every ninth in \textsc{xz} affects features through dataflow.
 The bars colored in grey display the fraction of active commits structurally interacting with features.
 In addition to the obvious fact of how often commits are used to implement features, this also bears important consequences for the fraction of commits with dataflow interactions.
 Comparing the two bar-types, we notice that the percentage of commits with structural interactions is lower than the percentage of commits with dataflow interactions for each project.
-
 \begin{figure}[t]
   \centering
   \includesvg[height=10cm]{gfx/results/RQ2/proportional_commit_dfbr_plot.svg}
   \caption[Dataflow Proportion/Origin for Commits]{The proportion of commits with dataflow interactions and their dataflow origin}
   \label{fig:commit_dfbr_plot}
 \end{figure}
-
 This phenomenon can be explained considering the values presented in the third column of table \ref{tab:commit_dfbr_table}.
 There, we show the probablity for a commit to be part of any dataflow-based CFI, given that said commit is part of any structural CFI.
 We see that the probabilities are slightly below $\math{90}$\% for \textsc{xz} as well as \textsc{bzip2} and even at $\math{100}$\% for \textsc{gzip}.
@@ -237,7 +236,7 @@ The respective values are shown in table \ref{tab:commit_exclusive_and_partial_d
 With a count of $\math{66}$, most commits were revealed for \textsc{xz}, although its percentage remains rather small at $\math{6.4}$\% due to its high number of active commits.
 The percentages of \textsc{gzip} and \textsc{bzip2} are comparatively small at $\math{4.1}$ and $\math{5.4}$\% respectively.
 On the right-hand side of the columns in table \ref{tab:commit_exclusive_and_partial_dfbr_table}, we display the number and percentage of commits where only a subset of their interactions with features was discovered exclusively by our dataflow analysis.
-These commits are most common in \textsc{gzip} with a count of $\math{46}$ making up almost fourth active commit at $\math{23.7}$\%.
+These commits are most common in \textsc{gzip} with a count of $\math{46}$ making up almost every fourth active commit at $\math{23.7}$\%.
 Similarly to the overall percentage of commits with dataflow interactions, they are less common in \textsc{bzip2} at $\math{16.4}$\% and least common in \textsc{xz} at $\math{2.2}$\%. 
 Interestingly, $\math{23}$ and, thus, the vast majority of commits affecting features in \textsc{gzip} exclusively through dataflow stem from its sub-module \textsc{gnulib}.
 In contrast to this observation, only $\math{8}$ commits stemming from \textsc{gnulib} affect features in \textsc{gzip} both through inside and outside dataflow.
@@ -458,9 +457,9 @@ The remaining $\math{3}$ commits introduce minor changes and small bug fixes to 
 This means that \textsc{bzip2}'s features were largely already implemented when the actual development within the repository started.
 Thus, the average number of concerns of a commit as well as their overall distribution are not good representatives of other projects developed in Git. 
 
-\subsection{\textbf{RQ2}}\label{sec:disc:RQ2}
+\subsection{RQ2}\label{sec:disc:RQ2}
 
-We are able to confirm that structural CFIs heavily coincide data flow-based CFIs.
+We are able to confirm our hypothesis discussion in \autoref{sec:combination_CFIs} that structural CFIs heavily coincide data flow-based CFIs.
 This allows us to formulate a lower bound for the proportion of commits with dataflow interactions, namely the proportion of commits with structural interactions.
 While there exists a lot of variation in the proportion of commits affecting features through dataflow within the investigated projects, said proportion heavily depends on a project's extent of feature-code and the number of commits implementing said code.
 Furthermore, our dataflow analysis uncovers a significant amount of interactions between commits and features that we cannot find with our previous structural analysis.
@@ -473,7 +472,7 @@ This also applies to the proportion of outside to inside commits, although we su
 \subsubsection*{Proportion and Dependencies of Commits Affecting Features through Dataflow}
 
 We have seen that the proportion of commits part of dataflow-based CFIs varies a lot between our investigated projects.
-While only $\math{11}$\% of active commits in \textsc{xz} affect features through dataflow, the majority of active commits do so in \textsc{gzip}.
+While only $\math{11}$\% of active commits in \textsc{xz} affect features through dataflow, with $\math{37}$\%, a significantly higher proportion of active commits do so in \textsc{gzip}.
 One major reason for the discussed differences is the fact that the proportion of structural commits acts as the \emph{lowest bound} for the proportion of commits with dataflow interactions.
 As $\math{90-100}$\% of commits part of structural CFIs are also part of dataflow-based CFIs, the percentage of commits part of dataflow-based CFIs never falls below the percentage of commits part of structural interactions.
 The effects of said lowest bound can be recognized in the first plot of figure \ref{fig:commit_dfbr_plot}, where a project's rank among the dataflow proportions of commits reflects its rank among the structural proportions.
@@ -484,9 +483,11 @@ A substantial share of the examined dataflow interactions stem from our previous
 As we have determined structural CFIs to heavily coincide with dataflow-based CFIs, we already know of this set of dataflow interactions prior to our dataflow analysis. 
 
 Nevertheless, we believe that our dataflow analysis is very important to fully assess commit-feature interactions and their frequency within a project.
-For \textsec{xz}, the majority of commits interacting with features were exclusivly reveiled by our dataflow analysis.
-For $\math{8}$, $\math{21}$ and $\math{44}$\% of active commits in \textsc{xz}, \textsc{bzip2} and \textsc{gzip}, it reveiled additional interactions with features that we could not discover with our structural analysis.
+For \textsec{xz}, the majority of commits interacting with features were exclusivly revealed by our dataflow analysis.
+For $\math{8}$, $\math{21}$ and $\math{28}$\% of active commits in \textsc{xz}, \textsc{bzip2} and \textsc{gzip} respectively, it revealed additional interactions with features that we could not discover with our structural analysis.
 This means that the data of, on first sight unrelated, commits and features can be highly connected. 
+% gnulib 31 commits discovered through dataflow analysis, substantial amount from the 84 in total of the gzip project
+
 Besides that, we found that many commits interacting with features both structurally and through dataflow, also interact with \emph{other} features \emph{only} through dataflow.
 This lead us to examine whether commits structurally interacting with features are more likely to affect features through outside dataflow in comparison to any active commit.
 We find sufficient evidence to support the notion that this is indeed the case, including an almost 5-times higher probability in \textsc{xz}.
@@ -502,7 +503,7 @@ When discussing the second part of RQ2, we seek to underline this notion by dete
 Lastly, we discuss the extent of feature code in a project and its consequences on the proportion of commits with structural as well as dataflow interactions.
 In RQ1, we have confirmed that a feature's number of structurally interacting commits is strongly positively correlated with its size for \textsc{xz} and \textsc{gzip}.
 It follows that a higher extent of feature code implies a higher proportion of commits with structural interactions.
-As the latter proportion acts as a lower bound for the proportion of commits with dataflow interactions, we assume the exent of feature code to also have a strong influence on said proportion.
+As the latter proportion acts as a lower bound for the proportion of commits with dataflow interactions, we assume the extent of feature code to also have a strong influence on said proportion.
 At the same time, less feature code and a higher number of active commits could elavate the share of commits affecting features through outside dataflow.
 This is due to a lower share of structurally interacting commits and therefore less inside dataflow as well as a higher number of active commits located outside of feature regions leading to more possible outside dataflow.
 We decide to compute the extent of feature code in a project as the fraction of all instructions that are part of feature regions.
@@ -510,7 +511,7 @@ Thus, we determine the extent of feature code to be $\math{17.2}$\% in \textsc{x
 In our evaluation we have also seen that \textsc{xz} encompasses five times as many active commits than \textsc{gzip}.
 We find that our observations in RQ2 roughly match these values considering our previous explanations.
 Accordingly, \textsc{xz} has a higher share of commits affecting features through outside dataflow but a substantially lower share of active commits part of dataflow interactions.
-It should be noted however that the exent of feature code does not have an exact relation to the proportion of commits with structural interactions.
+It should be noted however that the extent of feature code does not have an exact relation to the proportion of commits with structural interactions.
 From \textsc{xz}'s $\math{17}$\% extent of feature code, we would expect a signficantly higher number than the $\math{5.8\%}$ of commits part of structural CFIs for example.
 
 \subsubsection*{Understanding Features and the Commits Affecting them Through Dataflow}
