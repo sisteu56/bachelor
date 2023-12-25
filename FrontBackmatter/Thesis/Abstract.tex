@@ -11,11 +11,20 @@
 
 \chapter*{Abstract}
 
-In software engineering, features play a central role in implementing functionality of applications and adding configurability to them.
-Their code is maintained in Git repositories, where commits are used to introduce the latest source-code changes, thus gradually building the overall application and its features. % commits are an incremental unit of development
+In software engineering, features play a central role in implementing functionality of applications and making them configurable. 
+Their code is maintained in Git repositories, where commits are used to introduce the latest source-code changes, thus gradually building the overall application and its features. 
 To allow for a deeper understanding of commits and features as well as their interplay, we connect both entities in the form of commit-feature interactions (CFIs).
 For this, we extend the interaction analysis tool VaRA to implement the detection of structural and dataflow-based CFIs.
-While the former provides information about the direct involvement of commits in developing features, the latter can uncover seemingly unrelated commits still influencing their functionality.
+While the former provides information about the direct involvement of commits in implementing features, the latter can uncover seemingly unrelated commits still influencing their functionality.
+
+Similarly to prior research~\cite{michelon2021lifecycle}, we use structural CFIs to investigate the development process of features and usage of commits therin.
+Instead of focusing on the set of features a commit changes, we study the responsiblities a commit deals with in relation to features giving us a more accurate reflection of a commit's purpose in feature development.
+Specifically, we argue that a commit still deals with a single feature-related responsibility when it changes code of a nested feature or code implementing the interplay of several features.
+We derive a best practice of commits in feature development, namely that commits should usually deal with only one responsibility, which we find to be enforced for the majority of commits (>70\%) in our examined projects. 
+
+Furthermore, we choose a novel approach to fully assess the interplay between commits and features by being the first to study dataflow interactions between the two entities. % asses or understand
+% one major goal was to determine the additional interacting commits that can be discovered for features through a dataflow analysis 
+
 
 As previous studies have focused exclusively on interactions either between commits or between features, our work focuses on interactions between commits and features. % we delve into research topics that neither can answer on their own,
 
