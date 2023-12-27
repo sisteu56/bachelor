@@ -7,11 +7,11 @@ The purpose of this chapter is to first formulate the research questions that we
 \section{Research Questions}\label{sec:research_questions}
 
 In \autoref{ch:example_chapter}, we dicussed the different meanings of structural and dataflow-based commit-feature interactions.
-With this knowledge, we investigate patterns in feature development and the usage of commits therin and how often seemingly unrelated commits affect features inside a program.
+With this knowledge, we investigate patterns in feature development and the usage of commits therein and how often seemingly unrelated commits affect features inside a program.
 In RQ1, we focus on research topcis that can be answered with structural CFIs, while we explore the additional information dataflow-based CFIs can provide in RQ2.
 In RQ3, we look into the use-cases of author-feature interactions, which we extract from our previously examined commit-feature interactions.
 
-\subsection{\textbf{RQ1}: How do commits and features structurally interact with each other?}\label{sec:meth:RQ1}
+\subsection[RQ1: How do commits and features structurally interact with each other?]{\textbf{RQ1}: How do commits and features structurally interact with each other?}\label{sec:meth:RQ1}
 
 We research two main properties which already provide a lot of insight into the development process of features and best practices of commits therein.
 
@@ -20,7 +20,7 @@ We research two main properties which already provide a lot of insight into the 
 Firstly, we examine the number of commits features interact with structurally. 
 This gives us an estimate on how many commits were used in the development of a feature and the according distribution among the features of a project.
 Our analysis also allows us to measure the size of feature, which can put the number of commits used to implement a feature into perspective.
-We refine our investigation by factoring in the overlap degrees of features (\ref{def:feature_overlap_degree}). 
+We refine our investigation by factoring in the overlap degrees of features (\autoref{def:feature_overlap_degree}). 
 In sections \ref{sec:feature_overlap} and \ref{sec:feature_overlap_degree}, we discussed feature overlap and, in the case of it being caused by feature nesting, the risks it bears for our analysis, namely that a fraction of a feature's size can consist of instructions that do not implement its functionality.
 The same is true for commits structurally interacting with a feature, meaning that a portion of them possibly did not participate in its development, but in the development of other features.
 We therefore consider the frequency of feature overlap within a project, so that we can tell how accurately our initial data reflects the development of features.
@@ -33,9 +33,9 @@ It is preferred to keep commits atomic~\cite{hundhausen2021commit_metrics} meani
 % As different features implement separate functionalities, it's unlikely for a commit to change several features while dealing with the same issue.
 Transferring this to our work, high quality commits should mostly have single feature-related responsibility.
 Acquiring data on this issue might show how strictly this policy is enforced in the development of features across different projects. 
-In section \ref{sec:commit_concerns}, we discussed that, due to feature overlap, a commit can structurally interact with multiple features at the same time while only dealing with a single concern.
+In \autoref{sec:commit_concerns}, we discussed that, due to feature overlap, a commit can structurally interact with multiple features at the same time while only dealing with a single responsibility.
 For example, a commit could be introducing changes to a feature nested inside other features or coordinate the interplay between several features.
-To achieve a more accurate prediction for the responsibilites of a commit, we examine the number of a commit's feature-related concerns~(\ref{def:commit_concerns}).
+To achieve a more accurate prediction for the responsibilites of a commit, we examine the number of a commit's feature-related concerns~(\autoref{def:commit_concerns}).
 % Instead of considering the features a commit structurally interacts, we rather examine the number of its feature-related concerns~(\ref{def:commit_concerns}) for this RQ.
 % This way we aim to achieve a more accurate preditction for the number of features a commit changed or implemented.
 
@@ -43,7 +43,7 @@ In our analysis, we should ideally filter commits whose purpose was refactoring 
 Exceptionally large commits might be best considered for this, as this is where we expect most commits used for large-scale refactoring to appear.
 A qualitative review of these commits is still necessary to make a final decision on whether they should be filtered.
 
-\subsection{\textbf{RQ2}: How do commits interact with features through dataflow?}\label{sec:meth:RQ2}
+\subsection[RQ2: How do commits interact with features through dataflow?]{\textbf{RQ2}: How do commits interact with features through dataflow?}\label{sec:meth:RQ2}
 
 Investigating dataflow inside a program can unveil interactions between its entities that were previously hidden from programmers.
 This can help them understand the extent to which different parts of a program influence each other.
@@ -90,7 +90,7 @@ Discovering features with unusually many outside commits in relation to their si
 In the first two RQs we have discussed different kinds of commits and the ways in which they interact with features. 
 The above figure showcases them in a venn diagram and illustrates the dependencies and divisions between them.
 
-\subsection{\textbf{RQ3}: How do authors interact with features?}\label{sec:meth:RQ3}
+\subsection[RQ3: How do authors interact with features?]{\textbf{RQ3}: How do authors interact with features?}\label{sec:meth:RQ3}
 
 A simple yet promising way to extract more information out of the collected CFIs is to link the interaction's commits to their respective authors.
 Thus, we are able to investigate how authors interact with features both structurally and through dataflow.
@@ -137,7 +137,7 @@ This choice is based on the fact, that our research intends to only lay basic gr
 Since we only investigate a few projects, we chose them to be of a similar domain, such that a comparison between them makes more sense.
 In the following sections, we explain our method of investigation in more detail for each RQ.
 
-\subsection{\textbf{RQ1}}\label{sec:op:RQ1}
+\subsection[RQ1]{Operationalization: RQ1}\label{sec:op:RQ1}
 
 For this RQ, we examine the interactions contained in the structural reports created with our \nameref{ch:implementation} in VaRA.
 As there could be vast differences between the projects, we also work with and present their respective data separately.
@@ -150,7 +150,7 @@ The bars are labelled after the name of the feature they present, to allow for c
 For comparisons between the investigated projects, we also calculate the average number of interacting commits and size of a feature for each project.
 For a simpler recognition of the existing distribution, the features are sorted in an increasing order according to their value in the metric of the respective plot.
 This also allows us to see whether the rank of a feature in one metric is indicative of its rank in the other metric and vice versa.
-Additionally to the size of a feature, we also determine its overlap degree~(\ref{def:feature_overlap_degree}).
+Additionally to the size of a feature, we also determine its overlap degree~(\autoref{def:feature_overlap_degree}).
 The average overlap degree among the features of a project is subsequently shown in a table.
 The strength of a project's overall overlap degree can in turn give us a direct estimate on the frequency of feature overlap inside of it.
 
@@ -164,7 +164,7 @@ To confirm our initial suspection of a strong positive correlation, the accordin
 
 \subsubsection*{Examining the Usage of Commits in Feature Development}
 
-For each commit part of at least one structural interaction, we determine the number of its feature-related concerns~(\ref{def:commit_concerns}).
+For each commit part of at least one structural interaction, we determine the number of its feature-related concerns~(\autoref{def:commit_concerns}).
 For this, we examine the complex structural CFIs discussed in our \nameref{ch:implementation}.
 There, we increment the number of a commit's concerns upon finding a new set of features it structurally interacts with at the same time, i.e. within the same instructions.
 Following this, we give a comprehensive overview of our results in a histplot for every investigated project.
@@ -183,7 +183,7 @@ Afterwards, we perform a qualitative review of the filtered commits to check whe
 To asses the effect of filtering exceptionally large commits, we compute the average number of concerns within a project before and after the application of our restriction.
 Both averages are subsequently shown in a cross-project table so that we can compare them within a project and recognize a general trend among them.
 
-\subsection{\textbf{RQ2}}\label{sec:op:RQ2}
+\subsection[RQ2]{Operationalization: RQ2}\label{sec:op:RQ2}
 
 The projects investigated for dataflow-based CFIs are the same projects as investigated for structural CFIs.
 This choice gives us more insight into a single project and allows us to combine both analysis results as will be discussed below.
@@ -271,7 +271,7 @@ Following our explanations in \autoref{sec:research_questions}, we expect the ra
 This would result in a negative linear correlation coefficient and a falling linear regression line.
 It remains to be seen whether the respective values are statistically significant across several projects.
 
-\subsection{\textbf{RQ3}}\label{sec:op:RQ3}
+\subsection[RQ3]{Operationalization: RQ3}\label{sec:op:RQ3}
 
 Technically, we perform the same analysis regarding features as discussed for the two previous RQs.
 The only difference is that we replace the commits interacting with a feature with their respective authors.
