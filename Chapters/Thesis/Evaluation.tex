@@ -597,7 +597,7 @@ In this section, we dicuss the internal and external threats to the validity of 
 There are some potential threats to the internal validity of our gathered data, which stem from our implementation in VaRA. 
 Concerning the external validity of our findings, most dangers stem from the selection of projects we investigate.
 
-\subsection{Threats to Internal Validity}
+\subsection{Threats to Internal Validity}\label{sec:int_threats}
 
 From the definition of \hyperref[def:feature_regions]{feature regions}, it follows that we implement feature regions in such a way that any instruction, whose execution depends on a configuration variable, is part of a feature region.
 However, not every such instruction also implements the functionality of a feature, as can be seen in \hyperref[lst:feature_region_overapproximation]{listing 5.1}.
@@ -625,7 +625,8 @@ Thus, said code can produce both structural as well as dataflow-based CFIs with 
 This is problematic, as our analysis cannot decipher which feature is being implemented in the case of code with feature nesting.
 We therefore are not able to filter the respective interactions, which means that feature nesting is an additional cause for overapproximating CFIs. % factor of
 Feature overlap that is created by structurally interacting features does not threaten our validity in such a way.
-As the code, where the respective overlap occurs, coordinates the interplay between the involved features, it also implements functionality for all of them. \\
+As the code, where the respective overlap occurs, coordinates the interplay between the involved features, it also implements functionality for all of them. 
+In \autoref{sec:feature_overlap}, we mentioned that we currently cannot differentiate between the two discussed causes of feature overlap, which means that we cannot separare feature overlap into safe and unsafe for our analysis. \\
 % quantify frequency of feature nesting??
 
 \begin{lstlisting}[language=python, caption={Example for the Overapproximation of Feature Regions}, label={lst:feature_region_overapproximation}]

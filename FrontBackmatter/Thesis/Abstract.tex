@@ -13,21 +13,25 @@
 
 In software engineering, features play a central role in implementing functionality of applications and making them configurable. 
 Their code is maintained in Git repositories, where commits are used to introduce the latest source-code changes, thus gradually building the overall application and its features. 
-To allow for a deeper understanding of commits and features as well as their interplay, we connect both entities in the form of commit-feature interactions (CFIs).
-For this, we extend the interaction analysis tool VaRA to implement the detection of structural and dataflow-based CFIs.
+To allow for a deeper understanding of commits and features as well as their interplay, we connect both entities in the form of \acp{cfi}.
+For this, we extend the interaction analysis tool \acs{vara} to implement the detection of structural and dataflow-based CFIs.
 While the former provides information about the direct involvement of commits in implementing features, the latter can uncover seemingly unrelated commits still influencing their functionality.
 
-Similarly to prior research~\cite{michelon2021lifecycle}, we use structural CFIs to investigate the development process of features and usage of commits therin.
-Instead of focusing on the number of features a commit changes, we study the responsiblities a commit deals with in relation to features giving us a more accurate reflection of a commit's purpose in feature development.
-Specifically, we argue that a commit still deals with a single feature-related responsibility when it changes code of a nested feature or code implementing the interplay of several features.
-We derive a best practice for commits, namely that commits should usually deal with only one feature-related responsibility, which we find to be enforced for the majority of commits (>69\%).% in our examined projects. 
+% Similarly to prior research~\cite{michelon2021lifecycle}, we use structural CFIs to investigate the development process of features and usage of commits therin.
+Instead of focusing on the number of features a commit changes, we study the responsiblities a commit deals with in relation features giving us a more accurate reflection of its purpose in feature development.
+Specifically, we argue that a commit still deals with a single responsibility when it affects code of a nested feature or code controlling the interplay of several features.
+We derive a best practice for commits, namely that they should usually have only one feature-related responsibility, which we find to be enforced for the majority of commits ($>$$\math{69}$\%). % ($>\math{69}$\%).
 
-Furthermore, we choose a novel approach to fully assess the interplay between commits and features by being the first to study dataflow interactions between the two entities. % asses or understand
+Furthermore, we choose a novel approach to fully assess the interplay between commits and features by being the first to study dataflow interactions between the two entities. 
 We find that a substantial fraction of a project's commits interact with features through dataflow, although the respective fraction varies strongly between the examined projects ($\math{11-37}$\%).
+Said fraction also contains a signifcant number of commits who are directly related to the features they affect through dataflow, as their code is, at least partially, located inside the respective features. % introduced
+However, our goal of employing a dataflow analysis is to uncover interactions between seemingly \emph{unrelated} commits and features, which is why we distinguish between commits located either inside or outside of features.
+This allowed us to clearly underline the importance of a dataflow analysis, as the majority of investigated features are mostly affected by outside commits. % largely / mostly ?
+
 % to assess additional interactions dataflow analysis can reveal, we check whether a commit and a feature interacting through dataflow also structurally interact with each other
 % here, we determine that commits and features interact on both types very often
 % the reason for this is that structural CFIs heavily coincide with dataflow-based CFIs 
-
+\iffalse 
 To assess whether a dataflow interaction occurs between on first sight unrelated commits and features, we determine whether the commit is located inside or outside 
 
 
@@ -41,6 +45,7 @@ We determine what additional information a dataflow analysis can add by differen
 Regarding all commits interacting with features, our dataflow analysis revealed a substantial fraction of them exclusively ($\math{20-56}$\%) and additional interactions for surprisingly many commits ($\math{20-60}$\%)\footnote{percentages depend on the examined project}.
 For the majority of the investigated features we also find that most commits interact with them only through dataflow.
 Thus, we show that our dataflow analysis is an essential part of gaining a complete overview of the interplay between commits and features in the examined software projects.
+\fi
 % assess the umfang of commits with dataflow interactions
 % abgleichen das mit dem set an interaktionen die wir schon mit unserer strukturellen analyse gefunden haben, da eine strukturelle interaktionen zwischen einem commit und feature bedingt, dass sie ebenfalls fast immer (>90%) auch über datenfluss interagieren
 % so bestimmen wir wie viel neue Informationen eine datenfluss analyse bringen kann

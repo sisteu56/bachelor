@@ -165,8 +165,6 @@ This allows us to calculate the size of a feature~(\autoref{def:feature_size}), 
 To determine a feature's overlap degree~(\autoref{def:feature_overlap_degree}), we have to additionally compute the number of instructions where its feature regions do not appear exclusively.
 The computation is identical to that of a feature's size with the sole difference being that we only consider interactions encompassing multiple features.
 According to its definition, the overlap degree of a feature can subsequently be calculated by dividing the just determined number of instructions by the feature's size.
-% To compute the feature-related concerns of a commit~\ref{def:feature_related_concerns}, we examine the sets of features present in the complex structural CFIs the commit is part of.
-% For every new set of features that is not identical to any previous set we encountered, the number of concerns is increased by one.
 
 In \autoref{sec:interaction_analysis}, we discussed the taint analysis deployed by VaRA.
 There, VaRA computes information about which code regions have affected an instruction through dataflow.
