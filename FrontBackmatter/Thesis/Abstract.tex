@@ -20,13 +20,17 @@ While the former provides information about the direct involvement of commits in
 % Similarly to prior research~\cite{michelon2021lifecycle}, we use structural CFIs to investigate the development process of features and usage of commits therin.
 Instead of focusing on the number of features a commit changes, we study the responsiblities a commit deals with in relation features giving us a more accurate reflection of its purpose in feature development.
 Specifically, we argue that a commit still deals with a single responsibility when it affects code of a nested feature or code controlling the interplay of several features.
-We derive a best practice for commits, namely that they should usually have only one feature-related responsibility, which we find to be enforced for the majority of commits ($>$$\math{69}$\%). % ($>\math{69}$\%).
+We derive a best practice for commits, namely that they should usually have only one feature-related responsibility, which we find to be enforced for the majority of commits. % ($>\math{69}$\%).
 
 Furthermore, we choose a novel approach to fully assess the interplay between commits and features by being the first to study dataflow interactions between the two entities. 
-We find that a substantial fraction of a project's commits interact with features through dataflow, although the respective fraction varies strongly between the examined projects ($\math{11-37}$\%).
+We find that a substantial fraction of the commits in a project interact with features through dataflow, although the respective fraction varies strongly between the examined projects. % ($\math{11-37}$\%).
 Said fraction also contains a signifcant number of commits who are directly related to the features they affect through dataflow, as their code is, at least partially, located inside the respective features. % introduced
 However, our goal of employing a dataflow analysis is to uncover interactions between seemingly \emph{unrelated} commits and features, which is why we distinguish between commits located either inside or outside of features.
-This allowed us to clearly underline the importance of a dataflow analysis, as the majority of investigated features are mostly affected by outside commits. % largely / mostly ?
+This allowed us to clearly underline the importance of a dataflow analysis, as the majority of investigated features are largely affected by outside commits. % largely / mostly ?
+
+In this work, we also illustrate how CFIs can be applied to investigate an alternative albeit related form of interaction: author-feature interactions, achieved by mapping commits to their respective authors.
+
+
 
 % to assess additional interactions dataflow analysis can reveal, we check whether a commit and a feature interacting through dataflow also structurally interact with each other
 % here, we determine that commits and features interact on both types very often
