@@ -2,75 +2,74 @@
 \chapter{Concluding Remarks}\label{ch:conclusion}
 %************************************************
 
-In this thesis, we achieved an initial overview of commit-feature interactions in software projects, specifically structural and dataflow-based CFIs, their interplay, as well as other properties influencing them.
-We are able to answer or, at least gain some interesting insights, into numerous research topics we set out to investigate. 
+In this thesis, we give an overview of commit-feature interactions in software projects, specifically structural and dataflow-based CFIs, their interplay, and properties such as the size and overlap degree of a feature that influence them.
+% We are able to answer or, at least gain some interesting insights, into numerous research topics we set out to investigate. 
 In the following paragraphs, we briefly summarize our most important results and our thoughts regarding future work.
 
 \paragraph{Feature Development and Usage of Commits Therein}
-In RQ1, we find that the number of commits used during development varies strongly between the features of a project.
-Here, the size of a feature is an accurate predictor for the number of commits as the two metrics are strongly positively correlated.
+In RQ1, we find that the number of commits used during development varies strongly between the features of a project. % note statt find??
+We find that the size of a feature is an accurate predictor for the number of commits as the two metrics are strongly positively correlated.
 Regarding the usage of commits during feature development, we support the notion that commits usually deal with a single responsibility in relation to features as the majority ($>\math{69}$\%) of them only have one \hyperref[sec:commit_concerns]{feature-related concern}. 
-At the same time, commits structurally interacting with features might not only affect feature code, but introduce changes to the base system as well.
-Specifically, \citet{michelon2021lifecycle} investigated this topic and finds that the majority of commits changing feature code also change code of the base system~\cite{michelon2021lifecycle}.
-While the changed code of the base system might be unrelated to the changed features, meaning that the commit deals with multiple responsibilites both feature-related and feature-unrelated, we argue that a dataflow analysis could prove the opposite.
-Future studies could determine whether the respective code in the base system and the respective features interact through dataflow and, thus, show that the commit still deals with a single responsibility.
+At the same time, commits structurally interacting with features affect not only affect feature code, but introduce changes to the base system as well.
+Specifically, \citet{michelon2021lifecycle} investigated this topic and found that the majority of commits changing feature code also change code of the base system~\cite{michelon2021lifecycle}.
+While the changed code of the base system is not necessarily related to the changed features, meaning that the commit deals with multiple responsibilites both feature-related and feature-unrelated, we argue that a dataflow analysis can prove the opposite.
+We leave to future studies the question whether the respective code in the base system and the respective features interact through dataflow and thus to determine whether the commit still deals with a single responsibility.
 
-\paragraph{Features and the Commits Affecting them through Dataflow}
-Similarly to the number of implementing commits, features of a project also encompass a wide range in the number of commits affecting them through outside dataflow.
-Admittedly, our analysis potentially underestimates the number of commits whose dataflow stems from the outside, although this could be fixed in future research.
+\paragraph{How Commits Affect Features through Dataflow}
+There also exists considerable variability in the number of commits that affect the features of a project through dataflow.
+For the majority of investigated features, the number of interacting outside commits exceeds the number of interacting inside commits, which underlines the importance of a dataflow analysis as outside commits interact with features exclusively via dataflow and, thus, cannot be discovered by a structural analysis.
+Our analysis potentially underestimates the number of commits whose dataflow stems from the outside, although this could be fixed in future research.
 We say that a commit affects a feature through inside dataflow, meaning that the dataflow occurs inside the regions of the feature, when it also structurally interacts with the feature.
 As the commit could also be partially located outside the feature, we could be dealing with an outside dataflow origin instead.
 One way to solve this issue would be to track whether the commit taint (see \autoref{sec:interaction_analysis}), belonging to data being used within a feature, originated inside the regions of said feature. 
 
 We find conflicting evidence regarding the linear correlation between the size of a feature and the number of commits interacting with it through outside dataflow.
-All of our four examined projects produce unique results ranging from positive, to no, and even strong negative correlations.
-Further research is necessary to determine whether there exists an accurate predictor for the number of commits affecting a feature through outside dataflow, where considering properties of a feature besides its size might be required.
+Each of the examined projects produces unique results ranging from positive to strongly negative correlations.
+Further research is necessary to determine whether there exists an accurate predictor for the number of commits affecting a feature through outside dataflow.
+For this considering properties of a feature besides its size might be required.
 % which properties
 % Likewise, our results regarding the proposed decrease in the proportion of outside to inside commits affecting a feature alongside an increase in its size are not conclusive.
 % While most evidence points to existence of such a relation, more projects must be examined to gather statistically significant data. 
 
 \paragraph{Proportion and Dependencies of Commits Affecting Features through Dataflow}
-The fraction of commits part of dataflow interactions are not unanimous among the projects and more common than we expected.
-They range from every ninth commit in \textsc{xz} to more than every third commit in \textsc{gzip}.
-Furthermore, we found that their fraction in a project is strongly influenced by the percentage of commits that structurally interact with features.
+The fraction of active commits that affect features through dataflow differs among the examined projects as it ranges from $\math{11}$\% in \textsc{xz} to $\math{37}$\% in \textsc{gzip}.
+This shows that, depending on the project, commits with dataflow interactions can be quite common, and more common than we had expected.
+Furthermore, we find that their fraction in a project is strongly influenced by the percentage of commits that structurally interact with features.
 Specifically, we propose that said percentage acts as a lower bound for them since we could confirm the notion that structural CFIs heavily coincide with dataflow-based CFIs discussed in \autoref{sec:combination_cfis}.
-Still, our dataflow analysis revealed previously hidden interactions for the majority of commits interacting with features in all projects ($>\amth{70}$\%).
+Still, our dataflow analysis revealed previously hidden interactions for the majority of commits interacting with features in all projects ($>\math{70}$\%).
 % Nonetheless, future research should factor in the discussed dependency between structural and dataflow interactions to properly assess the amount of new information a dataflow analysis can contribute. 
 
-Although this was not a topic we initially intended to examine, we determined that commits used to implement features have an increased likelihood to affect \emph{other} features via outside dataflow.
-This implies that different features tend to be connected via dataflow, which could serve as motivation to investigate dataflow interactions between features.
-Discovering which types of features often share data and, thus, depend on each other could potentially have implications on other, for example bug-related~\cite{nie2011survey}, interactions between them.
+We determined that commits used to implement features have an increased likelihood to affect \emph{other} features via outside dataflow.
+This implies that different features tend to be connected via dataflow, which could be a motivation to investigate dataflow interactions between features.
+Discovering which types of features are likely to share data and, thus, depend on each other could potentially have implications on other, e.g., bug-related~\cite{nie2011survey} interactions between them.
 In relation to this, future studies might want to determine commits located outside of features whose code serves as an intersection for the dataflow between certain features.
-The respective commits can additionally be considered when trying to find the cause of bugs or other issues occuring in relation to feature interactions~\cite{apel2014feature}.
-To determine these commits, our analysis in VaRA needs to be extended allowing us to examine dataflow from features to commits as well.
-Commits that are affected by and affect certain features through outside dataflow might be commits that are central to the interplay of the involved features. 
+The respective commits can additionally be considered when determining the cause of bugs or other issues occuring in relation to feature interactions~\cite{apel2014feature}.
+To determine these commits, our analysis in VaRA needs to be extended in order to examine dataflow from features to commits as well.
+Commits that are affected by and affect certain features through outside dataflow could potentially be commits that are central to the interplay of the involved features. 
 
 \paragraph{Initial Insights into Author-Feature Interactions and Future Project Choice}
-One major problem we faced when evaluating RQ3 was that \textsc{xz}, which played an important role in answering the two previous research questions, was essentially of no use here.
+One major problem we faced when evaluating RQ3 was that \textsc{xz}, which played an important role in answering the two previous research questions, did not provide any conclusive evidence in regards to our research topcis, e.g. relating the number of authors implementing a feature to its size.
 That is, because \textsc{xz} was mostly developed by a single author, which means that its features only interact with a single author as well.
 We therefore consider our results for RQ3 to be preliminary and advocate for the examination of more projects in this regard.
 Still, the remaining projects have given us first insights on how authors interact with features.
 We generally find that a feature has more authors affecting it through outside dataflow than structurally interacting authors, i.e. those directly involved in its implementation.
-Out of the authors implementing a feature, only around half of them also introduce changes influencing them via outside dataflow.
-Considering this, it follows that a substantial number of authors interacting with a feature exclusively do so through dataflow.
-Thus, our dataflow analysis is able to discover many additional interacting authors that we cannot reveal with our structural analysis.
+On average $\math{53}$\% of the authors implementing a feature also contribute commits that influence it via outside dataflow.
+It follows that a substantial number of authors interacting with a feature exclusively do so through dataflow.
+Thus, our dataflow analysis is able to discover many additional interacting authors that we cannot reveal with a structural analysis.
 
-Across all RQs, we have seen that projects encompassing a higher number of features produce statistically more significant correlations than projects encompassing less features.
+Across all RQs, we have seen that projects encompassing a higher number of features produce more significant correlations than projects encompassing fewer features.
 Particularly, \textsc{xz} and \textsc{gzip} encompass at least $\math{10}$ features and generally produce p-values falling out of our pre-defined rejection interval, whereas this is not the case for \textsc{bzip2} and \textsc{lrzip} encompassing $\math{8}$ and $\math{3}$ features respectively.
 We therefore propose that future research should preferably investigate projects with a minimum of $\math{10}$ features if they intent to compute pearson correlation coefficients or other metrics relying on the number of provided datapoints. 
 
 \paragraph{The Consequences of Feature Overlap}
-\textsc{gzip} has shown initial evidence for the impact and consequences a high degree of feature overlap can have on our generated data.
+The project \textsc{gzip} has shown initial evidence for the impact and consequences a high degree of feature overlap can have on our generated data.
 As sets of features share the majority of instructions constituting their size, it follows that they largely interact with the same commits structurally and through dataflow.
-Perhaps more surprsingly, we even find that features not sharing much code are often affected by the same commits through outside dataflow. 
-Naturally, this phenonemon also manifests itself in clusters of features interacting with the same authors.
+Perhaps more surprsingly, we find that features sharing only little code are often affected by the same commits through outside dataflow. 
+Naturally, the phenonemon of clusters of features largely interacting with the same set of commits also manifests itself in clusters of features interacting with the same authors.
 We are aware that a high degree of feature overlap in \textsc{gzip} casts some doubt on the implied meaning, for example structurally interacting commits being implementing commits, of the collected CFIs.
-For the respective features, we cannot be sure what fraction of their interactions occur in instructions actually implementing their specific functionality.
-While solving this issue goes beyond the scope of our work, it is important for us to adequatly adress and inform the reader about it.
-We adivce future studies, dealing with interactions of features at source-code level, to take the consequences of feature overlap into account and find ways to mitigate them.
+For the respective features, it cannot be determined with certainty what fraction of their interactions occur in instructions actually implementing their specific functionality.
+% While solving this issue goes beyond the scope of our work, it is important for us to adequatly adress and inform the reader about it.
+We advice future studies, dealing with interactions of features at source-code level, to take the consequences of feature overlap into account and find ways to mitigate them.
 Here, it would be important to distinguish between feature overlap caused by structurally interacting features, which does not pose threats to internal validity, and feature nesting, which does (see \autoref{sec:int_threats}). 
 Additionally, being able to decipher feature nesting, i.e. determine which features are being implemented in code containing nested features, would solve this issue entirely.
-% Firstly: differentiate between feature overlap caused by feature nesting and feature overlap due to structurally interacting features
-% => Find which code segments with feature overlap should be treated more carefully and which not
-% Secondly: Find ways to decipher feature nesting, e.g. which feature is actually being implemented
 

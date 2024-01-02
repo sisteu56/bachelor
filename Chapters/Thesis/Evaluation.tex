@@ -61,7 +61,7 @@ For example, both the \textsf{opMode}- and \textsf{srcMode}-feature of \textsc{b
 Overall, the two projects do not produce conclusive statistical evidence that the size of a feature and the number of interacting commits is positively correlated.
 
 \begin{table}[t]
-\caption[Average Feature Overlap Degree of Projects]{Average feature overlap degree of all projects}
+\caption[Average Degree of Feature Overlap]{Average feature overlap degree of all projects}
 \label{tab:feature_sfbr_table}
 \centering
 \begin{tabular}{l r}
@@ -215,7 +215,7 @@ Surprsingly, they form the majority of commits for \textsc{bzip2} and \textsc{gz
 The proportion of commits that only interact with features through inside dataflow varies less between the projects.
 \textsc{gzip} has the highest percentage at $\math{31.3}$\%, \textsc{bzip2} the lowest at $\math{20}$\% with \textsc{xz} inbetween the two at $\math{23.9}$\%.
 \begin{table}[t]
-\caption[Interactions Only Through Dataflow]{Commits exclusively/partially interacting with features \emph{only} through dataflow}
+\caption[Interactions only Through Dataflow]{Commits exclusively/partially interacting with features \emph{only} through dataflow}
 \label{tab:commit_exclusive_and_partial_dfbr_table}
 \centering
   \begin{tabular}{l*4{r}}
@@ -346,7 +346,7 @@ We can conclude that this also is the developer affecting features through outsi
 The features of \textsc{bzip2} mostly interact with one author structurally and one or two authors via dataflow.
 Except for the \textsf{keepInputFiles}-feature, our dataflow analysis discovered one unique interacting author for each feature.
 This changes for \textsc{lrzip}, where our dataflow analysis reveals at least $\math{2}$ and up to $\math{5}$ unique authors for the three examined features.
-Around half of the authors structurally interacting with a feature in \textsc{lrzip} also interact with it through outside dataflow.
+$\math{55}$\% of the authors structurally interacting with a feature in \textsc{bzip2} and \textsc{lrzip} also interact with it through outside dataflow.
 Overall, the linear regressions relating the size of a feature to the number of its structural or dataflow authors show no significant correlation for the three mentioned projects.
 
 \textsc{gzip}, on the other hand, provides us with much more comprehensive results.
@@ -363,7 +363,7 @@ At the same time, the number of their unique dataflow authors is comparatively l
 The fact that the group of features with few structural authors has much more dataflow authors conditions them to have many unique dataflow authors.
 Still, more than $\math{80}$\% of their structural authors also interact with them through outside dataflow.
 This is not the case for the group of features with many structural authors, where this is the case for less than $\math{45}$\% of them.
-Overall, there is a $\math{57}$\% likelihood for the structural author of any feature to interact with the same feature through outside dataflow.
+Overall, there is a $\math{47}$\% likelihood for the structural author of any feature to interact with the same feature through outside dataflow.
 Similarly to the bar-plot of \textsc{gzip}, we notice two clusters when examining its regression plots in \autoref{fig:author_cfi_plot}.
 The first cluster is made up of features with few structural authors, whose respective sizes range between $\math{20}$ and $\math{450}$.
 The second cluster consists of the four features who encompass more than $\math{10}$ structural authors and much higher feature-sizes ranging from $\math{7400}$ to $\math{8200}$.
@@ -561,7 +561,7 @@ A high degree of feature overlap can therefore not only lead to many features sh
 We find that our dataflow analysis is able to reveal many additional developers that do not directly participate in the development of a feature, but rather contribute commits whose data is later used inside features.
 In most features of \textsc{gzip}, \textsc{bzip2} and \textsc{lrzip}, we detect a similar or higher number of unique dataflow authors compared to the number of structural authors.
 While most unique dataflow authors are naturally found for features with more dataflow than structural authors, there also exist unique dataflow authors for features with more structural authors.
-That is because, for the three mentioned projects, only slightly over $\math{50}$\% of structural authors also interact with their respective features through outside dataflow.
+That is because, for the three mentioned projects, on average $\math{53}$\% of structural authors also interact with their respective features via outside dataflow.
 This means that, while likely, developers of features do not always contribute commits affecting them through outside dataflow.
 They also are not the ones generally introducing these commits, as the majority of features encompass more unique dataflow authors than structural authors.
 
