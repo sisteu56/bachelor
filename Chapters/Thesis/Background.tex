@@ -18,16 +18,16 @@ We dicuss two kinds of tags, namely commit and feature tags, allowing us to defi
 
 \paragraph{Commit Regions}\label{sec:commit_regions}
 
-Commits are used within a version control system to introduce the latest source code changes in its respective repository.
+Commits are used within a version control system to introduce the latest source-code changes in its respective repository.
 Inside a repository revision, a commit encompasses all source code lines that were added or last changed by it. 
 
 \newtheorem{definition}{Definition}
 \newcommand{\definitionautorefname}{Definition}
 \begin{definition}\label{def:commit_regions}
-	\emph{The set of all consecutive instructions, that stem from source code lines belonging to a commit, is called a} commit region.
+	\emph{The set of all consecutive instructions that stem from source code lines belonging to a commit is called a} commit region.
 \end{definition}
 
-As the source code lines changed by a commit are not necessarily contigious,
+As the source-code lines changed by a commit are not necessarily contigious,
 a commit can have many commit regions inside a program. 
 To properly address the entire set of these commit regions within a program, we introduce the term regions of a commit.
 We say that the \emph{regions of a commit} are all commit regions that stem from source-code lines of the commit. 
@@ -35,12 +35,12 @@ We say that the \emph{regions of a commit} are all commit regions that stem from
 \paragraph{Feature Regions}\label{sec:feature_regions}
 
 In general, features are program parts implementing specific functionality.
-In this work, we focus on features that are modelled with the help of runtime configuration variables that specify whether the functionality of a feature should be active or not.
-Inside a program, configuration variables decide whether instructions, performing a feature's intended functionality, get executed. 
+In this work, we focus on features that are modelled with the help of run-time configuration variables that specify whether the functionality of a feature should be active or not.
+Inside a program, configuration variables decide whether instructions performing intended functionality of a feature get executed. 
 Detecting these control-flow dependencies is achieved by deploying extended static taint analyses, such as Lotrack~\cite{lillack2014tracking}.
 
 \begin{definition}\label{def:feature_regions}
-	\emph{The set of all consecutive instructions, whose execution depends on a configuration variable belonging to a feature, is called a} feature region. 
+	\emph{The set of all consecutive instructions whose execution depends on a configuration variable belonging to a feature is called a} feature region. 
 \end{definition}
 
 Similarly to commits, features can have many feature regions inside a program
@@ -49,7 +49,7 @@ Here, we also say that the \emph{regions of a feature} are all feature regions t
 
 \section{Interaction Analysis}\label{sec:interaction_analysis}
 
-In the previous chapter, we have already shown how different abstract entities of a software project, such as features and commits, can be assigned concrete representations within a program.
+In the previous section, we have already shown how different abstract entities of a software project, such as features and commits, can be assigned concrete representations within a program.
 We can use interaction analyses to infer interactions between these entities by computing interactions between their concrete representations (code regions).
 This can improve our understanding of them and give us insights on how these entities are used inside software projects. 
 An important component of computing interactions between code regions is the concept of interaction relations between them as introduced by \citet{sattler2023seal}.
@@ -69,25 +69,25 @@ The dataflow interaction relation between two code regions $r_1$ and $r_2$ is de
 	flows as input to an instruction $i'$ that is part of $r_2$.}
 \end{definition}
 
-In interaction analyses, the computation of interactions between different entities is based upon abstract interaction relations, like the ones we have defined above.
-Essential to the research conducted in this paper is the interaction analysis created by Sattler~\cite{sattler2023thesis}.
-Their interaction analysis tool VaRA is implemented on top of LLVM and PhASAR.
+In interaction analyses, the computation of interactions between different entities is based upon abstract interaction relations like the ones we have defined above.
+Essential to the research conducted in this paper is the interaction analysis created by Sattler~\cite{sattler2023seal}.
+Their interaction analysis tool VaRA is implemented on top of LLVM\footnote{LLVM is an open-source compiler infrastructure} and PhASAR\footnote{PhASAR is a LLVM-based static analysis framework}.
 In their novel approach SEAL~\cite{sattler2023seal}, VaRA is used to determine dataflow interactions between commits.
 This is accomplished by computing dataflow interactions between the respective regions of commits according to the \hyperref[def:dataflow_relation]{dataflow interaction relation}.
 Their approach for this will be shortly discussed here, however we advice their paper for a more thorough explanation. 
 
 The first step of their approach is to annonate code by mapping information about its regions to the compiler's intermediate representation.
-This information is added to the LLVM-IR instructions during code generation.
+% This information is added to the LLVM-IR instructions during code generation.
 In their paper, \citet{sattler2023seal} focus on commit regions, which contain information about the commit's hash and its respective repository.
 The commit region of an instruction is determined by the commit that last changed the source-code line the instruction stems from.
 During the IR's construction, the commit of each source-code line is determined by accessing repository meta-data, after which the instructions stemming from each line are annotated with the hash of the respective commit~\cite{sattler2023seal}.
 
 The second analysis step involves the actual computation of the interactions.
 For this, Sattler et al. implemented a special, inter-procedural taint analysis.
-It is able to track data flows between the commit regions of a given target program.
-For this, information about which commit region affected it, is mapped onto data and tracked along program flow.
+It is able to track dataflows between the commit regions of a given target program.
+For this, information about which commit region affected it is mapped onto data and tracked along program flow.
 This is done by propagating taints, specifically commit taints, through the program.
 Taints are used to to give information about which code regions have affected an instruction through dataflow.
 For example, an instruction is tainted by a commit if its taint stems from a commit region.
-It follows, that two commits, with their respective commit regions $r_1$ and $r_2$, interact through dataflow, when an instruction is part of commit region $r_2$, while being tainted by $r_1$.
-Consequently data produced by the commit region $r_1$ flows as input to an instruction within the commit region $r_2$, matching the \lowercase{\text{\hyperref[def:dataflow_relation]{dataflow interaction relation}}}.
+It follows that two commits, with their respective commit regions $r_1$ and $r_2$, interact through dataflow when an instruction is part of commit region $r_2$, while being tainted by $r_1$.
+Consequently, data produced by the commit region $r_1$ flows as input to an instruction within the commit region $r_2$, matching the \lowercase{\text{\hyperref[def:dataflow_relation]{dataflow interaction relation}}}.

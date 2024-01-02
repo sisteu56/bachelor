@@ -3,15 +3,15 @@
 %************************************************
 
 Features play an important part in modern programming, which shows in program paradigms such as feature-oriented software development (FOSD), where they are used to implement specific functionalities, can be activated or deactivated and thus add configurability to software systems.
-As commits are used to contribute new source-code to a repository, it follows that commits participate in the development of features by introducing source-code implementing their functionality. 
+As commits are used to contribute new source-code to a repository, it follows that commits can participate in the development of features by introducing source-code implementing their functionality. 
 Furthermore, seemingly unrelated code that was changed or added by commits can influence soure-code of a feature through dataflow.
-The described occurences in a program are different types of commit-feature interactions (CFIs), which we investigate in this work and provide initial insights into. 
+The described occurences in a program are structural and dataflow-based commit-feature interactions (CFIs), which we investigate in this work and aim to provide initial insights into. 
 
 Within a program, there exist many different abstract entities, such as commits and features, each serving different responsibilites.
 For a better understanding of them, it is advantageous to know how these entities interact amongst themselves and with each other.
-In the context of CFIs, bugs occuring in a feature could be linked to the latest commits affecting data of said feature, and consequently the authors of the commit causing these bugs.
+In the context of CFIs, bugs occuring in a feature could be linked to the latest commit affecting data of said feature, and consequently the author of the commit causing these bugs.
 Especially for dataflow spanning over multiple files and many lines of code, it is often difficult or impossible to determine the respective interactions by studying the program oneself.
-To enable an automatic detection of these interactions and allow for a complete overview of them inside a software project, Sattler~\cite{VaRA2023} created the interaction analysis tool VaRA.
+To enable an automatic detection of these interactions and allow for a complete overview of them inside a software project, Sattler created the interaction analysis tool VaRA~\cite{VaRA2023}.
 
 In a prior study, \citet{sattler2023seal} used VaRA to examine interactions between commits showing that research on this topic can be applied to improve many aspects of software development.
 For example, their research allowed for a deeper understanding of interactions between developers by linking commit interactions to their respective authors~\cite{sattler2023seal}. 
@@ -19,9 +19,9 @@ Similarly to commit interactions, internal feature interactions are dependencies
 While they have been the topic of some studies~\cite{kolesnikov2017relation}, the main intention was to utilize them as a predictor for external, e.g. performance interactions~\cite{siegmund2012predicting} of features.
 
 Similarly to this thesis, previous studies have also investigated interactions between commits and features, particularly structural interactions to gain insights on the life cycle of features. 
-There, \citet{michelon2021lifecycle} found that features are frequently changed by commits including substantial modifications to their code motivating that structural CFIs are a research topic worthy of further investigation.
+There, \citet{michelon2021lifecycle} found that features are frequently changed by commits, including substantial modifications to their code, motivating that structural CFIs are a research topic worthy of further investigation.
 A major difference between their and our work is that we examine projects where features are implemented via run-time configuration variables, while their research has focused on projects where variability is implemented through the C Preprocessor.
-Not only does our method allow for the investigation of a new set of projects, but they way features are implemented might also be different in these projects.
+Not only does our method allow for the investigation of a new set of projects, but they way features are implemented might also be different for them.
 % Besides that, our work also qualifies as unqiue and novel as we, 
 To the best of our knowledge, we are the first to investigate dataflow interactions between commits and features.
 Specifically, we speak of dataflow-based CFIs when there exists dataflow from the code representations of commits to that of features.
@@ -43,15 +43,15 @@ As previously mentioned, we investigate two types of commit-feature interactions
 Using structural CFIs, we aim to reveal insights about the development process of features and usage of commits therein. 
 We also investigate to what extend our dataflow analysis can reveal interactions that cannot be discovered with a purely syntactical analysis.
 By examining the interplay between the two types of CFIs, we hope to establish dependencies that will be considered in future studies.
-Finally, we provide first insights on interactions of authors with features to incentivize that this subject could be worthy of further investigation.
+Finally, we provide first insights on the interactions of authors with features to incentivize that this subject could be worthy of further investigation.
 
 \section{Overview}
 
 \autoref{ch:background} serves as an introduction to the concepts of code regions and interaction analyses, which are necessary to properly define structural and dataflow-based CFIs.
 In \autoref{ch:example_chapter}, we give a definition of the two types of CFIs and dicuss their meaning in software projects as well as our \nameref{ch:implementation} of their detection in VaRA.
 We also define properties surrounding features and commits, that are used in the following chapters, like the size of a feature~(\autoref{sec:feature_size}) and the feature-related concerns of a commit~(\autoref{sec:commit_concerns}).
-The three research questions of this paper are established in \autoref{ch:methodology}, in which we also explain their investigation.
-The first RQ deals with structural CFIs, the second RQ with dataflow-based CFIs and the last RQ with the previously examined interactions, whereby the commits are replaced with their respective authors.
+The three research questions of this paper are established in \autoref{ch:methodology}, in which we also explain their operationalization.
+The first RQ focuses on structural CFIs, the second RQ on dataflow-based CFIs and the last RQ on how authors interact with features.
 \autoref{ch:evaluation} includes a detailed description of our results for the three posed research questions, followed by a separate discussion of the findings for each RQ. % containing background information and possible reasons for them.
 In the last section of \autoref{ch:evaluation}, we address potential internal and external \hyperref[sec:threats]{Threats to the Validtiy} of this work.
 In \autoref{ch:related_work}, we summarize previous studies investigating interactions inbetween commits and inbetween features.
