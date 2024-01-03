@@ -137,7 +137,7 @@ At the same time, this is not true for the number of features a commit structura
 \section{Overlap Degree of Features}\label{sec:feature_overlap_degree}
 % As dicussed in the two previous sections, feature overlap is an important issue worth taking into account.
 Instructions that are part of several feature regions will, by definition, also consitute the size of the respective features.
-At the same time, we cannot be certain that the instruction actually implements functionality for every involved feature.
+Due to possible occurences of feature nesting, we cannot be certain that the instruction actually implements functionality for every involved feature.
 Thus, the size of a feature can encompass many instructions not implementing its functionality.
 Technically, we can only be certain about the purpose of an instruction if it is exclusively part of a single feature region.
 In order to achieve a more accurate description of a feature's size, we introduce the concept of the overlap degree of a feature:

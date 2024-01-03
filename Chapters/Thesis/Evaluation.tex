@@ -58,7 +58,7 @@ This data provides strong evidence that the observed correlation is statisticall
 While \textsc{bzip2} and \textsc{lrzip} have positive correlation coefficients of $\math{0.585}$ and $\math{0.968}$ respectively, their p-vlaues are relatively high at over $\math{0.1}$.
 The high p-values can be explained by a lack of datapoints for \textsc{lrzip} and conflicting datapoints for \textsc{bzip2}.
 For example, both the \textsf{opMode}- and \textsf{srcMode}-feature of \textsc{bzip2} structurally interact with $\math{6}$ commits, but encompass vastly different feature sizes.
-Overall, the two projects do not produce conclusive statistical evidence that the size of a feature and the number of interacting commits is positively correlated.
+Overall, the two projects do not produce conclusive statistical evidence that the size of a feature and the number of interacting commits are positively correlated.
 
 \begin{table}[t]
 \caption[Average Degree of Feature Overlap]{Average feature overlap degree of all projects}
@@ -96,18 +96,18 @@ Overall, the two projects do not produce conclusive statistical evidence that th
 
 \subsubsection*{Usage of Commits in Feature Development}\label{sec:eval_commit_usage}
 
-As discussed in chapter \ref{sec:research_questions}, a best practice for commits in feature development is that a commit should generally deal with only one responsibility in relation to features.
-We investigate to what extent this holds in our investigated software projects by examining the number of feature related concerns of a commit.
+As discussed in section \ref{sec:meth:RQ1}, a best practice for commits in feature development is that a commit should generally deal with only one responsibility in relation to features.
+We investigate to what extent this holds in our examined software projects by examining the number of feature related concerns of a commit.
 % since we determined this to be a fitting estimator for the number of features a commit changes or implements.
 The distribution of how many commits have a certain number of concerns is displayed in \autoref{fig:commit_sfbr_plot}.
 \textsc{xz}, \textsc{gzip} and \textsc{lrzip} show similar distributions, which is why we discuss them now and \textsc{bzip2} later.
 For \textsc{xz}, \textsc{gzip} and \textsc{lrzip}, we note that the majority of commits only have single feature-related concern.
 The according percentages for commits with a single concern among all considered commits are $\math{72}$\%, $\math{69}$\% and $\math{81}$\%.
-The commit count gradually drops with an increasing number of concerns until it subsides to 0 at an x-value of $\math{7}$, $\math{6}$ and $\math{4}$ respectively.
+The commit count gradually drops with an increasing number of concerns until it subsides to $\math{0}$ at an x-value of $\math{7}$, $\math{6}$ and $\math{4}$ respectively.
 Interestingly, three commits of \textsc{gzip} have more than $\math{10}$ concerns with the commit \textsf{33ae4134cc} even encompassing 47 concerns.
 Said commit originally introduced the \textsl{gzip.c}-file containing the \textsf{main}-function among other things.
-The exceptionally high number of \textsf{33ae4134cc}'s concerns can be explained by the fact that many of \textsc{gzip}'s $\math{14}$ features are partially implemented within \textsl{gzip.c}.
-Additionally, the code of features heavily overlaps with each other, which means that the instructions stemming from said code encompass many different combinations of feature regions.
+The exceptionally high number of concerns of the commit can be explained by the fact that many of \textsc{gzip}'s $\math{14}$ features are partially implemented within \textsl{gzip.c}.
+Additionally, the code of features heavily overlaps with each other, which means that the instructions stemming from said code encompass many different combinations of feature regions. \\
 For \textsc{bzip2}, there are much less commits used in feature development compared to the other projects with only $\math{9}$ commits part of structural CFIs.
 The distribution consists of two clusters, the first being at a single concern and the second cluster being located between $\math{7}$ and $\math{10}$ concerns.
 The second cluster encompassing $\math{5}$ commits is slightly bigger than the first cluster with a commit count of $\math{4}$.
@@ -137,17 +137,18 @@ The first column contains the project to which the averages ​​in their respe
 In the following column, we show the initial averages before applying the mentioned restriction.
 \textsc{xz} and \textsc{lrzip} encompass the lowest average number of concerns at $\math{1.48}$ and $\math{1.3}$ respectively.
 Although the distribution of \textsc{gzip} shown in \autoref{fig:commit_sfbr_plot} is similar to those of the formerly mentioned projects, its initial average is comparatively high at $\math{2.4}$.
-The main cause for this are the discussed three commits of \textsc{gzip} with exceptionally many concerns.
+The main cause for this are the three discussed commits of \textsc{gzip} with exceptionally many concerns.
 After filtering large commits within a project, we note that the averages of \textsc{xz}, \textsc{lrzip} and \textsc{gzip} become more similar.
 While the average slightly decreased for \textsc{xz} to $\math{1.29}$, it stayed the same for \textsc{lrzip}.
-The three dicussed commits of \textsc{gzip} were part of the filtered commits, which explains the large drop of its average to $\math{1.55}$.
+The three dicussed commits of \textsc{gzip} were part of the filtered commits, which explains the large drop of its average to $\math{1.55}$. \\
 Unsurprisingly, the initial average of \textsc{bzip2} is by far the highest among all projects.
-Since most of \textsc{bzip2}'s commits are relatively large, this is also the reason why they are not excluded from our analysis. 
+Since most of its commits are relatively large, this is also the reason why they are not excluded from our analysis. 
 Here, only one commit with $\math{9}$ concerns is removed, which lowers the average to $\math{4.58}$.
+
 We also performed a qualitative analysis of the filtered commits to check whether our suspicion that they were mostly used to refactor code is true.
-We find that many of them were used to import releases of the project to Git.
+We find that many of them were used to import releases of the projects to Git.
 The fact that such commits exist is unsurprising considering that the investigated tools have been published before the release of Git or before Git was widespread.
-While their purpose might not be refactoring code, it does make sense to filter these commits as they are not accurately depicting the development process of the project itself or of its features.
+While their purpose might not be refactoring code, it does make sense to filter these commits as they are not accurately depicting the development process of the projects itself or of their features.
 Only two out of the eighteen commits we filtered in all projects were actually used to refactor code, specifically moving contents between files or adapting the code to a newer version of C.
 For half of all exceptionally large commits we found no reason, neither refactoring code nor importing the project to Git, to be left out of our analysis.
 
@@ -165,7 +166,7 @@ Figure \ref{fig:feature_dfbr_plot} displays our results for the features of a pr
 \centering
 \begin{tabular}{l r r}
 \toprule
-\textbf{Projects} & \textbf{Active Commits} & \textbf{P($\exists$F: F $\rightsquigarrow$ C $\mid$ $\exists$F: C $\circledcirc$ F)} \\
+\textbf{Projects} & \textbf{Active Commits} & \textbf{P($\exists$F: C $\rightsquigarrow$ F $\mid$ $\exists$F: C $\circledcirc$ F)} \\
 \midrule
   xz    & $\math{1039}$ & $\math{0.883}$ \\
   bzip2 & $\math{37}$ & $\math{0.889}$ \\
@@ -185,12 +186,12 @@ The number of active commits are shown in the second column of \autoref{tab:comm
 We determined \textsc{xz} to have the highest number of active commits at $\math{1039}$, while \textsc{bzip2} only has a tiny fraction of that at $\math{37}$.
 In the first plot of \autoref{fig:commit_dfbr_plot}, the bars colored in red show what percentage of commits interact with features through dataflow.
 We notice that the respective percentages are vastly different from project to project.
-A significant portion of \textsc{gzip}'s active commits are part of dataflow-based CFIs at $\math{37.1}$\%\footnote{this percentage is calculated only considering active commits of \textsc{gzip} and not its sub-module \textsc{gnulib}; we explained this choice more thouroughly in the Operationalization chapter}.
+A significant portion of active commits in \textsc{gzip} are part of dataflow-based CFIs at $\math{37.1}$\%\footnote{this percentage is calculated only considering active commits of \textsc{gzip} and not its sub-module \textsc{gnulib}; we explained this choice more thouroughly in the Operationalization chapter}.
 This percentage drops to about $\math{27}$\% for \textsc{bzip2}, with another large reduction to $\math{11.3}$\% for \textsc{xz}.
 This means that more than every third active commit in \textsc{gzip}, roughly every fourth in \textsc{bzip2} and every ninth in \textsc{xz} affects features through dataflow.
 The bars colored in grey display the fraction of active commits structurally interacting with features.
 In addition to the obvious fact of how often commits are used to implement features, this also bears important consequences for the fraction of commits with dataflow interactions.
-Comparing the two bar-types, we notice that the percentage of commits with structural interactions is lower than the percentage of commits with dataflow interactions for each project.
+Comparing the two bar types, we notice that the percentage of commits with structural interactions is lower than the percentage of commits with dataflow interactions for each project.
 \begin{figure}[t]
   \centering
   \includesvg[height=10cm]{gfx/results/RQ2/proportional_commit_dfbr_plot.svg}
@@ -246,7 +247,7 @@ Overall, we find that commits exclusively interacting with features through data
 
 % commits of a sub-module are more likely to exclusively interact with features through dataflow
 % one type of commit is more common in sub-modules than in the main code of a project and vice verse
-We notice that commits interacting with features through inside dataflow, have a high chance to also interact with \emph{other} features through outside dataflow.
+We notice that commits interacting with features through inside dataflow have a high chance to also interact with \emph{other} features through outside dataflow.
 By definition, all commits interacting with features through inside dataflow also structurally interact with them.
 From previous explanations, we also know these commits are almost identical to the entire set of commits with structural interactions.
 It follows that commits part of structural CFIs must also have a high, albeit slightly lower, chance to affect other features through outside dataflow.
@@ -261,7 +262,7 @@ The project \textsc{gzip} has the weakest contrast at $\math{2.6}$ and respectiv
 \centering
 \begin{tabular}{l r r}
 \toprule
-\textbf{Projects} & \textbf{P($\exists$F: F (out$\rightsquigarrow$) C $\mid$ $\exists$F: F $\circledcirc$ C)} & \textbf{P($\exists$F: F (out$\rightsquigarrow$) C)} \\ 
+\textbf{Projects} & \textbf{P($\exists$F: C (out$\rightsquigarrow$) F $\mid$ $\exists$F: C $\circledcirc$ F)} & \textbf{P($\exists$F: C (out$\rightsquigarrow$) F)} \\ 
 \midrule
   xz    & $\math{0.417}$ & $\math{0.086}$ \\
   bzip2 & $\math{0.667}$ & $\math{0.216}$ \\
@@ -283,15 +284,15 @@ The project \textsc{gzip} has the weakest contrast at $\math{2.6}$ and respectiv
 
 \subsubsection*{Understanding Features and the Commits Affecting them Through Dataflow}\label{sec:eval_feature_dfbr}
 
-When examining the commits affecting a feature through dataflow, we differentiate between those located outside and those, at least partially, located inside of the feature they interact with.
+When examining the commits affecting a feature through dataflow, we differentiate between those located outside and those at least partially located inside of the feature they interact with.
 Investigating the ratio of outside and inside commits allows us to determine whether most dataflow interactions with commits occur inside or outside of the regions of a feature.
 In a second evaluation step, we also relate the two metrics to the size of a feature.
-Furthermore, we want to put our hypothesis, that the proportion of outside to inside commits of a feature decreases as its size increases, to the test.
+Furthermore, we put our hypothesis that the proportion of outside to inside commits of a feature decreases as its size increases to the test.
 
-Our results are shown in \autoref{fig:feature_dfbr_plot} in three plots for each of our investigated projects.
+Our results are shown in \autoref{fig:feature_dfbr_plot} in three plots for each of our examined projects.
 In column one of the respective figure, we display the number of outside and inside commits for each feature in a bar plot.
 We note that the majority of features in \textsc{xz}, \textsc{gzip} and \textsc{lrzip} are affected by more outside than inside commits through dataflow.
-For \textsc{xz} and \textsc{gzip} this is underlined in median-values of $\math{18.5}$ and $\math{54}$ for outside, and $\math{6.5}$ and $\math{14}$ for inside commits, among their features.
+For \textsc{xz} and \textsc{gzip} this is underlined in median-values of $\math{18.5}$ and $\math{54}$ for outside and $\math{6.5}$ and $\math{14}$for inside commits, respectively, among their features.
 % mention dichomitry between gzip's four largest features and the rest??
 For features of \textsc{xz} and \textsc{gzip} with more outside than inside commits, we also notice very high ratios of outside to inside commits.
 They range from $\math{2}$ to $\math{9}$ in \textsc{xz} with a mean of $\math{4.4}$ and from $\math{3}$ to $\math{32}$ in \textsc{gzip} with a mean of $\math{10.8}$.
@@ -327,9 +328,9 @@ At first, we notice that the calculated correlation coefficients are negative ac
 The fact that the coefficients of \textsc{xz} and \textsc{bzip2} are close to $\math{0}$ and the p-values correspondingly high is illustrated by the rather random distribution of dots in their respective regression plots.
 Their dataset should therefore not be regarded as correlated.
 Compared to the aforementioned projects, \textsc{gzip}'s p-value of $\math{0.035}$ is very low, while it also has a lower correlation coefficient of $\math{-0.588}$.
-Similarly to \textsc{gzips}'s previous plots, we can identify two clusters.
+Similarly to previous plots of \textsc{gzip}, we can identify two clusters.
 A cluster of dots is again formed by the four largest features, encompassing proportions of outside to inside commits slightly below $\math{0.5}$.
-The other cluster is located at the beginning of the x-axis with a wide spread across the y-axis, indicating its low feature-size and a wide range of proportions from $\math{3}$ to $\math{32}$.
+The other cluster is located at the beginning of the x-axis with a wide spread across the y-axis indicating its low feature size and a wide range of proportions from $\math{3}$ to $\math{32}$.
 The coefficient of \textsc{lrzip} is by far the smallest among all projects at $\math{-0.99}$, but the small number of features results in a p-value of $\math{0.088}$.
 It follows that none of the determined negative correlations are statistically significant, as their p-values fall into our rejection interval of $\math{97.5}$\%.
 
@@ -349,8 +350,8 @@ This changes for \textsc{lrzip}, where our dataflow analysis reveals at least $\
 $\math{55}$\% of the authors structurally interacting with a feature in \textsc{bzip2} and \textsc{lrzip} also interact with it through outside dataflow.
 Overall, the linear regressions relating the size of a feature to the number of its structural or dataflow authors show no significant correlation for the three mentioned projects.
 
-\textsc{gzip}, on the other hand, provides us with much more comprehensive results.
-In \textsc{gzip}'s bar-plot in \autoref{fig:author_cfi_plot}, we can see that every feature has a large number of interacting authors.
+The project \textsc{gzip}, on the other hand, provides us with much more comprehensive results.
+In the bar plot of \textsc{gzip} in \autoref{fig:author_cfi_plot}, we can see that every feature has a large number of interacting authors.
 The combined number of unique authors that interact with a feature in any way can be computed by the sum of its structural and its unique dataflow authors.
 This means that the lowest number of interacting authors is $\math{7}$ for the \textsf{recursive}-feature and the highest $\math{14}$ for the \textsf{force}-feature.
 On average, a feature has more dataflow than structural authors with respective averages of $\math{9.1}$ and $\math{5.7}$.
@@ -359,14 +360,14 @@ The number of structurally interacting authors, i.e. authors implementing a feat
 There is less variance in the number of a feature's outside dataflow authors ranging from $\math{7}$ to $\math{12}$.
 Features with relatively few structural authors, have a comparatively high number of dataflow authors.
 Features with many structural authors, starting from the \textsf{no\_name}-feature, have less outside dataflow authors.
-At the same time, the number of their unique dataflow authors is comparatively low, implying that most of them also structurally interact with the according features.
+At the same time, the number of their unique dataflow authors is comparatively low implying that most of them also structurally interact with the according features.
 The fact that the group of features with few structural authors has much more dataflow authors conditions them to have many unique dataflow authors.
 Still, more than $\math{80}$\% of their structural authors also interact with them through outside dataflow.
 This is not the case for the group of features with many structural authors, where this is the case for less than $\math{45}$\% of them.
 Overall, there is a $\math{47}$\% likelihood for the structural author of any feature to interact with the same feature through outside dataflow.
 Similarly to the bar-plot of \textsc{gzip}, we notice two clusters when examining its regression plots in \autoref{fig:author_cfi_plot}.
-The first cluster is made up of features with few structural authors, whose respective sizes range between $\math{20}$ and $\math{450}$.
-The second cluster consists of the four features who encompass more than $\math{10}$ structural authors and much higher feature-sizes ranging from $\math{7400}$ to $\math{8200}$.
+The first cluster is made up of features with few structural authors whose respective sizes range between $\math{20}$ and $\math{450}$.
+The second cluster consists of the four features who encompass more than $\math{10}$ structural authors and much higher feature sizes ranging from $\math{7400}$ to $\math{8200}$.
 It is therefore unsurprising that we compute a strong positive correlation between the size of a feature and the number of its structurally interacting authors.
 The respective correlation coefficient is $\math{0.98}$, while the p-value is smaller than $\math{10^{-4}}$ providing evidence for a statistically significant correlation.
 Regarding the dataflow authors of features, we note two similar clusters that consist of the same features of small and much larger sizes respectively.
@@ -393,13 +394,13 @@ Besides that, we look at possible reasons for our results and further interestin
 Generally, we have seen our expectations for possible results of RQ1 mostly confirmed.
 Here, we briefly formulate our most important results, which we discuss in more detail in the following sub-sections.
 Firstly, we find sufficient evidence to support the notion that the number of commits used to develop a feature is strongly positively correlated with the size of the code implementing its functionality. 
-Secondly, we have high confidence that most commits, within our investigated projects, only deal with a single responsibility in relation to features.
+Secondly, we have high confidence that most commits within our examined projects only deal with a single responsibility in relation to features.
 
 \subsubsection*{Patterns around Feature Development}
 
-The features within the investigated projects exhibit a wide distribution of structurally interacting commits and sizes.
+The features within the examined projects exhibit a wide distribution of structurally interacting commits and sizes.
 We consider this as a clear indication that the number of commits as well as the extent of source-code used to implement a feature varies a lot between them.
-The range of least to most interacting commits and lowest to highest feature-size is hereby dependent on the specific project.
+The range of least to most interacting commits and lowest to highest feature size is hereby dependent on the specific project.
 
 Determining the average overlap degree of features within a project showed us that, especially in the case of \textsc{gzip}, feature overlap is more common than initially expected.
 Most of the computed sizes of \textsc{gzip}'s respective features are made up of instructions that are part of multiple feature regions besides its own. 
@@ -408,18 +409,18 @@ This phenonemon also bears consequences on they way commits are used in feature 
 If a developer wants to specifically change a feature nested inside other features, the according commit will necessarily produce structural CFIs with several features.  
 This also casts some doubt how well the structural interactions of a feature with a high overlap degree accurately represent its development.
 A concrete example of this are the four, by far largest, features of \textsc{gzip}.
-In our evaluation of RQ1, we have already explained that they share the vast majority of instructions constituting their size, as well as the commits that structurally interact with them.
-In these cases, it would be extremely helpful to be able to decide whether the respective instructions and commits are actually \texttt{implementing} commits and instructions of a particular feature.
-While solving this problem goes beyond the scope of this work, future research could produce more informative results by adressing and solving this subject.
+In our evaluation of RQ1, we have already explained that they share the vast majority of instructions constituting their size as well as the commits that structurally interact with them.
+In these cases, it would be extremely helpful to be able to decide whether the respective instructions and commits are actually \emph{implementing} commits and instructions of a particular feature.
+While solving this problem goes beyond the scope of this work, future research can produce more informative results by adressing and solving this subject.
 
 We employ the pearson correlation coefficient to investigate the linear relationship between the size of a feature and the number of commits structurally interacting with it. 
 While we find high correlation coefficients of $\math{0.9}$ and above, the p-values of \textsc{lrzip} and \textsc{bzip2} are not low enough to justify the data to be statistically significant.  
 We know that p-values are highly dependent on the number of datapoints, that is, the number of features of a project. 
 Logically, projects with fewer features have less datapoints resulting in their p-values being quite high and falling into our rejection interval. 
 With $\math{10}$ and $\math{14}$ features respectively, \textsc{xz} and \textsc{gzip} have by far the most datapoints and according p-values of less than $\math{10^{-4}}$ giving us most significant evidence for a strong positive correlation. 
-Due to the above-mentioned problems caused by \textsc{gzip}'s high overlap degree, the significance of the found strong positive correlation is somewhat weakened.
+Due to the above-mentioned problems caused by the high feature overlap degree of \textsc{gzip}, the significance of the found strong positive correlation is somewhat weakened.
 On the other hand \textsc{xz} has a relatively low overlap degree, but still shows the same strong positive correlation.
-Therefore, we are still able to confirm our original thesis of a strong dependency between the size of the implementing code and the number of implementing commits of a feature. 
+Therefore, we are still able to confirm our original hypothesis of a strong dependency between the size of the implementing code and the number of implementing commits of a feature. 
 
 % - therefore, future research should prefer projects with at least 10 features so that correlations and other measurments produce trustful statistical data. \\
 A possibility to circumvent the problem of too few datapoints could be to combine features of all projects into one big dataset.  
@@ -431,38 +432,38 @@ Upon these considerations, we are of the opinion that it makes more sense to tes
 
 \subsubsection*{Usage of Commits in Feature Development}
 
-In \autoref{sec:commit_concerns}, we explained that, due to feature overlap, the number of features a commit structurally interacts with can be a faulty estimate of how many responsibilities in relation to features a commit usually deals with.
+In \autoref{sec:commit_concerns}, we explained that due to feature overlap the number of features a commit structurally interacts with can be a faulty estimate of how many responsibilities in relation to features a commit usually deals with.
 To achieve a more accurate measure, we introduced the concept of feature-related concerns of a commit (\autoref{def:commit_concerns}).
 There, we do not look at the structural CFIs of a commit separately, but rather focus on the entirety of them and the instructions they stem from.
 As long as the CFIs occur in the same feature related location, i.e. in instructions belonging to regions of the same set of features, we assume that the commit deals with a single responsibility.
-A concrete example of why the feature related concerns can be a more accurate estimate for the number of changed features is shown in \hyperref[lst:commit_concerns]{listing 3.2}.
+A concrete example of why the feature related concerns can be a more accurate estimate for the number of feature-related responsibilites is shown in \hyperref[lst:commit_concerns]{listing 3.2}.
 % of course not 100\% accurate, for example when two features are implemented within the exact same code-space => we suspect this does not happen often 
-Excluding \textsc{bzip2}, roughly $\math{70}\%$ of commits only have a single feature related concern in the remaining projects.
-Despite this, \textsc{gzip}'s average is quite high at $\math{2.4}$, in comparison to \textsc{xz} and \textsc{lrzip} with $\math{1.48}$ and $\math{1.3}$ respectively.
-It decreases to $\math{1.55}$ after filtering large commits, such as commit \textsf{33ae4134cc} with an exceptionally high number of $\math{47}$ feature related concerns.
+Excluding \textsc{bzip2}, roughly $\math{70}\%$ of commits only have a single feature-related concern in the remaining projects.
+Despite this, \textsc{gzip}'s average is quite high at $\math{2.4}$, in comparison to \textsc{xz} and \textsc{lrzip} with an average of $\math{1.48}$ and $\math{1.3}$ respectively.
+It decreases to $\math{1.55}$ after filtering large commits, such as commit \textsf{33ae4134cc} with an exceptionally high number of $\math{47}$ feature-related concerns.
 Its purpose was to import the original \textsl{gzip.c}-file into the repository, which justifies the exclusion of the commit.
 
 To summarize our results, most commits of \textsc{xz}, \textsc{gzip} and \textsc{lrzip} have only one feature-related concern with an average of less than $\math{1.6}$ after filtering large commits. 
-Given that the feature related concerns accurately reflect the number of responsibilites for most commits, we can confirm our initial thesis. 
-Thus, the majority of commits that structurally interact with features only deal with a single responsibility in relation to them.
+Given that the feature-related concerns accurately reflect the number of responsibilites for most commits, we can confirm our initial thesis. 
+Thus, the majority of commits that affect the code of features only deal with a single responsibility in relation to features.
 % commit can have other responsibilites not in relation to features => examine them as well
 % how can we determine whether they are done for the same purpose => determine whether dataflow flows into the respective features
 % At first sight, this finding does not align with the observation of a previous study by \citet{michelon2021lifecycle} that commits are more likely to change multiple features at once than only one specific feature.
 
 In contrast to three projects discussed above, \textsc{bzip2} has shown to be a project whose results need to be treated more carefully.
-Only $\math{9}$ commits structurally interact with its features, encompassing much less datapoints compared to the other investigated projects.
+Only $\math{9}$ commits structurally interact with its features, encompassing much less datapoints compared to the other examined projects.
 $\math{6}$ out of $\math{9}$ commits were used to import the initial project to Git and iteratively update the code to newer versions.
 These commits are not exemplary of the common development process of a project and its features in a Git repository.
 The actual development of the tool in the Git repository began after \textsc{bzip2} was finally updated to version 1.0.6.
 The remaining $\math{3}$ commits introduce minor changes and small bug fixes to the respective features they interact with.
-This means that \textsc{bzip2}'s features were largely already implemented when the actual development within the repository started.
+This means that the features of \textsc{bzip2} were largely already implemented when the actual development within the repository started.
 Thus, the average number of concerns of a commit as well as their overall distribution are not good representatives of other projects developed in Git. 
 
 \subsection[RQ2]{Discussion: RQ2}\label{sec:disc:RQ2}
 
 We are able to confirm our hypothesis discussion in \autoref{sec:combination_cfis} that structural CFIs heavily coincide data flow-based CFIs.
 This allows us to formulate a lower bound for the proportion of commits with dataflow interactions, namely the proportion of commits with structural interactions.
-While there exists a lot of variation in the proportion of commits affecting features through dataflow within the investigated projects, said proportion heavily depends on a project's extent of feature-code and the number of commits implementing said code.
+While there exists a lot of variation in the proportion of commits affecting features through dataflow within the examined projects, said proportion heavily depends on the extent of feature code in a project and the number of commits implementing said code.
 Furthermore, our dataflow analysis uncovers a significant amount of interactions between commits and features that we cannot discover with our previous structural analysis.
 We are also able to uncover that commits that already touch feature code have an increased probability of influencing other features via outside dataflow.
 We transfer this knowledge to features and the commits affecting them through dataflow by determining that many of their outside dataflow commits are also part of other features.
@@ -472,12 +473,12 @@ This also applies to the proportion of outside to inside commits, although we su
 
 \subsubsection*{Proportion and Dependencies of Commits Affecting Features through Dataflow}
 
-We have seen that the proportion of commits part of dataflow-based CFIs varies a lot between our investigated projects.
+We have seen that the proportion of commits part of dataflow-based CFIs varies a lot between our examined projects.
 While only $\math{11}$\% of active commits in \textsc{xz} affect features through dataflow, with $\math{37}$\%, a significantly higher proportion of active commits do so in \textsc{gzip}.
 One major reason for the discussed differences is the fact that the proportion of structural commits acts as the \emph{lowest bound} for the proportion of commits with dataflow interactions.
 As $\math{90-100}$\% of commits part of structural CFIs are also part of dataflow-based CFIs, the percentage of commits part of dataflow-based CFIs never falls below the percentage of commits part of structural interactions.
-The effects of said lowest bound can be recognized in the first plot of \autoref{fig:commit_dfbr_plot}, where a project's rank among the dataflow proportions of commits reflects its rank among the structural proportions.
-That is also because the percentages of commits, whose interactions with features are only discovered by our dataflow analysis, are the same or only a fraction of the percentages of those with structural interactions.
+The effects of said lowest bound can be recognized in the first plot of \autoref{fig:commit_dfbr_plot}, where the rank of a project among the dataflow proportions of commits reflects its rank among the structural proportions.
+That is also because the percentages of commits whose interactions with features are only discovered by our dataflow analysis are the same or only a fraction of the percentages of those with structural interactions.
 Similar strong differences in the structural proportions of commits can thus also be found in the dataflow proportions.
 Including structural CFIs in the evaluation of our dataflow-based CFIs is definitely necessary to properly categorize their proportion and the new information they could add to the analysis of a project.
 A substantial share of the examined dataflow interactions stem from our previously investigated set of structural interactions.
@@ -489,7 +490,7 @@ For $\math{8}$, $\math{21}$ and $\math{28}$\% of active commits in \textsc{xz}, 
 This means that the data of, on first sight unrelated, commits and features can be highly connected. 
 % gnulib 31 commits discovered through dataflow analysis, substantial amount from the 84 in total of the gzip project
 
-Besides that, we find that many commits interacting with features both structurally and through dataflow, also interact with \emph{other} features \emph{only} through dataflow.
+Besides that, we find that many commits interacting with features both structurally and through dataflow also interact with \emph{other} features \emph{only} through dataflow.
 This lead us to examine whether commits structurally interacting with features are more likely to affect features through outside dataflow in comparison to any active commit.
 We find sufficient evidence to support the notion that this is indeed the case, including an almost 5-times higher probability in \textsc{xz}.
 This suggests that data, changed or allocated by a commit in one feature, is often used within a different feature again.
@@ -502,7 +503,7 @@ This also provides evidence that feature code and remaining code of a program is
 When discussing the second part of RQ2, we seek to underline this notion by determining how often outside commits affecting a feature through dataflow, structurally interact with other features.
 
 Lastly, we discuss the extent of feature code in a project and its consequences on the proportion of commits with structural as well as dataflow interactions.
-In RQ1, we have confirmed that a feature's number of structurally interacting commits is strongly positively correlated with its size for \textsc{xz} and \textsc{gzip}.
+In RQ1, we have confirmed that the number of commits structurally interacting with a feature is strongly positively correlated with its size for \textsc{xz} and \textsc{gzip}.
 It follows that a higher extent of feature code implies a higher proportion of commits with structural interactions.
 As the latter proportion acts as a lower bound for the proportion of commits with dataflow interactions, we assume the extent of feature code to also have a strong influence on said proportion.
 At the same time, less feature code and a higher number of active commits could elavate the share of commits affecting features through outside dataflow.
@@ -525,7 +526,7 @@ One reason for this is that even features with little size are affected by many 
 That is because the number of a feature's inside commits is strongly positively correlated with its size, while the same is not the case for a feature's outside commits.
 Specifically, we do not find evidence to suggest that the size of a feature and the number of outside commits affecting it through dataflow are correlated in some way or another.
 The positive correlation found for \textsc{xz} is mainly driven by its largest feature, where the correlation coefficient subsides to $\math{0}$ without it.
-\textsc{gzip} shows a statistically signficant negative correlation, \textsc{bzip2} no correlation and \textsc{lrzip} a statisitcally insignifcant positive correlation.
+\textsc{gzip} shows a statistically significant negative correlation, \textsc{bzip2} no correlation and \textsc{lrzip} a statisitcally insignificant positive correlation.
 From the previous explanations, it follows that the number of inside commits generally increases with rising size of a feature, while the number of outside commits is less predictable.
 This observation supports the notion that the proportion of outside to inside commits of a feature and its size are negatively correlated.
 While we determine the according linear correlation coefficients to be negative for all projects, they are rather high and their respective p-values too low to warrant significant evidence.
@@ -540,7 +541,7 @@ This also means that features are less likely to be influenced by commits not ch
 
 The regression plots of \textsc{gzip} show that their strong linear correlations are mainly caused by two clusters of features.
 One cluster consists of large features with many inside and comparatively few outside commits, the other of features with a small size and significantly more outside than inside commits.
-In the evaluation of RQ1, we explain that, due to feature overlap, the sets of commits that structurally interact with each feature from the first cluster are almost identical.
+In the evaluation of RQ1, we explain that due to feature overlap the sets of commits that structurally interact with each feature from the first cluster are almost identical.
 This suggests that the inside commits of said cluster are almost identical as well and that this could also apply to the outside commits of the two clusters.
 Indeed, we determine the majority of outside commits from the features of each cluster to be identical.
 The respective percentages are $\geq$$\math{60}$\% for the cluster encompassing the large features and $\geq$$\math{70}$\% for the cluster of the smaller features excluding \textsf{recursive}.
@@ -551,8 +552,8 @@ For them, we note that $\math{25}$ inside and $\math{17}$ outside commits from f
 Interestingly, this relation is especially apparent for the smallest feature of \textsc{gzip}, \textsf{no\_time}, which only encompasses $\math{23}$ instructions and is fully located inside of the regions of the \textsf{force}-feature.
 All of the $\math{65}$ commits affecting \textsf{no\_time} through outside dataflow are inside or outside commits of \textsf{force}.
 Thus, we find that there also exists a lot of dataflow between features of the two clusters, where the code of the \textsf{no\_time}-feature acts as a main intersection of said dataflow.
-This is another product of \textsc{gzip}'s high degree of feature overlap, where the features of the second cluster are often completely nested inside the larger features of the first cluster.
-The data stemming from commits interacting with these large features, eventually passes through the smaller features within them, making said commits interact with the nested features through outside dataflow.
+This is another product of the high degree of feature overlap in \textsc{gzip}, where the features of the second cluster are often completely nested inside the larger features of the first cluster.
+The data stemming from commits interacting with these large features eventually passes through the smaller features within them, making said commits interact with the nested features through outside dataflow.
 A high degree of feature overlap can therefore not only lead to many features sharing the same structurally interacting commits, but also the commits affecting them through outside and inside dataflow.
 % Abschließend ist festzuhalten, dass feature-nesting ebenfalls Auswirkungen auf die Interepretierbarkeit von den commits die feature über datenfluss beeinflussen, hat ->> Wieso?
 
@@ -562,7 +563,7 @@ We find that our dataflow analysis is able to reveal many additional developers 
 In most features of \textsc{gzip}, \textsc{bzip2} and \textsc{lrzip}, we detect a similar or higher number of unique dataflow authors compared to the number of structural authors.
 While most unique dataflow authors are naturally found for features with more dataflow than structural authors, there also exist unique dataflow authors for features with more structural authors.
 That is because, for the three mentioned projects, on average $\math{53}$\% of structural authors also interact with their respective features via outside dataflow.
-This means that, while likely, developers of features do not always contribute commits affecting them through outside dataflow.
+This means that, while likely developers of features do not always contribute commits affecting them through outside dataflow.
 They also are not the ones generally introducing these commits, as the majority of features encompass more unique dataflow authors than structural authors.
 
 The only statistically significant correlations relating the size of a feature to its number of interacting authors were produced by \textsc{gzip}.
@@ -571,24 +572,24 @@ In contrast, we found the opposite to be true for the number of authors influenc
 However, as only a single project produced statistically significant results, we consider the question to be completely open to further research. 
 \textsc{xz} and \textsc{bzip2} are unsuitable for the computation of a significant correlation due to their small number of different authors interacting with features and \textsc{lrzip} due to its small number of features. 
 
-\textsc{gzip}'s strong positive correlation in regards to its structural authors matches its correlation between the size of a feature and its number of structurally interacting commits in RQ1.
+The strong positive correlation of \textsc{gzip} in regards to its structural authors matches its correlation between the size of a feature and its number of structurally interacting commits in RQ1.
 This is also the case for \textsc{gzip}'s strong negative correlation regarding its dataflow authors and the correlation calculated for the number of outside commits in RQ2.
 Overall, we notice that the number of authors interacting with a feature reflects the length of the set of commits from which we have extracted the authors.
 In \textsc{gzip}, the two are positively correlated with a coefficient of $\math{0.73}$ and a p-value of $\math{0.004}$ for the number of structural commits and authors and a coefficient of $\math{0.54}$ and a p-value of $\math{0.058}$ for the number of outside dataflow commits and authors.
 Thus, the number of commits interacting with a feature can hint at the number of authors that interact with it.
-One reason for these strong positive correlations is the high degree of feature-nesting, which caused features of the two discussed clusters of \textsc{gzip} to have largely identical sets of interacting commits.
+One reason for these strong positive correlations is the high degree of feature overlap, which caused features of the two discussed clusters of \textsc{gzip} to have largely identical sets of interacting commits.
 As the set of authors for a particular feature is extracted from the commits interacting with it, it is unsurprising that the authors interacting with features of each cluster are also largely identical.
 This applies to $\math{85}$ to $\math{100}$\%, depending on the respective feature, of the structural authors of the four largest features. 
 Similarly, the percentage of identical dataflow authors is $\math{67-80}$\% for the first cluster and $\math{75-100}$\% for the cluster of smaller features excluding \textsf{recursive}.
 Thus, a high degree of feature overlap can lead to many features having the same set of interacting authors.
-This makes it difficult to trace whether, a certain set of authors has really implemented a certain set of features or whether, for example, only one author from the set has implemented one feature from the set. 
+This makes it difficult to trace whether a certain set of authors has really implemented a certain set of features or whether, for example, only one author from the set has implemented one feature from the set. 
 
 In \textsc{gzip}, a total of $\math{14}$ authors interact with features in any way, from which $\math{13}$ structurally interact with features and $\math{12}$ affect features through outside dataflow.
-Only one author that does not touch any feature code, affects features through dataflow and only two authors structurally interacting with features do not affect other features through outside dataflow.
-Here it is important to note that all of \textsc{gzip}'s $\math{13}$ developers\footnote{The remaining author from the total of $\math{14}$ authors interacting with features stems from \textsc{gzip}'s used submodule \textsc{gnulib}} interact with features either structurally or through dataflow or both.
+Only one author that does not touch any feature code affects features through dataflow and only two authors structurally interacting with features do not affect other features through outside dataflow.
+Here it is important to note that all $\math{13}$ developers of \textsc{gzip}\footnote{The remaining author from the total of $\math{14}$ authors interacting with features stems from \textsc{gzip}'s used submodule \textsc{gnulib}} interact with features either structurally or through dataflow or both.
 This is not surprising given \textsc{gzip}'s high extent of feature code making up the majority of its instructions.
-That the extent of feature-code plays a role in what share of a project's authors interact with features can also be seen for \textsc{bzip2} and \textsc{lrzip} with an extent of $\math{8.2}$\% and $\math{1}$\% respectively.
-While there are $\math{19}$ and $\math{27}$ contributors in \textsc{bzip2}'s and \textsc{lrzip}'s Git-repository respectivly, there only exist $\math{4}$ unique structural authors of features in both projects.
+That the extent of feature code plays a role in what share of authors in a project interact with features can also be seen for \textsc{bzip2} and \textsc{lrzip} with an extent of $\math{8.2}$\% and $\math{1}$\% respectively.
+While there are $\math{19}$ and $\math{27}$ contributors to the Git-repositories of \textsc{bzip2} and \textsc{lrzip}respectively, there only exist $\math{4}$ unique structural authors of features in both projects.
 The fact that \textsc{bzip2} only encompasses $\math{3}$ unique outside dataflow authors, while \textsc{lrzip} encompasses $\math{8}$, likely has to do with \textsc{lrzip} having many more active commits and overall contributors.
 
 \section{Threats to Validity}\label{sec:threats}
@@ -599,11 +600,11 @@ Concerning the external validity of our findings, most dangers stem from the sel
 
 \subsection{Threats to Internal Validity}\label{sec:int_threats}
 
-From the definition of \hyperref[def:feature_regions]{feature regions}, it follows that we implement feature regions in such a way that any instruction, whose execution depends on a configuration variable, is part of a feature region.
+From the definition of \hyperref[def:feature_regions]{feature regions}, it follows that we implement feature regions in such a way that any instruction whose execution depends on a configuration variable is part of a feature region.
 However, not every such instruction also implements the functionality of a feature, as can be seen in \hyperref[lst:feature_region_overapproximation]{listing 5.1}.
 This means that the regions of a feature can overapproximate the instructions responsible for its functionality.
-If the instructions, the CFI of a feature occurs in, are such overapproximated instructions, it follows that said CFI is overapproximated as well.
-Since feature regions are used for computing both structural and dataflow-based CFIs, our generated reports probably contain overapproximated CFIs.
+If the instructions the CFI of a feature occurs in are such overapproximated instructions, it follows that said CFI is overapproximated as well.
+Since feature regions are used for computing both structural and dataflow-based CFIs, our generated reports likely contain overapproximated CFIs.
 
 % Furthermore, \citet{sattler2023seal} explains that our deployed VaRA taint analysis does not necessarily detect all dataflows occuring in a program.
 % This results in taints being underapproximated, meaning that some instructions are not tainted when they correctly should be.
@@ -625,8 +626,8 @@ Thus, said code can produce both structural as well as dataflow-based CFIs with 
 This is problematic, as our analysis cannot decipher which feature is being implemented in the case of code with feature nesting.
 We therefore are not able to filter the respective interactions, which means that feature nesting is an additional cause for overapproximating CFIs. % factor of
 Feature overlap that is created by structurally interacting features does not threaten our validity in such a way.
-As the code, where the respective overlap occurs, coordinates the interplay between the involved features, it also implements functionality for all of them. 
-In \autoref{sec:feature_overlap}, we mentioned that we currently cannot differentiate between the two discussed causes of feature overlap, which means that we cannot separare feature overlap into safe and unsafe for our analysis. \\
+As the code where the respective overlap occurs coordinates the interplay between the involved features, it also implements functionality for all of them. 
+In \autoref{sec:feature_overlap}, we mentioned that we currently cannot differentiate between the two discussed causes of feature overlap, which means that we cannot separare feature overlap into one that safe and one that is unsafe for our analysis. \\
 % quantify frequency of feature nesting??
 
 \begin{lstlisting}[language=python, caption={Example for the Overapproximation of Feature Regions}, label={lst:feature_region_overapproximation}]
@@ -645,7 +646,7 @@ In previous chapters, we mentioned that the chosen projects are rather small and
 This could mean that our findings might not be applicable for projects of larger sizes or of different domains.
 As we already factor in the size of a feature in the analysis of our data, we are able to mitigate some doubts about the applicability of our results onto larger projects. 
 
-Apart from the general selection of our exmained projects, \textsc{bzip2} in particular is a project whose results must be treated with caution.  
+Apart from the general selection of our examined projects, \textsc{bzip2} in particular is a project whose results must be treated with caution.  
 In the \hyperref[sec:disc:RQ1]{discussion of RQ1}, we already explained that the overall project and its features were largely already implemented when the actual development in the Git repository started.
 This is reflected in a total of only $\math{37}$ active commits and a maximum of $\math{7}$ interacting commits for a feature. 
 Accordingly, the results of \textsc{bzip2} differ significantly from those of the other projects. 
