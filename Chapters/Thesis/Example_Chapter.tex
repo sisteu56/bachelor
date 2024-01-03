@@ -62,7 +62,7 @@ Commit \textsf{7edb283} introduces the variable \textsf{ret} that is later used 
 This accounts for a commit-feature interaction through dataflow, as data that was produced within a commit region is used as input 
 by an instruction belonging to a feature region of \textsf{FeatureDouble} later on in the program.
 
-\section{Dependency between structural and dataflow-based CFIs}\label{sec:combination_cfis}
+\section[Dependency between CFIs]{Dependency between structural and dataflow-based CFIs}\label{sec:combination_cfis}
 
 When investigating dataflow-based CFIs, it is important to be aware of the fact that structural CFIs heavily coincide with them.
 This means that whenever commits and features structurally interact, they are likely to interact through dataflow as well.
@@ -85,7 +85,7 @@ Since the interactions a feature is part of occur in its regions and subsequentl
 \emph{The} size \emph{of a feature is the number of instructions that are part of its feature regions.}
 \end{definition}
 
-Furthermore, the size of a feature indicates the number of instructions and, by extend, the source-code that implements its functionality, as the instructions inside the regions of a feature are the ones implementing its functionality.
+Furthermore, the size of a feature indicates the number of instructions that implements its functionality, as the instructions inside the regions of a feature are the ones implementing its functionality (see \autoref{sec:feature_regions}).
 
 \section{Feature Overlap}\label{sec:feature_overlap}
 

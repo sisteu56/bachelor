@@ -2,11 +2,11 @@
 \chapter{Related Work}\label{ch:related_work}
 %************************************************
 
-Interactions between features~\cite{lillack2014tracking,kolesnikov2017relation} and interactions between commits~\cite{sattler2023seal} have already been used to answer many research questions surrounding software systems.
+Interactions between features~\cite{siegmund2012predicting,nie2011survey,kolesnikov2017relation} and interactions between commits~\cite{sattler2023seal} have already been used to answer many research questions surrounding software systems.
 However, investigating feature interactions has been around for a long time, while examining commit interactions is a more recent phenomenon. 
 
-In an article published in 2023, \citet{sattler2023seal} analysed several open-source projects with their novel approach, SEAL.
-SEAL merges low-level data-flow with high-level repository information in the form of commit interactions.
+In an article published in 2023, \citet{sattler2023seal} analysed several open source projects with their novel approach, SEAL.
+SEAL merges low-level dataflow with high-level repository information in the form of commit interactions.
 The paper shows the importance of a combination of low-level program analysis and high-level repository mining techniques by discussing research problems that neither analysis can answer on its own.
 For example, SEAL is able to detect commits that are central in the dependency structure of a program~\cite{sattler2023seal}.
 This was used to identify small commits affecting central code that would normally not be considered impactful to a program.
@@ -16,9 +16,9 @@ They found that, especially in smaller projects, there often exists one main dev
 It was also explained how SEAL makes it possible to relate occurences of bad programming practices to developers. 
 This is accomplished by SEAL enriching program analyses with computed repository information. 
 
-\citet{lillack2014tracking} was first to track load-time configuration options along program flow to implement the automatic detection of features inside programs.
+\citet{lillack2014tracking} was first to track load-time configuration options along program flow to implement the automatic detection of feature code inside programs.
 In our research, we also focus on features who are configured via configuration options, which we call configuration variables. 
-Their analysis tool Lotrack can detect which configuration options must be activated in order for certain code segments, implementing a feature's functionality, to be executed.
+Their analysis tool Lotrack can detect which configuration options must be activated in order for certain code segments that implement the functionality of a feature to be executed.
 They evaluated Lotrack on numerous real-world Android and Java applications and observed a high accuracy for the predicted code execution constraints~\cite{lillack2014tracking}.
 Instead of using load-time configuration options, applications also use the C Preprocessor to implement variability.
 Numerous studies investigating configurable software systems have focused on such applications including the Linux kernel~\cite{passos2021scattering,michelon2021lifecycle,kolesnikov2017relation}.
@@ -28,7 +28,7 @@ Feature interactions are a broad research topic in software systems encompassing
 For example, interaction bugs are bugs caused by feature interactions that occur if and only if multiple features are activated~\cite{nie2011survey}.
 Furthermore, performance interactions are defined as unexpected behavior when combining features that cannot be explained by their individual performance~\cite{siegmund2012predicting}.
 Using sampling techniques, performance interactions can be automatically detected, thus succesfully ``improving perfomance prediction in configurable systems''~\cite{apel2014feature}.
-Most related to our work, feature interactions can also occur at source-code level when the code implementing different features interacts structurally or through control- or data-flow.
+Most related to our work, feature interactions can also occur at source-code level when the code implementing different features interacts structurally or through control- or dataflow.
 Since they are ``realitively easy to identify''\cite{apel2014feature}, they could be used to predict other kinds of interactions, although this is not necessarily the case~\cite{apel2014feature}.
 Specifically, \citet{kolesnikov2017relation} published a case study on the relation of external, i.e. performance, and internal feature interactions.  
 Internal feature interactions are control-flow feature interactions that can be detected through static program analysis as mentioned above. 

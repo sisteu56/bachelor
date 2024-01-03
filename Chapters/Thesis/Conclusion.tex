@@ -8,34 +8,36 @@ In the following paragraphs, we briefly summarize our most important results and
 
 \paragraph{Feature Development and Usage of Commits Therein}
 In RQ1, we find that the number of commits used during development varies strongly between the features of a project. % note statt find??
-We find that the size of a feature is an accurate predictor for the number of commits as the two metrics are strongly positively correlated.
+We find that the size of a feature is an accurate predictor for the number of commits, as the two metrics are strongly positively correlated.
 Regarding the usage of commits during feature development, we support the notion that commits usually deal with a single responsibility in relation to features as the majority ($>\math{69}$\%) of them only have one \hyperref[sec:commit_concerns]{feature-related concern}. 
-At the same time, commits structurally interacting with features affect not only affect feature code, but introduce changes to the base system as well.
-Specifically, \citet{michelon2021lifecycle} investigated this topic and found that the majority of commits changing feature code also change code of the base system~\cite{michelon2021lifecycle}.
+At the same time, commits structurally interacting with features can not only affect feature code, but can introduce changes to the base system as well.
+Specifically, \citet{michelon2021lifecycle} investigated this topic and found that the majority of commits changing feature code also change code of the base system.
 While the changed code of the base system is not necessarily related to the changed features, meaning that the commit deals with multiple responsibilites both feature-related and feature-unrelated, we argue that a dataflow analysis can prove the opposite.
-We leave to future studies the question whether the respective code in the base system and the respective features interact through dataflow and thus to determine whether the commit still deals with a single responsibility.
+Determining that the code in the base system and the features affected by the commit interact through dataflow can show that the two are related, thus proving that the commit deals with a single responsiblity.
+We leave to future studies the question of how often this is the case.
+% We leave to future studies the question whether the respective code in the base system and the respective features interact through dataflow and thus to determine whether the commit still deals with a single responsibility.
 
 \paragraph{How Commits Affect Features through Dataflow}
-There also exists considerable variability in the number of commits that affect the features of a project through dataflow.
+There also exists considerable variability in the overall number of commits that affect the features of a project through dataflow.
 For the majority of investigated features, the number of interacting outside commits exceeds the number of interacting inside commits, which underlines the importance of a dataflow analysis as outside commits interact with features exclusively via dataflow and, thus, cannot be discovered by a structural analysis.
-Our analysis potentially underestimates the number of commits whose dataflow stems from the outside, although this could be fixed in future research.
+Regarding the origin of dataflow, our implementation potentially underestimates the number of commits whose dataflow stems from the outside, although this issue can be fixed in future research.
 We say that a commit affects a feature through inside dataflow, meaning that the dataflow occurs inside the regions of the feature, when it also structurally interacts with the feature.
 As the commit could also be partially located outside the feature, we could be dealing with an outside dataflow origin instead.
-One way to solve this issue would be to track whether the commit taint (see \autoref{sec:interaction_analysis}), belonging to data being used within a feature, originated inside the regions of said feature. 
+One way to solve this issue would be to track whether the commit taint (see \autoref{sec:interaction_analysis}), which belongs to data being used within a feature, originated inside the regions of said feature. 
 
 We find conflicting evidence regarding the linear correlation between the size of a feature and the number of commits interacting with it through outside dataflow.
 Each of the examined projects produces unique results ranging from positive to strongly negative correlations.
 Further research is necessary to determine whether there exists an accurate predictor for the number of commits affecting a feature through outside dataflow.
-For this considering properties of a feature besides its size might be required.
+For this, considering properties of a feature besides its size might be required.
 % which properties
 % Likewise, our results regarding the proposed decrease in the proportion of outside to inside commits affecting a feature alongside an increase in its size are not conclusive.
 % While most evidence points to existence of such a relation, more projects must be examined to gather statistically significant data. 
 
 \paragraph{Proportion and Dependencies of Commits Affecting Features through Dataflow}
-The fraction of active commits that affect features through dataflow differs among the examined projects as it ranges from $\math{11}$\% in \textsc{xz} to $\math{37}$\% in \textsc{gzip}.
+The fraction of active commits that affect features through dataflow differs among the examined projects, as it ranges from $\math{11}$\% in \textsc{xz} to $\math{37}$\% in \textsc{gzip}.
 This shows that, depending on the project, commits with dataflow interactions can be quite common, and more common than we had expected.
 Furthermore, we find that their fraction in a project is strongly influenced by the percentage of commits that structurally interact with features.
-Specifically, we propose that said percentage acts as a lower bound for them since we could confirm the notion that structural CFIs heavily coincide with dataflow-based CFIs discussed in \autoref{sec:combination_cfis}.
+Specifically, we propose that said percentage acts as a lower bound for them, since we have confirmed the notion that structural CFIs heavily coincide with dataflow-based CFIs discussed in \autoref{sec:combination_cfis}.
 Still, our dataflow analysis revealed previously hidden interactions for the majority of commits interacting with features in all projects ($>\math{70}$\%).
 % Nonetheless, future research should factor in the discussed dependency between structural and dataflow interactions to properly assess the amount of new information a dataflow analysis can contribute. 
 
