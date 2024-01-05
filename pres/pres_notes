@@ -1,0 +1,170 @@
+1.
+my presentation is about commit-feature interactions
+2.
+first of I want to give a quick overview of commits and features 
+and motivate how they can interact with each other
+commits are an essential of developing software in a git repository
+where they are used to contribute the latest source-code changes
+there they incrementally built the application and its components
+3. 
+one such compoment are features, which play an important role in many software applications 
+by implementing specific functionalities, such as the read and write features of a database
+as they can be activated or deactivated they make applications configurable
+which is shown in feature models, which also highlight the dependencies among features
+4.
+the functionality of features is implemented by certain code segments inside a program
+and since commits were used to introduce this code
+we can say that features are also incrementally by a set of commits as is shown on the right
+this means that commit-feature interactions, specifically structural CFIs
+can provide insights into feature developments
+still, there are commits that don't contribute source-code to a feature
+the data changed or added by these commits can still be used inside a feature 
+thus influencing it through dataflow
+these dataflow cfis can show how connected seemingly unrelated commits and features are
+5. 
+an essential aspect of defining and detecting CFIs and other types of interactions are code regions
+each code region consists of consecutive source and represents some abstract entity of a software project
+in our case commits and features, such that we divide code regions into commit and feature regions
+6. 
+to define commit regions we first have to assign each soure-code line a commit
+which is just the last commit that changed or added it
+for a quick example for commit regions we can look at this code snippet
+there, lines 33-35 are consecutive in their program flow and last changed by commit 8a73eb4
+it follows that they from a commit region belonging to this commit
+7.
+in this work we only consider features that are implemented via configuration variables
+they also allow us to assign source-code lines to features 
+where we say that code  belongs to a feature if its execution depends on the feature's config variable
+in the code snippet we can assign source-code lines the following features 
+allowing us to define two feature-regions, one for FeatureA and for FeatureB
+8.
+we already mentioned that structural interactions between commits and features occur 
+when there exists source-code that was contributed by a commit and implements a feature
+well, that is the case when their respective regions overlap
+in this code snippet we already specified commit region of commit 8a73eb4 and the feature region of FeatureB
+where we can see that they overlap meaning that the commit and FeatureB structurally interact
+logically, the commit of the structural interaction was used to implement functionality of the feature
+9.
+we also talked about dataflow CFIs interactions that occur 
+when data changed by a commit is used inside a feature
+this can be matched to data flow from a commit to a feature region
+again, we can find an example for it in this code snippet,
+where the variable x is changed inside commit region of commit 7edb283
+and is used as input in line 32 part of feature region of FeatureA 
+as well as in line 34 that belong to FeatureB
+thus the commit interacts with FeatureA and FeatureB through dataflow
+it's important to consider that dataflow is likely to occur within feature regions and the resulting implications
+data that is changed inside code accouting for a structural cfi is likely to be used again in a feature region of the same feature
+therefore the commit is likely to interact with the feature through dataflow as well
+this means that structural CFIs heavily coincide with dataflwo CFIs
+10.
+we have talked about what commits and features are and how they are represented by feature and commit regions 
+in our work we use the interaction analysis tool VaRA to automatically detect them inside a program
+this already allows us to collect the structural CFIs of a software project through overlaping CRs and FRs
+VaRA is also able to detect datflow between code regions, which allows us collect dataflow-based CFIs 
+by focusing on dataflow from commit regions to feature regions
+11.
+before talking about my research questions I want to introduce the concept of feature size 
+which we use to compare features with each other
+and putting the number of interactions into perspective, as we naturally expect
+larger features to be part of more interactions
+in the compression tool xz for which we will also present some initial results of our research
+we have already found a large variance between the sizes of different features
+here, the size of a feature is the sum of all IR instructions stemming from the regions of a feature
+encompassing all instructions implementing its functionality
+12. 
+in total we pose 3 RQs, the first one being "how do commits and features structurally interact with each other"
+where we investigate properties of structural CFIs
+the second RQ investigates dataflow interactions whereas in the third RQ we link commits to their authors for structural CFIs
+to gain some data on how authors implement features
+13.
+the first property extracted from structural CFIs is the number of commits used to implement a features
+in our code snippet FeatureA is implemented by four different commits and FeatureB by only one
+we can already see that this property is especially interesting if we relate it with size of a feature
+which allows us insights into feature development
+14.
+for xz we show the number of structurally interacting commits in a catplot showing us the mean of around 7 commits for a feature
+with a large spread from 1 commit to over 20
+if we plot the feature size and number of commits used to implement it in a regression plot we can see a clear positive
+correlation between them, which is 0.91 to be exact
+it will be interesting to see if this correlation is as strong in other projects
+15. 
+the second property examined in RQ1 is the number of features changed by a commit
+here we derive some kind of expectation from the best practices surrounding commits
+as they should normally only affect or change a single functionality and since features are used 
+to implement separate functionality we expect commits to only change code of a single feature as well
+giving us insights into how commits are used during feature development and whether best practices are enforced
+16.  
+to investigate this, we first plot the distribution showing us what number of commits structurally interact with what number of features
+for the compression tool xz, we see that most commits were used to only change a single feature with an average of 1.5
+which is rather close to the best practice of one feature changed per commit as proposed by us
+in particular, around 32% of commits structurally interacting with features do so with more than one feature
+it will be interesting if our derived best practic for commits is more or less enforced in other projects
+17.
+now, we come to RQ2, which is called "How do commits interact with features through dataflow"
+where we investigate properties of dataflow-based CFIs
+18.
+dataflow CFIs can help us discover additional features and commits that interact with each other we missed in our structural analysis
+here, we examine the number of features a commit affects throuhg dataflow
+for example does commit 7edb283 have df-based interactions with both FeatureA and FeatureB
+this can also tell us how likely new changes, in the form of commits, are to affect the data of a feature
+19. 
+when investigating this property we need to pay attention to the fact that structural CFIs heavily coincide with dataflow CFIs 
+meaning that commits part of structural CFIs are very likely to affect these features through dataflow as well
+since we these interactions are so obvious and we already discovered them in our previous analysis
+we especially focus on commits not part of structural CFIs
+for these commits, we can say with definity that their data flows from outside the code or regions of a feature into it
+which we can see in our code snippet for commit 7edb283
+20.
+for xz we have already calculated what fraction of commits affect data of a feature
+we only consider active commits, namely commits that are still represented by commit regions, because they couldn't be part of any interactions otherwise
+11% of all active commits, meaning the orange and blue bar, are part of dataflow-based CFIs
+if we only consider commits not part of features this number goes down to 6.5%
+have a closer look at these commits and the number of features they affect
+we can see that most only affect a single feature through dataflow with some interesting outliers
+where 9 commits not part of features have affect 6 features through dataflow
+21.
+another property we examine is the number of outside commits, meaning commits not part of that feature, affecting it through dataflow
+here we aim to check whether feature-size is the driving factor in the number of interacting commits or there might be another property of features affecting this
+we plot this in a regression to show how strongly they are correlated
+for xz we have found a clear positive correlation of around .88 so far, which will be interesting to see if this is confirmed by other projects
+22.
+in the last RQ we show how we can enrich CFI-data by, for example linking commits to their authors, providing us with more information
+23.
+the main intention here is to gain some additional insights into feature development
+the only property we investigate in this work is the number of authors that developed a feature
+here you can see the distribution for the projects xz and bzip2
+in xz only one feature is implemented by more than one author where as two features are implemented by more than one author in bzip2
+overall our current investigation results show that 85% of features are implemented by only one author
+in this context it doesn't make much sense to relate the number of authors to the size of a feature 
+24.
+in conclusion we investigate structural CFIs with RQs 1 and 3
+where our main intention is to provide insights into feature development and usage of commits therein
+we propose a best practice of commits in feature development should be to mostly change a single feature 
+where we check whether this is upheld in the examined software projects
+we also calculate the number of authors that implement the different features inside projects
+and calculate how strongly correlated the size of a feature and the number of commits used to implement it are
+dataflow-based CFIs are investiagted via our second RQ
+here we show how connected the data of features and commits are by determining what fraction of commits have dataflow-based interactions with features
+we differentiate between commits that are part of a feature and those that aren't
+allowing us to specify the origin of the dataflow 
+relate the size of a feature with the number of outside commits affecting it through dataflow
+is this the driving factor or should other properties be considered here
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
