@@ -1,40 +1,16 @@
-#include <string>
-class User {
-    string name;
-    string email;
-};
-using namespace std;
-int SizeLimit = 333;
-bool FeatureSizeLimit = true;
-bool FeatureContact = true;
+bool FeatureA, FeatureB;
 
-void sendMessage(User user, string message) {
-    string add = "decrypted by UdS";    
-    if (FeatureSizeLimit) {
-        if (message.length() > SizeLimit) {
-            if (FeatureCut) {
-                
-            }
-            throw Error;
-        }
-    }
-    transmitMessage(message);
-}
-
-void transmitMessage(string message);
-
-bool FeatureA = true;
-bool FeatureB = true;
-
-int func(int x, int y) {
-    x = y + 10;
+void something() {
     if (FeatureA) {
-        x = x * 2;
+        // code implementing FeatureA
         if (FeatureB) {
-            y = x + y;
+            // code implementing FeatureB
         }
-        x = y + 5;
     }
-    return x + y;
+
+    if (FeatureA && FeatureB) {
+        // code implementing interplay
+        // of FeatureA and FeatureB
+    }
 }
 
